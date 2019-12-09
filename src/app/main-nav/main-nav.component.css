@@ -1,0 +1,84 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.logo{
+  margin-top: 20px;
+}
+.sidemenu_option{
+  padding: 10px;
+  padding-left: 30px;
+  font-size: 14px;
+}
+
+.sidemenu_option:hover{
+  background: #1B81EB;
+  color: white;
+  cursor: pointer;
+  border-radius: 50px;
+}
+.submenu{
+  margin-left:5px;
+  font-size: 12px;
+}
+
+
+i{
+  margin-left:5px;
+  margin-right:5px;
+}
+span{
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.mat-toolbar.mat-primary{
+  background: white;
+}
+
+@media(max-width:800px){
+  .gold99,.gold916,.silver{
+    display: none;
+  }
+  .rateSmall{
+    display: block !important;
+  }
+}
+
+.listmenu{
+  border-radius: 50px;
+    padding: 5px;
+    margin-top: 20px;
+}
+.buyrate{
+  color:green;
+}
+.sellrate{
+  color:red;
+}
+
+
