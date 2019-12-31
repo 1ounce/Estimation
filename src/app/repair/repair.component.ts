@@ -4,6 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { environment } from '../../environments/environment';
 import { Routes, RouterModule, Router } from "@angular/router";
 import {MatSort} from '@angular/material/sort';
+import { NavigateServiceService } from '../service/navigate-service.service';
 
 @Component({
   selector: 'app-repair',
@@ -22,10 +23,13 @@ boolSpinner;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
 
-  constructor() { }
+  constructor(private navigationService:NavigateServiceService) { }
 
   ngOnInit() {
 
+  }
+  goToRepairEstimation(){
+    this.navigationService.navigateToRepaireEstimation();
   }
 
 }

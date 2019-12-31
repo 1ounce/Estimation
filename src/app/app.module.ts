@@ -23,11 +23,18 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material';
+import { RepairEstimationComponent } from './repair-estimation/repair-estimation.component';
+import { OrderEstimationComponent } from './order-estimation/order-estimation.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 
 
 const appRoutes: Routes = [
   { path: 'repair', component: RepairComponent },
   { path: 'orders',component: OrdersComponent },
+  { path: 'repair_estimation',component:RepairEstimationComponent},
+  { path: 'order_estimation',component:OrderEstimationComponent} 
+
 
 
 
@@ -38,7 +45,9 @@ const appRoutes: Routes = [
     AppComponent,
     MainNavComponent,
     RepairComponent,
-    OrdersComponent
+    OrdersComponent,
+    RepairEstimationComponent,
+    OrderEstimationComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +68,11 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatPaginatorModule,
     MatInputModule,
-    RouterModule.forRoot(appRoutes,{useHash: true})
+    RouterModule.forRoot(appRoutes,{useHash: true}),
+    FormsModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
 
   ],
   providers: [],

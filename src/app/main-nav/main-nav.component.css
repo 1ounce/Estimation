@@ -19,8 +19,9 @@
   margin-top: 20px;
 }
 .sidemenu_option{
-  padding: 10px;
-  padding-left: 30px;
+  padding: 5px;
+  
+  padding-left: 50px;
   font-size: 14px;
 }
 
@@ -29,6 +30,7 @@
   color: white;
   cursor: pointer;
   border-radius: 50px;
+  
 }
 .submenu{
   margin-left:5px;
