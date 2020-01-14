@@ -10,12 +10,16 @@
       </div>
     </mat-toolbar>
     <mat-nav-list style="margin-top: 50px;">
-   <div class="sidemenu_option">
-     <p (click)="reportPage()">Repair<i class="fa fa-angle-right" style="margin-left: 30px;margin-top: 20px;"></i></p>
+   <div class="sidemenu_option" matToolTip="Repair">
+     <p (click)="reportPage()"><mat-icon >build</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">Repair Page</i></p>
    </div>
     
-   <div class="sidemenu_option">
-    <p (click)="orderPage()">Orders<i class="fa fa-angle-right" style="margin-left: 30px;margin-top: 20px;"></i></p>
+   <div class="sidemenu_option" matToolTip="Orders">
+    <p (click)="orderPage()"><mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Orders</i></p>
+  </div>
+
+   <div class="sidemenu_option" matToolTip="Orders">
+    <p (click)="allWorks()"><mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Work</i></p>
   </div>
     </mat-nav-list>
   </mat-sidenav>

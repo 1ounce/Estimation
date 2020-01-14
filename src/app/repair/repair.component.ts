@@ -28,8 +28,12 @@ boolSpinner;
   ngOnInit() {
 
   }
+  
   goToRepairEstimation(){
     this.navigationService.navigateToRepaireEstimation();
   }
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }

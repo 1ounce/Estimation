@@ -27,13 +27,21 @@ import { RepairEstimationComponent } from './repair-estimation/repair-estimation
 import { OrderEstimationComponent } from './order-estimation/order-estimation.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
+import { ModalComponent } from './modal/modal.component';
+import { NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
+import { AlertModule,ModalModule } from 'ngx-bootstrap';
+import  { HttpClientModule } from '@angular/common/http'
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { AllWorkComponent } from './all-work/all-work.component';
+
 
 
 const appRoutes: Routes = [
   { path: 'repair', component: RepairComponent },
   { path: 'orders',component: OrdersComponent },
   { path: 'repair_estimation',component:RepairEstimationComponent},
-  { path: 'order_estimation',component:OrderEstimationComponent} 
+  { path: 'order_estimation',component:OrderEstimationComponent} ,
+  { path: 'allWork',component:AllWorkComponent},
 
 
 
@@ -47,9 +55,16 @@ const appRoutes: Routes = [
     RepairComponent,
     OrdersComponent,
     RepairEstimationComponent,
-    OrderEstimationComponent
+    OrderEstimationComponent,
+    ModalComponent,
+    AllWorkComponent
   ],
   imports: [
+    AlertModule.forRoot(),
+    ModalModule.forRoot(),
+    MatSnackBarModule,
+    HttpClientModule,
+    NgbModalModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -72,7 +87,7 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
 
   ],
   providers: [],

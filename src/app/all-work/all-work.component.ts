@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild,TemplateRef} from '@angular/core';
-import {MatPaginator} from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { environment } from '../../environments/environment';
 import { Routes, RouterModule, Router } from "@angular/router";
@@ -9,29 +9,22 @@ import {DataAccessService} from '../services/data-access.service';
 import {Order,OrderItem, Contact} from '../Models/Order';
 import {Rest}  from '../Models/Rest';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { OrderDataSource } from './orders_table_source';
+import {ItemDataSource} from './Items_table_source';
 import { HeroCircle } from '../Models/HeroCircle';
-import {Observable} from 'rxjs';
-// import { timingSafeEqual } from 'crypto';
+import {Item} from './Model'
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.css']
+  selector: 'app-all-work',
+  templateUrl: './all-work.component.html',
+  styleUrls: ['./all-work.component.css']
 })
-
-
-export class OrdersComponent implements OnInit {
-
-  @ViewChild(MatPaginator ,{static:false})paginator:MatPaginator
-  
-
+export class AllWorkComponent implements OnInit {
   ELEMENT_DATA=[];
-  dataSource:OrderDataSource;
+  dataSource:ItemDataSource;
   boolSpinner;
-  displayedColumns: string[] = ['order_id','date','customer','cost','balance'];
+  displayedColumns: string[] = ['order_id','status','item','date','customer','assigned_to'];
   selected:Order;
-  selectedItem:OrderItem
+  selectedItem:Item
   
   color:HeroCircle=new HeroCircle();
 
@@ -46,35 +39,16 @@ export class OrdersComponent implements OnInit {
 
 
   
+    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: true}) sort: MatSort;
   constructor(private navigationService:NavigateServiceService,private api:DataAccessService,private modalService: BsModalService,) { }
 
   ngOnInit() {
-    this.dataSource=new OrderDataSource(this.api)
-    this.dataSource.loadData(0);
+    this.dataSource=new ItemDataSource(this.api)
+    this.dataSource.loadData(1);
     console.log("loading contacts");
     this.api.getContacts().subscribe(data=>{console.log(data);this.contacts=data.results;},fail=>{console.log("failed in fetching contacts");console.log(fail);});
 
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.counter$.subscribe(
-     count=>{
-      console.log("paginator length triggered"+count); 
-      this.paginator.length=count;}
-    )
-
-   
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    
-    this.paginator.page.subscribe(
-      ()=>{
-          console.log("page clicked"+this.paginator.pageIndex);
-          
-        this.dataSource.loadData(this.paginator.pageIndex)}
-    );
-    
   }
 
   rowClick(template: TemplateRef<any>,element){
@@ -97,7 +71,7 @@ export class OrdersComponent implements OnInit {
   money(data)
   {return new Intl.NumberFormat('en-IN', { style: "currency", currency: "INR" }).format(data);}
 
-  openSelectedMakingChargeModal(item:OrderItem,template,isMakingCharge:Boolean){
+  openSelectedMakingChargeModal(item:Item,template,isMakingCharge:Boolean){
     this.selectedItem=item;
     console.log(this.selectedItem);
     this.makingChargeModal = this.modalService.show(
@@ -107,7 +81,7 @@ export class OrdersComponent implements OnInit {
     this.makingChargeModal.setClass('modal-xl');
   }
 
-  openSelectOrAddContacts(item:OrderItem,template)
+  openSelectOrAddContacts(item:Item,template)
   {
     this.selectedItem=item;
     this.contactsModal = this.modalService.show(
@@ -131,6 +105,8 @@ export class OrdersComponent implements OnInit {
     )
   }
 
+
+  //triggered from the contact modal, for selecting 
   onContactClicked(contact)
   {
     this.api.saveAsignee(this.selectedItem,contact).subscribe(
@@ -148,21 +124,6 @@ export class OrdersComponent implements OnInit {
       fail=>{}
     )
 
-  }
-
-  uploadItemImage(item:OrderItem)
-  {
-    console.log("upload Item started");
-    this.api.uploadItemImage(item).subscribe(
-      data=>{
-        console.log(data);
-      },
-      fail=>{
-      console.log("Failed");
-      console.log(fail);
-      }
-      
-    )
   }
 
 }

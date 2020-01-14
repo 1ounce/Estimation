@@ -20,4 +20,8 @@ export class NavigateServiceService {
   navigateToOrderEstimation(){
     this.route.navigate(['/order_estimation']);
   }
+
+  navigateToAllWorks(){
+    this.route.navigate(["/allWork"]);
+  }
 }
