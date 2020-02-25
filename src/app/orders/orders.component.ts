@@ -23,7 +23,8 @@ import {Observable} from 'rxjs';
 
 export class OrdersComponent implements OnInit {
 
-  @ViewChild(MatPaginator ,{static:false})paginator:MatPaginator
+  @ViewChild(MatPaginator ,{static:false})
+  paginator:MatPaginator
   
 
   ELEMENT_DATA=[];
@@ -53,6 +54,14 @@ export class OrdersComponent implements OnInit {
     this.dataSource=new OrderDataSource(this.api)
     this.dataSource.loadData(0);
     console.log("loading contacts");
+    this.sort.sortChange.subscribe(
+      sort=>{
+          console.log("printing sort order");
+          console.log(sort.direction)
+      
+
+      }
+    )
     this.api.getContacts().subscribe(data=>{console.log(data);this.contacts=data.results;},fail=>{console.log("failed in fetching contacts");console.log(fail);});
 
   }
