@@ -1,9 +1,6 @@
 
-
- 
-
  <!------START OF MAKING CHARGE MODAL------>
-<ng-template #template  id="side-modal" style="{padding:20px;}">
+<ng-template #template  id="side-modal" style="padding:20px;">
 <div class="side-modal">
   <div class="modal-header ">
       <h3 *ngIf="isMakingChargeModal" class="modal-title ">Making Charge</h3>
@@ -149,7 +146,7 @@
                   </mat-form-field>
                   <br>
                   <mat-form-field hintLabel="Max 10 characters">
-                    <input matInput #input maxlengtd="10" [(ngModel)]="order.phone" placeholder="Phone">
+                    <input type="tel" matInput #input maxlengtd="10" [(ngModel)]="order.phone" placeholder="Phone" pattern="[6-9]\\d{9}" maxlength="10">
                     <mat-hint align="end">{{input.value?.lengtd || 0}}/10</mat-hint>
                   </mat-form-field>
              
@@ -159,7 +156,7 @@
 
             <div class="col-md-6">
               <mat-form-field>
-                <input matInput [(ngModel)]="order.advance" placeholder="Advance">
+                <input matInput [(ngModel)]="order.advance" placeholder="Advance" (input)="order.advanceChanged()" >
               </mat-form-field>
                   <br>
                   <mat-form-field>
@@ -259,7 +256,7 @@
 
           
         </div>
-    <div align=center><button mat-raised-button (click)="order.addItem()" color="primary">Add Item</button>    </div>
+    <div align=center><button mat-raised-button (click)="addItem()" color="primary">Add Item</button>    </div>
 </mat-card>
 
 <br>

@@ -19,14 +19,14 @@ export class MainNavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver,private navigatorSerice:NavigateServiceService) {}
 b24;b22;bs;s24;s22;ss;name;phone;navigateToRate;logout;
-  reportPage(){
+  reportPage() {
     this.navigatorSerice.navigateToReport();
   }
-  orderPage(){
+  orderPage() {
     this.navigatorSerice.navigateToOrders();
   }
 
-  allWorks(){
+  allWorks() {
     this.navigatorSerice.navigateToAllWorks();
   }
 

@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Routes, RouterModule, Router } from "@angular/router";
+import { Routes, RouterModule, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigateServiceService {
 
-  constructor(private route:Router) { }
+  constructor(private route: Router) { }
 
-  navigateToReport(){
+  navigateToReport() {
     this.route.navigate(['/repair']);
   }
-  navigateToOrders(){
+  navigateToOrders() {
     this.route.navigate(['/orders']);
   }
-  navigateToRepaireEstimation(){
+  navigateToRepaireEstimation() {
     this.route.navigate(['/repair_estimation']);
   }
-  navigateToOrderEstimation(){
+  navigateToOrderEstimation() {
     this.route.navigate(['/order_estimation']);
   }
 
-  navigateToAllWorks(){
-    this.route.navigate(["/allWork"]);
+  navigateToAllWorks() {
+    this.route.navigate(['/allWork']);
   }
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit,TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
-import {FormControl,Validators} from '@angular/forms'
+import {FormControl, Validators} from '@angular/forms';
 import { isNgTemplate } from '@angular/compiler';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {AlertModule} from 'ngx-bootstrap';
@@ -8,9 +8,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 
-import {Order,OrderItem} from '../Models/Order';
-import {DataAccessService } from '../services/data-access.service'
-import {HttpClient} from "@angular/common/http"
+import {Order, OrderItem} from '../Models/Order';
+import {DataAccessService } from '../services/data-access.service';
+import {HttpClient} from '@angular/common/http';
 import { NavigateServiceService } from '../service/navigate-service.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { delay } from 'rxjs/operators';
@@ -18,9 +18,9 @@ import { delay } from 'rxjs/operators';
 
 
 
-interface Item{
-  description:String;
-  amount:number;
+interface Item {
+  description: String;
+  amount: number;
 }
 
 @Component({
@@ -35,49 +35,49 @@ interface Item{
 
 
 export class OrderEstimationComponent implements OnInit {
-  order:Order=new Order()
+  order: Order = new Order();
   email = new FormControl('', [Validators.required, Validators.email]);
-  modalRef: BsModalRef=null;
-  makingChargeModalItem:OrderItem=null;
-  isMakingChargeModal:Boolean=true;
-  isSaveClicked:Boolean=false;
-  constructor(private modalService: BsModalService,private api:DataAccessService,private navigatorSerice:NavigateServiceService
-    ,private snackBar: MatSnackBar) {}
+  modalRef: BsModalRef = null;
+  makingChargeModalItem: OrderItem = null;
+  isMakingChargeModal: Boolean = true;
+  isSaveClicked: Boolean = false;
+  constructor(private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService,
+              private snackBar: MatSnackBar) {}
 
-  addItem(){
+  addItem() {
       this.order.saveOrder();
       this.order.refereshcurrentItem();
+      console.log("item added")
     }
 
-    saveMakingCharge()
-    {
+    saveMakingCharge() {
 
-     
-      console.log("saving making charges on whole");
+
+      console.log('saving making charges on whole');
       this.makingChargeModalItem.saveMakingCharge(!this.isMakingChargeModal);
       // this.order.currentItem.saveMakingCharge();
       this.order.generateOrderSubTotal();
       this.modalRef.hide();
-      
+
     }
 
   ngOnInit() {
-    
-    
+
+
     // orderItemList.push(new OrderItem("gold24 Ring I1234",2,3,4));
 
   }
 
-  
-  openMakingChargeModal(template: TemplateRef<any>,isMakingChargeModal:Boolean=true) {
 
-    console.log("Making charge modal"+isMakingChargeModal);
-    
-    this.isMakingChargeModal=isMakingChargeModal;
+  openMakingChargeModal(template: TemplateRef<any>, isMakingChargeModal: Boolean= true) {
 
-    
-    this.makingChargeModalItem=this.order.currentItem
-    
+    console.log('Making charge modal' + isMakingChargeModal);
+
+    this.isMakingChargeModal = isMakingChargeModal;
+
+
+    this.makingChargeModalItem = this.order.currentItem;
+
     this.modalRef = this.modalService.show(
       template,
       Object.assign({}, { class: 'side-modal' })
@@ -94,34 +94,37 @@ export class OrderEstimationComponent implements OnInit {
             '';
   }
 
-  money(data)
-  {return new Intl.NumberFormat('en-IN', { style: "currency", currency: "INR" }).format(data);}
+  money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
 
 
-  openSelectedMakingChargeModal(itemPosition:number,template,isMakingChargeModal=true){
-     this.isMakingChargeModal=isMakingChargeModal;
-      this.makingChargeModalItem=this.order.items[itemPosition];
-      this.modalRef=this.modalService.show(
+  openSelectedMakingChargeModal(itemPosition: number, template, isMakingChargeModal= true) {
+     this.isMakingChargeModal = isMakingChargeModal;
+     this.makingChargeModalItem = this.order.items[itemPosition];
+     this.modalRef = this.modalService.show(
         template,
-        Object.assign({},{class:"side-modal"})
+        Object.assign({}, {class: 'side-modal'})
       );
-      this.modalRef.setClass("modal-lg");
-    
-  }
- 
+     this.modalRef.setClass('modal-lg');
 
-  saveData()
-  {
-    if(!this.isSaveClicked)
-    {
-      this.isSaveClicked=true;
-    this.api.saveOrderToDB(this.order).toPromise().then(data=>{console.log(data);
-      this.navigatorSerice.navigateToOrders();
-    }).catch(error=>{
-      this.snackBar.open("Failed to save data");
-      console.log(error)});
-      delay(1000);
-      this.snackBar.dismiss();
+  }
+
+
+   saveData() {
+    this.order.saveOrder();
+    console.log(this.order);
+    if (!this.isSaveClicked) {
+      this.isSaveClicked = true;
+      this.api.saveOrderToDB(this.order).toPromise().then(data => {console.log(data);
+                                                                   this.navigatorSerice.navigateToOrders();
+    }).catch( error => {
+      this.snackBar.open('Failed to save data');
+      console.log(error);
+      setTimeout(() =>  this.snackBar.dismiss() , 2000);
+      this.isSaveClicked = false;
+
+    });
+
+
     // this.api.saveOrderToDB(this.order).subscribe(success=>{console.log(success);},error=>{console.log(error);});
     }
   }
