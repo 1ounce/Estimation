@@ -12,7 +12,7 @@
     
   </div>
   <div class="modal-body">
-    <table border="2">
+    <table border="2" class="table-responsive" width="100%">
     <tr>
     <th width=20px>S.no</th>
     <th>Name</th>
@@ -67,7 +67,7 @@
                                     <input matInput [(ngModel)]=makingChargeModalItem.currentMakingCharge.cost (input)="order.triggerMakingChargeChanged(makingChargeModalItem,!isMakingChargeModal)" >
                                 </mat-form-field></td>
 
-     <td >
+     <td>
 
        {{money(makingChargeModalItem.currentMakingCharge.total)}}
        </td>
@@ -104,7 +104,7 @@
     <!---Stone making charge Input Section ends here--> 
 
     <tr>
-    <button mat-raised-button color="primary" (click)="makingChargeModalItem.addMakingCharge(!isMakingChargeModal)"><mat-icon>add</mat-icon>Add</button>
+    <button  mat-raised-button color="primary" (click)="makingChargeModalItem.addMakingCharge(!isMakingChargeModal)"><mat-icon>add</mat-icon>Add</button>
     </tr>
           <br>
 
@@ -113,7 +113,7 @@
       <td></td>
       <td></td>
       <td></td>
-      <td>Sub Total:</td>
+      <td colspan="2">Sub Total:</td>
       <td *ngIf="isMakingChargeModal">{{money(makingChargeModalItem.makingCharge)}}</td>
       <td *ngIf="!isMakingChargeModal">{{money(makingChargeModalItem.stoneCharge)}}</td>
     </tr>

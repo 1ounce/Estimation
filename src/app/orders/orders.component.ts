@@ -120,12 +120,10 @@ export class OrdersComponent implements OnInit {
   getselectedIamge(item) {
     // console.log(item);
      // tslint:disable-next-line: no-unused-expression
-     console.log(item.image);
      return this.ip + item.image;
   }
   getImage() {
     this.currentImage = this.ip + this.selectedimage;
-    console.log(this.currentImage);
   }
 
 
