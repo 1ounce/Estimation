@@ -9,8 +9,8 @@ const httpOptions = {
 
   })
 };
-// const ip ='https://test.1ounce.in/estimate/';
-const ip = 'http://127.0.0.1:8000/estimate/';
+const ip ='https://test.1ounce.in/estimate/';
+// const ip = 'http://127.0.0.1:8000/estimate/';
 
 
 @Injectable({
