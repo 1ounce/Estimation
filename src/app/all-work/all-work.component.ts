@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild,TemplateRef} from '@angular/core';
+import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { environment } from '../../environments/environment';
@@ -21,8 +21,10 @@ import {Item} from './Model';
 export class AllWorkComponent implements OnInit {
   ELEMENT_DATA = [];
   dataSource: ItemDataSource;
+  @ViewChild(MatPaginator , { static: false})
+  paginator: MatPaginator;
   boolSpinner;
-  displayedColumns: string[] = ['order_id','status','item','date','customer','assigned_to'];
+  displayedColumns: string[] = ['order_id', 'status', 'item', 'date', 'customer', 'assigned_to'];
   selected: Order;
   selectedItem: Item;
   color: HeroCircle = new HeroCircle();
@@ -34,12 +36,12 @@ export class AllWorkComponent implements OnInit {
   contacts: Array<Contact> = null //list of contacts
   //temporary models
   contact: Contact = new Contact();
-    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     @ViewChild(MatSort, {static: true}) sort: MatSort;
+
   constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService,) { }
 
   ngOnInit() {
-    this.dataSource = new ItemDataSource(this.api)
+    this.dataSource = new ItemDataSource(this.api);
     this.dataSource.loadData(1);
     console.log('loading contacts');
     // tslint:disable-next-line: whitespace
@@ -48,15 +50,29 @@ export class AllWorkComponent implements OnInit {
 
   }
 
-  rowClick(template: TemplateRef<any>,element) {
-    this.selected=element;
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngAfterViewInit(): void {
+    // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    // Add 'implements AfterViewInit' to the class.
+
+    this.paginator.page.subscribe(
+      () => {
+          console.log('page clicked' + this.paginator.pageIndex);
+
+          this.dataSource.loadData(this.paginator.pageIndex);
+        }
+    );
+
+  }
+
+  rowClick(template: TemplateRef<any>, element) {
+    this.selected = element;
 
     this.orderModal = this.modalService.show(
       template,
       Object.assign({})
     );
     this.orderModal.setClass('modal-xl');
-  
   }
 
 
@@ -67,8 +83,8 @@ export class AllWorkComponent implements OnInit {
 
   money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data);}
 
-  openSelectedMakingChargeModal(item:Item,template,isMakingCharge:Boolean) {
-    this.selectedItem=item;
+  openSelectedMakingChargeModal(item: Item, template, isMakingCharge: Boolean) {
+    this.selectedItem = item;
     console.log(this.selectedItem);
     this.makingChargeModal = this.modalService.show(
       template,
@@ -77,8 +93,8 @@ export class AllWorkComponent implements OnInit {
     this.makingChargeModal.setClass('modal-xl');
   }
 
-  openSelectOrAddContacts(item:Item,template) {
-    this.selectedItem=item;
+  openSelectOrAddContacts(item: Item, template) {
+    this.selectedItem = item;
     this.contactsModal = this.modalService.show(
       template,
       Object.assign({})
@@ -89,31 +105,31 @@ export class AllWorkComponent implements OnInit {
 
   saveContact() {
     this.api.saveContact(this.contact).subscribe(
-      data=>{
+      data => {
         this.contacts.push(data);
-        this.contact=new Contact();
+        this.contact = new Contact();
       },
-      fail=>{
+      fail => {
 
       }
-    )
+    );
   }
 
 
-  //triggered from the contact modal, for selecting 
+  //triggered from the contact modal, for selecting
   onContactClicked(contact) {
-    this.api.saveAsignee(this.selectedItem,contact).subscribe(
-      success=>{
-        if(success['result']=='success') {
+    this.api.saveAsignee(this.selectedItem, contact).subscribe(
+      success => {
+        if (success['result'] === 'success') {
             console.log('successfully saved assignee information');
-            this.selectedItem.assignedTo=contact;
+            this.selectedItem.assignedTo = contact;
             this.contactsModal.hide();
         } else {
           //some failure occured during loading of data
         }
       },
-      fail=>{}
-    )
+      fail => { }
+    );
 
   }
 

@@ -8,7 +8,8 @@ export class Order {
     rate = 0;
     email: String = '';
     date: String = '';
-    advance = 0;
+    orderType: String = '';
+
     total = 0; // sub total of the entire order
     itemSubTotal = 0;
 
@@ -25,6 +26,13 @@ export class Order {
     oldGold: Array<OldGold> = [];
     oldGoldItem = new OldGold();
     selectedOldGoldItem: OldGold = null;
+
+    // Advance related items
+    advance = 0;
+    advances: Array<Advance> = [];
+    advanceItem = new Advance();
+    slectedAdvanceItem: Advance = null;
+
 
     constructor() {}
 
@@ -50,15 +58,18 @@ export class Order {
         this.generateOldGoldSubTotal();
         this.generateOrderTotal();
     }
+
+    removeAdvance(position: number) {
+        this.advances.splice(position, 1);
+        this.generateOldGoldSubTotal();
+        this.generateOrderTotal();
+    }
     // used to remove making change based on position from current item
     removeCurrentItemMakingCharge(position: number) {
         this.currentItem.makingChargeItems.splice(position, 1);
     }
 
-    advanceChanged() {
-        this.advance = this.advance;
-        this.generateOrderTotal();
-    }
+  
 
     rateChanged() {
         this.currentItem.setRate(this.rate);
@@ -100,14 +111,22 @@ export class Order {
     }
 
     triggerOldGoldChanged() {
+        this.oldGoldItem.rate = this.oldGoldItem.rate;
         this.oldGoldItem.generateTotal();
         this.generateOldGoldSubTotal();
         this.generateOrderTotal();
     }
+    triggerAdvanceChanged() {
+        this.generateAdvanceSubTotal();
+        this.generateOrderTotal();
+    }
 
     // ----------------------------------------------------------------------------
+    saveAdvance() {this.advances.push(this.advanceItem); }
+    refreshAdvanceItem() {this.advanceItem = new Advance(); }
 
-
+    saveoldGold() {this.oldGold.push(this.oldGoldItem); }
+    referesholdGoldItem() { this.oldGoldItem = new OldGold(); }
 
     refereshcurrentItem() {this.currentItem = new OrderItem(); }
 
@@ -138,6 +157,19 @@ export class Order {
         this.oldGoldTotal = sum + this.oldGoldItem.total;
         this.generateOrderTotal();
     }
+    
+    generateAdvanceSubTotal() {
+        // the subtotal for order items
+        let sum = 0;
+        this.advances.forEach(element => {
+                console.log(element.amount);
+                sum = sum + element.amount;
+
+        });
+        this.advance = sum + this.advance;
+        console.log(this.advance);
+        this.generateOrderTotal();
+    }
 
     generateOrderTotal() {
         console.log(this.advance);
@@ -151,7 +183,7 @@ export class Order {
         if (this.currentItem.total > 0) {
         this.items.push(this.currentItem);
         this.currentItem = new OrderItem();
-        this.currentItem.setRate(this.rate);
+        // this.currentItem.setRate(this.rate);
         }
     }
 
@@ -159,7 +191,7 @@ export class Order {
         if (this.oldGoldItem.total > 0) {
             this.oldGold.push(this.oldGoldItem);
             this.oldGoldItem = new OldGold();
-            this.oldGoldItem.rate = this.rate;
+            this.oldGoldItem.rate = this.oldGoldItem.rate;
         }
     }
 
@@ -386,4 +418,11 @@ export class Contact {
      name = '';
      phone = '';
      email = '';
+ }
+
+export class Advance {
+    paymentType = '';
+    referenceNo ;
+    amount = 0 ;
+    totalAdvance = 0;
  }

@@ -36,8 +36,10 @@ interface Item {
 
 export class OrderEstimationComponent implements OnInit {
   order: Order = new Order();
+  selectedOrderType: String;
   email = new FormControl('', [Validators.required, Validators.email]);
   modalRef: BsModalRef = null;
+  advancemodal: BsModalRef = null;
   makingChargeModalItem: OrderItem = null;
   isMakingChargeModal: Boolean = true;
   isSaveClicked: Boolean = false;
@@ -47,9 +49,21 @@ export class OrderEstimationComponent implements OnInit {
   addItem() {
       this.order.saveOrder();
       this.order.refereshcurrentItem();
-      console.log("item added")
     }
 
+    addOldGold() {
+      this.order.saveoldGold();
+      this.order.referesholdGoldItem();
+    }
+    addAdvance() {
+      this.order.saveAdvance();
+      this.order.refreshAdvanceItem();
+    }
+
+    onSelectedOrderType(val: any) {
+      this.order.orderType = val;
+      console.log(this.order.orderType);
+    }
     saveMakingCharge() {
 
 
@@ -106,6 +120,14 @@ export class OrderEstimationComponent implements OnInit {
       );
      this.modalRef.setClass('modal-lg');
 
+  }
+
+  openAdvanceModal(template) {
+    this.advancemodal = this.modalService.show(
+      template,
+      Object.assign({})
+    );
+    this.advancemodal.setClass('modal-lg');
   }
 
 

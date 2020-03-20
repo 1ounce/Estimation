@@ -36,7 +36,7 @@ export class OrdersComponent implements OnInit {
   ELEMENT_DATA = [];
   dataSource: OrderDataSource;
   boolSpinner;
-  displayedColumns: string[] = ['order_id', 'date', 'customer', 'cost', 'balance'];
+  displayedColumns: string[] = ['order_id', 'date', 'phone_no', 'Status', 'assigned_to', 'balance'];
   selected: Order;
   selectedItem: OrderItem;
   color: HeroCircle = new HeroCircle();
@@ -97,7 +97,8 @@ export class OrdersComponent implements OnInit {
       () => {
           console.log('page clicked' + this.paginator.pageIndex);
 
-          this.dataSource.loadData(this.paginator.pageIndex); }
+          this.dataSource.loadData(this.paginator.pageIndex); 
+        }
     );
 
   }
