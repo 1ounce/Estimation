@@ -61,7 +61,7 @@ export class Order {
 
     removeAdvance(position: number) {
         this.advances.splice(position, 1);
-        this.generateOldGoldSubTotal();
+        this.generateAdvanceSubTotal();
         this.generateOrderTotal();
     }
     // used to remove making change based on position from current item
@@ -69,7 +69,7 @@ export class Order {
         this.currentItem.makingChargeItems.splice(position, 1);
     }
 
-  
+
 
     rateChanged() {
         this.currentItem.setRate(this.rate);
@@ -106,6 +106,7 @@ export class Order {
 
 
     triggerItemDataChanged() {
+        console.log("item triggered")
         this.currentItem.triggerItemDataChanged();
         this.generateOrderSubTotal();
     }
@@ -117,6 +118,7 @@ export class Order {
         this.generateOrderTotal();
     }
     triggerAdvanceChanged() {
+        this.advanceItem.amount = this.advanceItem.amount;
         this.generateAdvanceSubTotal();
         this.generateOrderTotal();
     }
@@ -141,6 +143,7 @@ export class Order {
         let sum = 0;
         this.items.forEach(element => {
 
+                console.log(element);
                 sum = sum + element.total;
 
         });
@@ -157,16 +160,20 @@ export class Order {
         this.oldGoldTotal = sum + this.oldGoldItem.total;
         this.generateOrderTotal();
     }
-    
+
     generateAdvanceSubTotal() {
         // the subtotal for order items
         let sum = 0;
+        // let totalAdvance = 0;
         this.advances.forEach(element => {
+                // tslint:disable-next-line: prefer-const
+                var numberAmount = Number(element.amount);
                 console.log(element.amount);
-                sum = sum + element.amount;
+                sum = sum + numberAmount;
 
         });
-        this.advance = sum + this.advance;
+        console.log(sum);
+        this.advance = sum + this.advanceItem.amount;
         console.log(this.advance);
         this.generateOrderTotal();
     }
@@ -423,6 +430,5 @@ export class Contact {
 export class Advance {
     paymentType = '';
     referenceNo ;
-    amount = 0 ;
-    totalAdvance = 0;
+    amount = 0;
  }

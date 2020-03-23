@@ -36,6 +36,7 @@ interface Item {
 
 export class OrderEstimationComponent implements OnInit {
   order: Order = new Order();
+  isdisabled = false;
   selectedOrderType: String;
   email = new FormControl('', [Validators.required, Validators.email]);
   modalRef: BsModalRef = null;
@@ -64,6 +65,17 @@ export class OrderEstimationComponent implements OnInit {
       this.order.orderType = val;
       console.log(this.order.orderType);
     }
+    checkSelected() {
+      if (this.isdisabled === true) {
+        this.isdisabled = false;
+      } else {
+        this.isdisabled = true;
+      }
+      this.order.rate = 0;
+      this.order.rateChanged();
+      console.log(this.isdisabled);
+    }
+
     saveMakingCharge() {
 
 

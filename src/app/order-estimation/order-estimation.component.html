@@ -52,20 +52,20 @@
              </td>
              <td width=150px>
                      <mat-form-field style="width:100px;">
-                             <input matInput [(ngModel)]="order.advanceItem.referenceNo" (input)="order.triggerAdvanceChanged()" >
+                             <input matInput [(ngModel)]="order.advanceItem.referenceNo"  >
 
                          </mat-form-field>                    
                      </td>
              <td width=150px>
                      <mat-form-field  style="width:100px;">
-                             <input matInput [(ngModel)]="order.advanceItem.amount" (input)="order.triggerAdvanceChanged()" >
+                             <input matInput [(ngModel)]="order.advanceItem.amount"  >
 
                          </mat-form-field>  
 
              </td>
                   
          </tr>
-         <div align=center><button mat-raised-button (click)="addAdvance()" color="primary">Add Item</button>    </div>
+         <div align=center><button mat-raised-button (click)="addAdvance();order.triggerAdvanceChanged()" color="primary">Add Item</button>    </div>
       </table>
       {{order.advance}}
       <br>
@@ -265,10 +265,12 @@
                       <br>
                   
                   <mat-form-field>
-                    <input matInput placeholder="Rate" [(ngModel)]="order.rate" (input)="order.rateChanged()">
+                    <input matInput placeholder="Rate" [(ngModel)]="order.rate" (input)="order.rateChanged()" [disabled]="isdisabled">
                   </mat-form-field>
-                  <br>
                   
+                  <br>
+                  <input type="checkbox" (change)="checkSelected()">NRC(No Rate Cut)
+                  <!-- <mat-checkbox>NRC</mat-checkbox> -->
             </div>
 
         </div>
