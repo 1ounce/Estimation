@@ -62,14 +62,14 @@ export class OrdersComponent implements OnInit {
     this.dataSource = new OrderDataSource(this.api);
     this.dataSource.loadData(0);
     console.log('loading contacts');
-    this.sort.sortChange.subscribe(
-      sort => {
-          console.log('printing sort order');
-          console.log(sort.direction);
+    // this.sort.sortChange.subscribe(
+    //   sort => {
+    //       console.log('printing sort order');
+    //       console.log(sort.direction);
 
 
-      }
-    );
+    //   }
+    // );
     // tslint:disable-next-line: max-line-length
 
   }

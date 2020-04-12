@@ -37,13 +37,16 @@ interface Item {
 export class OrderEstimationComponent implements OnInit {
   order: Order = new Order();
   isdisabled = false;
-  selectedOrderType: String;
+  selectedOrderType: String = 'gold' ;
   email = new FormControl('', [Validators.required, Validators.email]);
   modalRef: BsModalRef = null;
   advancemodal: BsModalRef = null;
   makingChargeModalItem: OrderItem = null;
   isMakingChargeModal: Boolean = true;
   isSaveClicked: Boolean = false;
+  selectedUser: Object;
+  userId = null ;
+  rates: Object;
   constructor(private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService,
               private snackBar: MatSnackBar) {}
 
@@ -61,9 +64,20 @@ export class OrderEstimationComponent implements OnInit {
       this.order.refreshAdvanceItem();
     }
 
+    saveAdvance() {
+      if (this.order.advanceItem.amount > 0) {
+      this.addAdvance();
+      this.advancemodal.hide();
+      } else {
+        this.advancemodal.hide();
+      }
+    }
     onSelectedOrderType(val: any) {
       this.order.orderType = val;
       console.log(this.order.orderType);
+      if (this.order.orderType === 'silver') {
+        this.order.rate = this.rates['silver'];
+      }
     }
     checkSelected() {
       if (this.isdisabled === true) {
@@ -72,8 +86,9 @@ export class OrderEstimationComponent implements OnInit {
         this.isdisabled = true;
       }
       this.order.rate = 0;
+      this.order.ncr = this.isdisabled;
       this.order.rateChanged();
-      console.log(this.isdisabled);
+      console.log(this.order.ncr);
     }
 
     saveMakingCharge() {
@@ -87,8 +102,36 @@ export class OrderEstimationComponent implements OnInit {
 
     }
 
-  ngOnInit() {
+    people(phone) {
+      console.log(phone);
+      if (phone.length >= 5) {
+        this.api.getPeople(phone).subscribe(data => {
+          this.selectedUser = data;
+          console.log(this.selectedUser);
+        });
+      }
+    }
+    onuserClicked(user) {
+      console.log(user);
+      this.userId = user.id;
+      this.order.customerItem.name = user.name;
+      this.order.customerItem.email = user.email;
+      this.order.customerItem.phone = user.phone;
+      this.order.customerItem.address = user.address;
 
+      this.selectedUser = null;
+      if (user.id != null) {
+        this.order.customer = user.id;
+      }
+
+    }
+
+  ngOnInit() {
+    this.api.getRate().subscribe( data => {
+      this.rates = data ;
+      console.log(this.rates);
+      this.order.rate = this.rates['gold'];
+    });
 
     // orderItemList.push(new OrderItem("gold24 Ring I1234",2,3,4));
 
@@ -144,6 +187,18 @@ export class OrderEstimationComponent implements OnInit {
 
 
    saveData() {
+      if (this.userId === null) {
+        this.api.savePeople(this.order.customerItem).subscribe(data => {
+          console.log(data);
+          this.order.customer = data['id'];
+          this.saveOrder();
+        });
+      } else {
+        this.saveOrder();
+      }
+  }
+
+  saveOrder() {
     this.order.saveOrder();
     console.log(this.order);
     if (!this.isSaveClicked) {
@@ -162,7 +217,6 @@ export class OrderEstimationComponent implements OnInit {
     // this.api.saveOrderToDB(this.order).subscribe(success=>{console.log(success);},error=>{console.log(error);});
     }
   }
-
 
 
 

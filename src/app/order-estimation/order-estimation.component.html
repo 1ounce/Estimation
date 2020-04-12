@@ -29,8 +29,8 @@
    </div>
           
           </td>
-          <td>{{item.paymentType}}</td>
-          <td>{{item.referenceNo}}</td>
+          <td>{{item.type}}</td>
+          <td>{{item.ref_id}}</td>
           <td>{{item.amount}}</td>
 
           
@@ -42,17 +42,17 @@
              <td>
               <mat-form-field class="mt-2">
                 
-                <select matNativeControl  [(ngModel)]="order.advanceItem.paymentType">
-                  <option value="cash">Cash</option>
-                  <option value="card">Card</option>
-                  <option value="imps">Imps</option>
-                  <option value="cheque">Cheque</option>
+                <select matNativeControl  [(ngModel)]="order.advanceItem.type">
+                  <option value=0>Cash</option>
+                  <option value=1>Card</option>
+                  <!-- <option value="imps">Imps</option> -->
+                  <option value=2>Cheque</option>
                 </select>
               </mat-form-field>
              </td>
              <td width=150px>
                      <mat-form-field style="width:100px;">
-                             <input matInput [(ngModel)]="order.advanceItem.referenceNo"  >
+                             <input matInput [(ngModel)]="order.advanceItem.ref_id"  >
 
                          </mat-form-field>                    
                      </td>
@@ -65,13 +65,15 @@
              </td>
                   
          </tr>
-         <div align=center><button mat-raised-button (click)="addAdvance();order.triggerAdvanceChanged()" color="primary">Add Item</button>    </div>
+         <div align=right><button mat-raised-button (click)="addAdvance();order.triggerAdvanceChanged()" color="primary"><mat-icon>add</mat-icon>Add Item</button>    </div>
       </table>
       {{order.advance}}
       <br>
       <hr>
+      <div align="right" style="margin-top:20px; ">
+        <button  mat-raised-button color="primary" (click)="saveAdvance();order.triggerAdvanceChanged()">save</button>
     
-
+      </div>
     </div>
 
   </div>
@@ -218,21 +220,41 @@
         <div class="row">
             <div class="col-md-6">
                 <mat-form-field>
-                    <input matInput [(ngModel)]="order.customer" placeholder="Customer Name">
+                    <input matInput [(ngModel)]="order.customerItem.name" placeholder="Customer Name">
                   </mat-form-field>
                   <br>
                   <mat-form-field>
-                    <input matInput placeholder="Enter your email" [formControl]="email" [(ngModel)]="order.email">
+                    <input matInput placeholder="Enter your email" [formControl]="email" [(ngModel)]="order.customerItem.email">
                     <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
                   </mat-form-field>
                   <br>
                   <mat-form-field hintLabel="Max 10 characters">
-                    <input type="tel" matInput #input maxlengtd="10" [(ngModel)]="order.phone" placeholder="Phone" pattern="[6-9]\\d{9}" maxlength="10">
+                    <input type="tel" matInput #input maxlengtd="10" [(ngModel)]="order.customerItem.phone" (input)="people(order.customerItem.phone)" placeholder="Phone" pattern="[6-9]\\d{9}" maxlength="10">
                     <mat-hint align="end">{{input.value?.lengtd || 0}}/10</mat-hint>
                   </mat-form-field>
                   <br>
+                  <ng-container *ngIf="selectedUser!=null">
+                    <mat-list>
+                      
+                      <mat-list-item *ngFor="let user of selectedUser" style="margin-bottom:13px;" class="contactList" (click)="onuserClicked(user)" >
+                          <div>
+                            <div class="circleAlphabet">
+                              {{ user.name[0]}}
+                            </div>
+                          </div>
+                          <span>
+                            <b>{{user.name}}</b>
+                            <br>
+                            {{user.phone}}
+                            </span>
+                        
+                  
+                      </mat-list-item>
+                    </mat-list>
+                   </ng-container>
+                   <br>
                   <mat-form-field class="mt-2">
-                    <textarea matInput placeholder="Address" [(ngModel)]="order.address"></textarea>
+                    <textarea matInput placeholder="Address" [(ngModel)]="order.customerItem.address"></textarea>
                   </mat-form-field>
              
 
@@ -249,20 +271,6 @@
               </mat-form-field>
               
               <br>  
-              selected orderType {{selectedOrderType}}
-
-              <mat-form-field>
-                <input matInput [(ngModel)]="order.orderNo" placeholder="Order No"  >
-              </mat-form-field>
-                  <br>
-
-                  <mat-form-field>
-                    <mat-label>Choose a date</mat-label>
-                    <input matInput [matDatepicker]="picker" [(ngModel)]="order.date">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
-                      <br>
                   
                   <mat-form-field>
                     <input matInput placeholder="Rate" [(ngModel)]="order.rate" (input)="order.rateChanged()" [disabled]="isdisabled">

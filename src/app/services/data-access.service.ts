@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, } from '@angular/common/http';
-import {Order, Contact, OrderItem} from '../Models/Order';
+import {Order, Contact, OrderItem, Customer} from '../Models/Order';
 import {Rest} from '../Models/Rest';
 import {Item} from '../all-work/Model';
 const httpOptions = {
@@ -9,8 +9,8 @@ const httpOptions = {
 
   })
 };
-// const ip ='https://test.1ounce.in/estimate/';
-const ip = 'http://127.0.0.1:8000/estimate/';
+const ip = 'https://test.1ounce.in/estimate/';
+// const ip = 'http://127.0.0.1:8000/estimate/';
 
 
 @Injectable({
@@ -26,16 +26,34 @@ export class DataAccessService {
   getOrders(page: number= 1) {
     const params: URLSearchParams = new URLSearchParams();
     params.set('page', page.toString());
-    return this.client.get<Rest<Order>>(ip + 'orders/', {params: {page: page.toString()}});
+    return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString()}});
 
   }
 
 
+  getPeople(phoneNo: string) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('phone' , phoneNo.toString());
+    return this.client.get(ip + 'people/', {params: {phone: phoneNo.toString()}});
+  }
+
+  savePeople(customer: Customer) {
+    const form = new FormData();
+    form.append('name' , customer.name);
+    form.append('email' , customer.email);
+    form.append('phone' , customer.phone);
+    form.append('address' , customer.address);
+    return this.client.post(ip + 'people/' , form);
+  }
+
   // SAVE CURRENT ORDER TO ONLINE DATABASE
   saveOrderToDB(order: Order) {
-    const form = new FormData();
-    form.append('data', JSON.stringify(order));
-    return this.client.post(ip + 'create/', form);
+    // const form = new FormData();
+    // form.append('data', JSON.stringify(order));
+    console.log(order);
+    // return this.client.post(ip + 'order/', form);
+    const headers = { 'Content-Type': 'application/json' };
+    return this.client.post<any>(ip + 'order/', order, { headers });
   }
 
   uploadItemImage(item) {
@@ -49,7 +67,10 @@ export class DataAccessService {
   getData<T>(url: string) {
       return this.client.get<Rest<T>>(url);
   }
-
+// fetch the rates
+  getRate() {
+    return this.client.get(ip + 'rate/');
+  }
   // SAVE CONTACTS
   saveContact(contact: Contact) {
     const form = new FormData();

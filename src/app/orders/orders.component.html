@@ -320,7 +320,7 @@
 
             <ng-container matColumnDef="phone_no">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>phone_no</th>
-              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.phone}}  </td>
+              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.customer.phone}}  </td>
             </ng-container>
         
             <!-- Weight Column -->

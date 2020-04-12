@@ -2,18 +2,20 @@ import { UploadComponent } from '../services/UploadComponent';
 export class Order {
 
     // general order related data
-    customer: String = '';
-    address: String = '';
-    phone: String = '';
+    // customer: String = '';
+    // address: String = '';
+    // phone: String = '';
     rate = 0;
-    email: String = '';
+    // email: String = '';
     date: String = '';
-    orderType: String = '';
+    orderType: String = 'gold';
+    ncr: Boolean = false;
 
     total = 0; // sub total of the entire order
     itemSubTotal = 0;
 
-
+    customer: Customer = null;
+    customerItem = new Customer();
     // list of all the order items
     items: OrderItem[] = [];
 
@@ -106,7 +108,7 @@ export class Order {
 
 
     triggerItemDataChanged() {
-        console.log("item triggered")
+        console.log('item triggered');
         this.currentItem.triggerItemDataChanged();
         this.generateOrderSubTotal();
     }
@@ -167,7 +169,7 @@ export class Order {
         // let totalAdvance = 0;
         this.advances.forEach(element => {
                 // tslint:disable-next-line: prefer-const
-                var numberAmount = Number(element.amount);
+                let numberAmount = Number(element.amount);
                 console.log(element.amount);
                 sum = sum + numberAmount;
 
@@ -190,6 +192,7 @@ export class Order {
         if (this.currentItem.total > 0) {
         this.items.push(this.currentItem);
         this.currentItem = new OrderItem();
+        this.rateChanged();
         // this.currentItem.setRate(this.rate);
         }
     }
@@ -428,7 +431,14 @@ export class Contact {
  }
 
 export class Advance {
-    paymentType = '';
-    referenceNo ;
+    type = 0;
+    ref_id = '' ;
     amount = 0;
+ }
+
+export class Customer {
+     name = '';
+     email = '';
+     phone = '';
+     address = '';
  }
