@@ -45,7 +45,7 @@ export class OrderDataSource implements DataSource<Order> {
             console.log('next url is ' + this.nextUrl);
 
             const orders = data.results.map(obj => {
-
+                console.log(obj);
                 const items = obj.items.map(item => Object.assign(new OrderItem(), item));
 
                 const o = Object.assign(new Order(), obj);

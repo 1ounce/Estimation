@@ -12,6 +12,9 @@ export class ItemDataSource implements DataSource<Item> {
     private loadingOrder = new BehaviorSubject<Boolean>(false);
     public loading$ = this.loadingOrder.asObservable();
   paginator: any;
+  //pagination
+  private countSubject = new BehaviorSubject<number>(0);
+  public counter$ = this.countSubject.asObservable();
 
     constructor(private api: DataAccessService) {}
 
@@ -25,39 +28,72 @@ export class ItemDataSource implements DataSource<Item> {
     }
 
 
+
+    
     loadData(page: number) {
+        page = page + 1;
+        console.log(page);
         this.loadingOrder.next(true);
 
-        if (page == 1) {
+        this.api.getItems(page).subscribe(
+            data => {
+        
+            this.nextUrl = data.next;
+            console.log('next url is ' + this.nextUrl);
 
-            this.api.getItems().subscribe(
-                data => {
-                console.log(data);
-                this.nextUrl = data.next;
-                let orders = data.results.map(obj => Object.assign(new Item(), obj));
-                console.log('Order data');
-                console.log(orders);
-                this.orderData.next(orders);
-                this.loadingOrder.next(false);
+            const orders = data.results;
 
-                },
-                fail => {
-                    console.log('failed for some unkonwn reason');
-                    // should handle this to display error messages
-                }
-            );
-        } else {
-            if (this.nextUrl != null) {
-                this.api.getData<Rest<Item>>(this.nextUrl).subscribe(
-                    data => {
-                        this.orderData.next(data.results.map(obj => Object.assign(new Item(), obj)));
-                        this.loadingOrder.next(false);
-                    },
-                    fail => {console.log('failure during donwload'); }
-                );
+            console.log('Order data');
+            console.log(orders);
+            this.orderData.next(orders);
+            this.countSubject.next(data.count);
+            this.loadingOrder.next(false);
+
+            },
+            fail => {
+                console.log('failed for some unkonwn reason');
+                // should handle this to display error messages
             }
+        );
+
+
         }
 
-    }
+
+
+    // loadData(page: number) {
+    //     this.loadingOrder.next(true);
+
+    //     if (page == 1) {
+
+    //         this.api.getItems().subscribe(
+    //             data => {
+    //             console.log(data);
+    //             this.nextUrl = data.next;
+    //             let orders = data.results.map(obj => Object.assign(new Item(), obj));
+    //             console.log('Order data');
+    //             console.log(orders);
+    //             this.orderData.next(orders);
+    //             this.loadingOrder.next(false);
+
+    //             },
+    //             fail => {
+    //                 console.log('failed for some unkonwn reason');
+    //                 // should handle this to display error messages
+    //             }
+    //         );
+    //     } else {
+    //         if (this.nextUrl != null) {
+    //             this.api.getData<Rest<Item>>(this.nextUrl).subscribe(
+    //                 data => {
+    //                     this.orderData.next(data.results.map(obj => Object.assign(new Item(), obj)));
+    //                     this.loadingOrder.next(false);
+    //                 },
+    //                 fail => {console.log('failure during donwload'); }
+    //             );
+    //         }
+    //     }
+
+    // }
 
 }

@@ -36,7 +36,7 @@ export class OrdersComponent implements OnInit {
   ELEMENT_DATA = [];
   dataSource: OrderDataSource;
   boolSpinner;
-  displayedColumns: string[] = ['order_id', 'date', 'phone_no', 'Status', 'assigned_to', 'balance'];
+  displayedColumns: string[] = ['order_id', 'date', 'phone_no', 'Status', 'balance'];
   selected: Order;
   selectedItem: OrderItem;
   color: HeroCircle = new HeroCircle();

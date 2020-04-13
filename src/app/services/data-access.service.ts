@@ -91,6 +91,13 @@ export class DataAccessService {
     return this.client.post(ip + 'saveAssignee/', form);
   }
 
-  getItems() {return this.client.get<Rest<Item>>(ip + 'item/'); }
+  getItems(page: number= 1) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('page', page.toString());
+    return this.client.get<Rest<Item>>(ip + 'item/', {params: {page: page.toString()}});
+   }
 
+   getselectedOrder(order_id) {
+     return this.client.get(ip + `order/${order_id}`);
+   }
 }

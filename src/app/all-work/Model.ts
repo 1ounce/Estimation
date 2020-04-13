@@ -1,20 +1,19 @@
-import {Contact, Order} from "../Models/Order";
+import {Contact, Order} from '../Models/Order';
 
 
-export class Item{
-    id:number;
-    name:String="";
-    weight:number=0;
-    wastage:number=0;
-    makingCharge:number=0;
-    stoneCharge:number=0;
-    amount:number=0;
-    total:number=0;
-    rate:number=0;
-    assignedTo:Contact=null
-    due:string="";
-    order:Order=null;
+export class Item {
+    id: number;
+    name: String = '';
+    weight = 0;
+    wastage = 0;
+    makingCharge = 0;
+    stoneCharge = 0;
+    amount = 0;
+    total = 0;
+    rate = 0;
+    assignedTo: Contact = null;
+    due = '';
+    order: Order = null;
 
-    getDueDate()
-    {return this.due.slice(0,this.due.indexOf('T'));}
+    getDueDate() {return this.due.slice(0, this.due.indexOf('T')); }
 }

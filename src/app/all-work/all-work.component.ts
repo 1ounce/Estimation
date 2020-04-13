@@ -24,8 +24,8 @@ export class AllWorkComponent implements OnInit {
   @ViewChild(MatPaginator , { static: false})
   paginator: MatPaginator;
   boolSpinner;
-  displayedColumns: string[] = ['order_id', 'status', 'item', 'date', 'customer', 'assigned_to'];
-  selected: Order;
+  displayedColumns: string[] = ['date', 'order_id',  'item', 'assigned_to', 'status'];
+  selected;
   selectedItem: Item;
   color: HeroCircle = new HeroCircle();
 
@@ -42,7 +42,7 @@ export class AllWorkComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource = new ItemDataSource(this.api);
-    this.dataSource.loadData(1);
+    this.dataSource.loadData(0);
     console.log('loading contacts');
     // tslint:disable-next-line: whitespace
     // tslint:disable-next-line: max-line-length
@@ -50,8 +50,16 @@ export class AllWorkComponent implements OnInit {
 
   }
 
+
   // tslint:disable-next-line: use-lifecycle-interface
   ngAfterViewInit(): void {
+    this.dataSource.counter$.subscribe(
+     count => {
+      console.log('paginator length triggered' + count);
+      this.paginator.length = count; }
+    );
+
+
     // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
 
@@ -59,14 +67,18 @@ export class AllWorkComponent implements OnInit {
       () => {
           console.log('page clicked' + this.paginator.pageIndex);
 
-          this.dataSource.loadData(this.paginator.pageIndex);
+          this.dataSource.loadData(this.paginator.pageIndex); 
         }
     );
 
   }
 
   rowClick(template: TemplateRef<any>, element) {
-    this.selected = element;
+    // this.selected = element;
+    this.api.getselectedOrder(element.order_id).subscribe( data => {
+      this.selected = data;
+      console.log(this.selected);
+    })
 
     this.orderModal = this.modalService.show(
       template,

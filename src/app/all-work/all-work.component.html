@@ -183,12 +183,12 @@
     </div>
   <div class="modal-body">
     <table style="width:100%">
-        <tr><td>Name:</td><th>{{selected.customer}}</th>
-        <td>Address:</td><th>{{selected.address}}</th>
+        <tr><td>type:</td>
+        <td>Date</td><th>{{selected.getDate()}}</th>
         </tr>
         <tr>
-        <td>Phone:</td><th>{{selected.phone}}</th>
-        <td>Date:</td><th>{{selected.getDate()}}</th>
+        <td>Totoal Old GOld:</td><th>{{selected.}}</th>
+        <!-- <td>Date:</td><th>{{selected.getDueDate()}}</th> -->
         </tr>
     </table>
 
@@ -311,27 +311,27 @@
             <!-- Position Column -->
             <ng-container matColumnDef="order_id">
               <th mat-header-cell *matHeaderCellDef  mat-sort-header> Order ID</th>
-              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.order.id}} </td>
+              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.order_id}} </td>
             </ng-container>
         
             <!-- Date Column -->
             <ng-container matColumnDef="date">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
-              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)" > {{element.getDueDate()}}
+              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)" > {{element.due}}
             </ng-container>
 
           <!-- Name Column -->
             <ng-container matColumnDef="item">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Item</th>
              
-              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)" > {{element.name}}
+              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)" > {{element.name}}<br>{{element.weight}} gms
             </ng-container>
 
-
-            <ng-container matColumnDef="customer">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer</th>
-              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.order.customer}}  </td>
-            </ng-container>
+            <!-- Phone Column -->
+            <!-- <ng-container matColumnDef="phone_no">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.customer.phone}}  </td>
+            </ng-container> -->
         
             <!-- Weight Column -->
             <ng-container matColumnDef="cost">
@@ -357,11 +357,11 @@
           </ng-container >
 
          
-
+<!-- 
         <ng-container matColumnDef="balance">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
           <td mat-cell *matCellDef="let element">{{money(element.total-element.advance)}}</td>
-        </ng-container>
+        </ng-container> -->
           
                
         
