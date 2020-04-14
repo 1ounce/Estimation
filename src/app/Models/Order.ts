@@ -134,7 +134,10 @@ export class Order {
 
     refereshcurrentItem() {this.currentItem = new OrderItem(); }
 
-    saveOrder() {this.items.push(this.currentItem); }
+    saveOrder() {
+        if (this.currentItem.total > 0) {
+        this.items.push(this.currentItem); }
+     }
 
     // temporary item related functionality
     // -------------------------------------------------------------------------------------------------
