@@ -78,13 +78,15 @@ export class AllWorkComponent implements OnInit {
     this.api.getselectedOrder(element.order_id).subscribe( data => {
       this.selected = data;
       console.log(this.selected);
-    })
+      this.orderModal = this.modalService.show(
+        template,
+        Object.assign({})
+      );
+      this.orderModal.setClass('modal-xl');
+      console.log('larger')
+    });
 
-    this.orderModal = this.modalService.show(
-      template,
-      Object.assign({})
-    );
-    this.orderModal.setClass('modal-xl');
+  
   }
 
 

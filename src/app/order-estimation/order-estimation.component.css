@@ -36,3 +36,73 @@ mat-form-field {
       .tooltip:hover .tooltiptext {
         visibility: visible;
       }
+
+      .circle {
+        height: 50px;
+        width: 50px;
+        background-color:red;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right:20px;
+        color:white;
+      }
+      
+      .circleAlphabet{
+        text-align: center;
+        margin-top:10px;
+    
+        font-size:24px;
+        
+      }
+    
+      .contactList:hover{
+        cursor: pointer;
+        background-color:gainsboro;
+      }
+    
+    
+      .yellowCircle {
+        height: 50px;
+        width: 50px;
+        background-color:yellow;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right:20px;
+        color:black;
+      }
+      .violetCircle {
+        height: 50px;
+        width: 50px;
+        background-color:violet;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right:20px;
+        color:white;
+      }
+      .blueCircle {
+        height: 50px;
+        width: 50px;
+        background-color:blue;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right:20px;
+        color:white;
+      }
+      .redCircle {
+        height: 50px;
+        width: 50px;
+        background-color:red;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right:20px;
+        color:white;
+      }
+      .greenCircle {
+        height: 50px;
+        width: 50px;
+        background-color:green;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right:20px;
+        color:white;
+      }

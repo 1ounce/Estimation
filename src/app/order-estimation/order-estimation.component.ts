@@ -103,6 +103,12 @@ export class OrderEstimationComponent implements OnInit {
     }
 
     people(phone) {
+      if (phone.length < 1) {
+      this.selectedUser = null;
+      }
+      this.order.customerItem.name = '';
+      this.order.customerItem.email = '';
+      this.order.customerItem.address = '';
       console.log(phone);
       if (phone.length >= 5) {
         this.api.getPeople(phone).subscribe(data => {
@@ -118,7 +124,6 @@ export class OrderEstimationComponent implements OnInit {
       this.order.customerItem.email = user.email;
       this.order.customerItem.phone = user.phone;
       this.order.customerItem.address = user.address;
-
       this.selectedUser = null;
       if (user.id != null) {
         this.order.customer = user.id;
