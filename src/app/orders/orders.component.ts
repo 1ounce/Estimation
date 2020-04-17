@@ -30,7 +30,7 @@ class ImageSnippet {
 
 export class OrdersComponent implements OnInit {
   selectedimage: string;
-  ip = 'http://127.0.0.1:8000';
+  // ip = 'http://127.0.0.1:8000';
   @ViewChild(MatPaginator , { static: false})
   paginator: MatPaginator;
   ELEMENT_DATA = [];
@@ -121,11 +121,11 @@ export class OrdersComponent implements OnInit {
   getselectedIamge(item) {
     // console.log(item);
      // tslint:disable-next-line: no-unused-expression
-     return this.ip + item.image;
+     return  item.image;
   }
-  getImage() {
-    this.currentImage = this.ip + this.selectedimage;
-  }
+  // getImage() {
+  //   this.currentImage = this.ip + this.selectedimage;
+  // }
 
 
   goToOrderEstimation() {
@@ -197,9 +197,9 @@ export class OrdersComponent implements OnInit {
         if (result['result'] === 'success') {
           console.log(result['data'].image);
           this.selectedimage = result['data'].image;
-          this.getImage();
+          // this.getImage();
           console.log('image uploded sucessfully');
-          this.orderModal.hide();
+          // this.orderModal.hide();
         }
       },
       fail => {

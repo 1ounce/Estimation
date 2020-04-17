@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { environment } from '../../environments/environment';
+import {SelectionModel} from '@angular/cdk/collections';
 // import { Routes, RouterModule, Router } from '@angular/router';
 import {MatSort} from '@angular/material/sort';
 import { NavigateServiceService } from '../service/navigate-service.service';
@@ -24,7 +25,7 @@ export class AllWorkComponent implements OnInit {
   @ViewChild(MatPaginator , { static: false})
   paginator: MatPaginator;
   boolSpinner;
-  displayedColumns: string[] = ['date', 'order_id',  'item', 'assigned_to', 'status'];
+  displayedColumns: string[] = ['checked', 'date', 'order_id',  'item', 'image', 'assigned_to', 'status'];
   selected;
   selectedItem: Item;
   color: HeroCircle = new HeroCircle();
@@ -37,7 +38,8 @@ export class AllWorkComponent implements OnInit {
   //temporary models
   contact: Contact = new Contact();
     @ViewChild(MatSort, {static: true}) sort: MatSort;
-
+    selection = new SelectionModel(true, []);
+  selectedimage: any;
   constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService,) { }
 
   ngOnInit() {
@@ -78,18 +80,13 @@ export class AllWorkComponent implements OnInit {
     this.api.getselectedOrder(element.order_id).subscribe( data => {
       this.selected = data;
       console.log(this.selected);
-      this.orderModal = this.modalService.show(
-        template,
-        Object.assign({})
-      );
-      this.orderModal.setClass('modal-xl');
-      console.log('larger')
     });
-
-  
   }
 
-
+  getImage(element) {
+    console.log(element);
+    return element.image;
+  }
 
   goToOrderEstimation() {
   this.navigationService.navigateToOrderEstimation();
@@ -129,6 +126,12 @@ export class AllWorkComponent implements OnInit {
     );
   }
 
+  
+  swipe(element) {
+    console.log("event clicked");
+    console.log(element.image);
+    window.open(element.image, '_blank');
+  }
 
   //triggered from the contact modal, for selecting
   onContactClicked(contact) {
@@ -145,6 +148,29 @@ export class AllWorkComponent implements OnInit {
       fail => { }
     );
 
+  }
+
+  uploadItemImage(item) {
+    console.log('upload Item started');
+    console.log(item.imageUploader.file);
+    // console.log(id);
+    this.api.uploadItemImage(item).subscribe(
+        result => {
+        console.log(result);
+        if (result['result'] === 'success') {
+          console.log(result['data'].image);
+          this.selectedimage = result['data'].image;
+          // this.getImage();
+          console.log('image uploded sucessfully');
+          this.orderModal.hide();
+        }
+      },
+      fail => {
+      console.log('Failed');
+      console.log(fail);
+      }
+
+    );
   }
 
 }

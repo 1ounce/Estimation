@@ -18,6 +18,7 @@ import { RepairComponent } from './repair/repair.component';
 import { OrdersComponent } from './orders/orders.component';
 import { RouterModule, Routes } from '@angular/router';
 import {MatTableModule} from '@angular/material/table';
+import {MatCheckboxModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatTableExporterModule } from 'mat-table-exporter';

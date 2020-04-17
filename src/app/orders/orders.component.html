@@ -226,7 +226,7 @@
                   <span style="color:red;" *ngIf="item.imageUploader.message">{{item.imageUploader.message}}</span>
                 <input #file type="file" accept='image/*' (change)="item.imageUploader.preview(file.files);uploadItemImage(item);" />
                 <!-- <input  type="file" accept='image/*' (change)="uploadItemImage($event,selected.id)" /> -->
-                <img [src]="currentImage" height="60%" width="100%" *ngIf="currentImage">
+                <img [src]="selectedimage" height="60%" width="100%" *ngIf="selectedimage">
                 <!-- <img *ngIf="selectedimage" [src]="selectedimage" height="100" class="img-thumbnail"> -->
                 {{item.imageUploader.imgURL}}
               </td>
