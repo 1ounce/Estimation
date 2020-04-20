@@ -11,14 +11,13 @@ export class Order {
     orderType: String = 'gold';
     ncr: Boolean = false;
 
-    total = 0; // sub total of the entire order
-    itemSubTotal = 0;
-
+    // customer related 
     customer: Customer = null;
     customerItem = new Customer();
-    // list of all the order items
-    items: OrderItem[] = [];
 
+    total = 0; // sub total of the entire order
+    itemSubTotal = 0;
+    items: OrderItem[] = []; // list of all the order items
      // temproary item: the item which is currently being used for pushing in data is referred from here
     currentItem = new OrderItem();
     selectedItem: OrderItem = null;

@@ -1,29 +1,138 @@
+<!---START OF Advance modal--->
+<ng-template #advanceTemplate>
+  <div class="side-modal">
+    <div class="modal-header ">
+     <h3 class="modal-title ">Advance</h3>
+    <button type="button" display="inline" class="close pull-right" aria-label="Close" (click)="advancemodal.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+     
+      
+    </div>
+    <div class="modal-body">
+      <table border="2" class="table-responsive" width="100%">
+        <tr>
+        <th width=10px>S.no</th>
+        <th>Payment Method</th>
+        <th>Reference Id</th>
+        <th>Amount</th>
+        
+        </tr>
+    <!--displaying the advance options list   -->
+        <tr style="padding:10px"  *ngFor="let item of repair.advances;let i =index" >
+             
+
+          <td >
+               <div class="icon-text">
+             <mat-icon style="color:red;cursor:pointer;" (click)="repair.removeAdvance(i)">remove_circle_outline</mat-icon>
+     <span> <b> {{i+1}}</b></span>
+   </div>
+          
+          </td>
+          <td>{{item.type}}</td>
+          <td>{{item.ref_id}}</td>
+          <td>{{item.amount}}</td>
+
+          
+          </tr> 
+          <tr>
+
+
+            <td></td>
+             <td>
+              <mat-form-field class="mt-2">
+                
+                <select matNativeControl  [(ngModel)]="repair.advanceItem.type">
+                  <option value=0>Cash</option>
+                  <option value=1>Card</option>
+                  <!-- <option value="imps">Imps</option> -->
+                  <option value=2>Cheque</option>
+                </select>
+              </mat-form-field>
+             </td>
+             <td width=150px>
+                     <mat-form-field style="width:100px;">
+                             <input matInput [(ngModel)]="repair.advanceItem.ref_id"  >
+
+                         </mat-form-field>                    
+                     </td>
+             <td width=150px>
+                     <mat-form-field  style="width:100px;">
+                             <input matInput [(ngModel)]="repair.advanceItem.amount"  >
+
+                         </mat-form-field>  
+
+             </td>
+                  
+         </tr>
+         <div align=right><button mat-raised-button (click)="addAdvance();repair.triggerAdvanceChanged()" color="primary"><mat-icon>add</mat-icon>Add Item</button>    </div>
+      </table>
+      {{repair.advance}}
+      <br>
+      <hr>
+      <div align="right" style="margin-top:20px; ">
+        <button  mat-raised-button color="primary" (click)="saveAdvance();repair.triggerAdvanceChanged()">save</button>
+    
+      </div>
+    </div>
+
+  </div>
+
+</ng-template>
+
+<!---END OF Advance Modal--->
+
+
+
+
 <div class="container" style="padding: 10px;">
 
     <mat-card>
         <h6 class="text-center">Repair Estimation</h6>
         <div class="row">
-            <div class="col-md-6">
-                <mat-form-field>
-                    <input matInput placeholder="Customer Name">
-                  </mat-form-field>
-                  <br>
-                  <mat-form-field>
-                    <input matInput placeholder="Enter your email" [formControl]="email" required>
-                    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-                  </mat-form-field>
-                  <br>
-                  <mat-form-field hintLabel="Max 10 characters">
-                    <input matInput #input maxlength="10" placeholder="Phone">
-                    <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-                  </mat-form-field>
-                  <br>
-                  <mat-form-field>
-                    <textarea matInput placeholder="Address"></textarea>
-                  </mat-form-field>
+          <div class="col-md-6">
+            <mat-form-field>
+                <input matInput [(ngModel)]="repair.customerItem.name" placeholder="Customer Name">
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput placeholder="Enter your email" [formControl]="email" [(ngModel)]="repair.customerItem.email">
+                <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
+              </mat-form-field>
+              <br>
+              <mat-form-field hintLabel="Max 10 characters">
+                <input type="tel" matInput #input maxlengtd="10" [(ngModel)]="repair.customerItem.phone" (input)="people(repair.customerItem.phone)" placeholder="Phone" pattern="[6-9]\\d{9}" maxlength="10">
+                <mat-hint align="end">{{input.value?.lengtd || 0}}/10</mat-hint>
+              </mat-form-field>
+              <br>
+              <ng-container *ngIf="selectedUser!=null">
+                <mat-list>
+                  
+                  <mat-list-item *ngFor="let user of selectedUser" style="margin-bottom:13px;" class="contactList" (click)="onuserClicked(user)" >
+                    <!-- <div [className]="color.getColor()" > -->
+                      <div>  
+                      <div class="circleAlphabet">
+                          {{ user.name[0]}}
+                        </div>
+                      </div>
+                      <span>
+                        <b>{{user.name}}</b>
+                        <br>
+                        {{user.phone}}
+                        </span>
+                    
+              
+                  </mat-list-item>
+                </mat-list>
+               </ng-container>
+               <br>
+              <mat-form-field class="mt-2">
+                <textarea matInput placeholder="Address" [(ngModel)]="repair.customerItem.address"></textarea>
+              </mat-form-field>
+         
 
 
-            </div>
+        </div>
 
             <div class="col-md-6">
                 <mat-form-field>
@@ -36,48 +145,92 @@
                     <input matInput placeholder="Order no">
                   </mat-form-field>
                   <br>
-                  <mat-form-field>
-                    <input matInput placeholder="Rate">
+                  <mat-form-field class="mt-2">
+                    <textarea matInput placeholder="Rate" [(ngModel)]="repair.rate"></textarea>
                   </mat-form-field>
             </div>
 
         </div>
-        <div class="row table-responsive">
+        
+    </mat-card>
+
+
+    <br><br>
+<mat-card>
+ <div class="row table-responsive">
+   <h5 align=center>Items</h5>
             <table class="table">
+             <tr >
+             
+             <th>S no.</th>
+             <th>Description</th>
+             <th>Weight</th>
+             <th>Amount</th>
+
+             
+             </tr>
+               <tr style="padding:10px"  *ngFor="let item of repair.items;let i =index" >
+             
+
+             <td >
+                  <div class="icon-text">
+                <mat-icon style="color:red;cursor:pointer;" (click)="repair.removeItem(i)">remove_circle_outline</mat-icon>
+        <span> <b> {{i+1}}</b></span>
+      </div>
+             
+             </td>
+             <td>{{item.name}}</td>
+             <td>{{item.weight}}</td>
+             <td>{{item.total}}</td>
            
 
+             
+             </tr> 
                 <tr>
-                   
+
+
+                   <td></td>
                     <td>
                             <mat-form-field>
-                                    <input matInput placeholder="Description">
+                                    <input matInput [(ngModel)]="repair.currentItem.name" (change)="repair.triggerItemDataChanged()" >
                                 </mat-form-field>
                     </td>
-                    <td>
-                            <mat-form-field>
-                                    <input matInput placeholder="Weight">
+                    <td width=150px>
+                            <mat-form-field style="width:100px;">
+                                    <input matInput [(ngModel)]="repair.currentItem.weight" (input)="repair.triggerItemDataChanged()" >
                                     <span matSuffix>gms</span>
 
                                 </mat-form-field>                    
                             </td>
-                    <td>
-                            <mat-form-field>
-                                    <input matInput placeholder="Amount(approx.)">
-                                    <span matPrefix>₹&nbsp;</span>
-
-                                </mat-form-field>  
-                    </td>
-                    <td>
-                            <mat-form-field>
-                                    <input matInput placeholder="Advance Amount">
-                                    <span matPrefix>₹&nbsp;</span>
-
-                                </mat-form-field>  
-                    </td>
+                            <td width=150px>
+                              <mat-form-field style="width:100px;">
+                                      <input matInput [(ngModel)]="repair.currentItem.total" (input)="repair.triggerItemDataChanged()" >
+                                      
+  
+                                  </mat-form-field>                    
+                              </td>
+                 
+               
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>Sub Total</td>
+                  <td>{{repair.itemSubToatal}}</td>
                 </tr>
             </table>
+
+          
         </div>
-    </mat-card>
+    <div align=center><button mat-raised-button (click)="repair.addItem()" color="primary">Add Item</button>    </div>
+</mat-card>
 
-
+<br><br>
+    <div align=center><button mat-raised-button (click)="openAdvanceModal(advanceTemplate)" color="primary">Advance</button>    </div>
+    <br><br>
+    <button mat-raised-button color="primary" style="float:right;" (click)="saveData()" >SubTotal: {{repair.total}}<br>Save</button>
+<!-- end of container -->
 </div>

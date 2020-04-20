@@ -14,6 +14,5 @@ export class Item {
     assignedTo: Contact = null;
     due = '';
     order: Order = null;
-
     getDueDate() {return this.due.slice(0, this.due.indexOf('T')); }
 }

@@ -182,12 +182,12 @@
     </div>
   <div class="modal-body">
     <table style="width:100%" class="table-responsive">
-        <tr><td>Name:</td><th>{{selected.customer.name}}</th>
-        <td>Address:</td><th>{{selected.customer.address}}</th>
+        <tr><td>Name:</td><th>{{selected.customer}}</th>
+        <td>Address:</td><th>{{selected.address}}</th>
         </tr>
         <tr>
-        <td>Phone:</td><th>{{selected.customer.phone}}</th>
-        <td>Date:</td><th>{{selected.customer.date}}</th>
+        <td>Phone:</td><th>{{selected.phone}}</th>
+        <td>Date:</td><th>{{selected.getDate()}}</th>
         </tr>
     </table>
 
@@ -319,7 +319,7 @@
             <!-- Phone number -->
             <ng-container matColumnDef="phone_no">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>phone_no</th>
-              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.customer.phone}}  </td>
+              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.phone}}  </td>
             </ng-container> 
         
             <!-- Weight Column -->

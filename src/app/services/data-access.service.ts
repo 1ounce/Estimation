@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, } from '@angular/common/http';
 import {Order, Contact, OrderItem, Customer} from '../Models/Order';
 import {Rest} from '../Models/Rest';
 import {Item} from '../all-work/Model';
+import { Repair } from '../Models/Repair';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
@@ -100,4 +101,26 @@ export class DataAccessService {
    getselectedOrder(order_id) {
      return this.client.get(ip + `order/${order_id}`);
    }
+
+   itemIsCompleted(items) {
+     const form = new FormData();
+     console.log(items);
+    //  form.append('items', items);
+    //  form.append('update_type', value);
+    //  console.log(form.get('update_type'));
+    //  console.log(form.get('items'));
+     return this.client.post(ip + 'groupItemUpdate/', items);
+   }
+   saveRepairOrderTODB(repair: Repair) {
+     console.log(repair);
+     const headers = { 'Content-Type': 'application/json' };
+     return this.client.post(ip + 'repairOrder/', repair , {headers});
+   }
+
+   getRepairOrders(page: number= 1) {
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('page', page.toString());
+    return this.client.get<Rest<Order>>(ip + 'repairOrder/', {params: {page: page.toString()}});
+
+  }
 }

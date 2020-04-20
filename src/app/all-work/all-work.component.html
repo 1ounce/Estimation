@@ -273,7 +273,7 @@
 
 
   
-
+    <button *ngIf='isChecked' mat-raised-button color='primary' (click)="isCompleted()">Completed</button>
 
 
 
@@ -293,7 +293,7 @@
               <ng-container matColumnDef="checked">
                 <th mat-header-cell *matHeaderCellDef>Check</th>
                 <td mat-cell *matCellDef="let element"> 
-                  <input type="checkbox">
+                  <input type="checkbox" (change)="selectedRow(element, $event)">
                 </td>
               </ng-container> 
 

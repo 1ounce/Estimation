@@ -29,18 +29,20 @@ export class AllWorkComponent implements OnInit {
   selected;
   selectedItem: Item;
   color: HeroCircle = new HeroCircle();
-
+  
+  groupItemData = new groupItem();
   orderModal: BsModalRef = null;
   makingChargeModal: BsModalRef = null;
   contactsModal: BsModalRef = null;
 
-  contacts: Array<Contact> = null //list of contacts
-  //temporary models
+  contacts: Array<Contact> = null; // list of contacts
+  // temporary models
   contact: Contact = new Contact();
     @ViewChild(MatSort, {static: true}) sort: MatSort;
     selection = new SelectionModel(true, []);
   selectedimage: any;
-  constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService,) { }
+  isChecked = false;
+  constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService, ) { }
 
   ngOnInit() {
     this.dataSource = new ItemDataSource(this.api);
@@ -48,7 +50,7 @@ export class AllWorkComponent implements OnInit {
     console.log('loading contacts');
     // tslint:disable-next-line: whitespace
     // tslint:disable-next-line: max-line-length
-    this.api.getContacts().subscribe(data => {console.log(data); this.contacts = data.results; } , fail => {console.log('failed in fetching contacts');console.log(fail);});
+    this.api.getContacts().subscribe(data => {console.log(data); this.contacts = data.results; } , fail => {console.log('failed in fetching contacts'); console.log(fail); });
 
   }
 
@@ -69,7 +71,7 @@ export class AllWorkComponent implements OnInit {
       () => {
           console.log('page clicked' + this.paginator.pageIndex);
 
-          this.dataSource.loadData(this.paginator.pageIndex); 
+          this.dataSource.loadData(this.paginator.pageIndex);
         }
     );
 
@@ -84,7 +86,7 @@ export class AllWorkComponent implements OnInit {
   }
 
   getImage(element) {
-    console.log(element);
+    // console.log(element);
     return element.image;
   }
 
@@ -92,7 +94,7 @@ export class AllWorkComponent implements OnInit {
   this.navigationService.navigateToOrderEstimation();
   }
 
-  money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data);}
+  money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
 
   openSelectedMakingChargeModal(item: Item, template, isMakingCharge: Boolean) {
     this.selectedItem = item;
@@ -126,14 +128,40 @@ export class AllWorkComponent implements OnInit {
     );
   }
 
-  
+  selectedRow(element , event) {
+    const checked = event.target.checked; // stored checked value true or false
+    if (checked) {
+      this.isChecked = true;
+      console.log(element);
+      this.groupItemData.items.push(element.id);
+      // this.items.push(element.id);
+      this.groupItemData.items.forEach(ele => {
+        console.log(ele);
+
+    });
+      console.log(this.groupItemData.items);
+
+  } else {
+    const index = this.groupItemData.items.findIndex(list => list === element.id);
+    this.groupItemData.items.splice(index , 1);
+    this.groupItemData.items.forEach(ele => {
+      console.log(ele);
+      // console.log(this.items.length);
+  });
+    if (this.groupItemData.items.length < 1) {
+      console.log(this.groupItemData.items.length);
+      this.isChecked = false;
+    }
+  }
+  }
+
   swipe(element) {
-    console.log("event clicked");
+    console.log('event clicked');
     console.log(element.image);
     window.open(element.image, '_blank');
   }
 
-  //triggered from the contact modal, for selecting
+  // triggered from the contact modal, for selecting
   onContactClicked(contact) {
     this.api.saveAsignee(this.selectedItem, contact).subscribe(
       success => {
@@ -142,7 +170,7 @@ export class AllWorkComponent implements OnInit {
             this.selectedItem.assignedTo = contact;
             this.contactsModal.hide();
         } else {
-          //some failure occured during loading of data
+          // some failure occured during loading of data
         }
       },
       fail => { }
@@ -173,4 +201,15 @@ export class AllWorkComponent implements OnInit {
     );
   }
 
+  isCompleted() {
+    const value = 0;
+    this.api.itemIsCompleted(this.groupItemData).subscribe(data => {
+      console.log(data);
+    });
+  }
+
 }
+export class groupItem {
+   items: number[] = [];
+   update_type = 0;
+ }
