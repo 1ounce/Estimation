@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { environment } from '../../environments/environment';
@@ -25,7 +25,7 @@ export class RepairComponent implements OnInit {
   @ViewChild(MatPaginator , { static: false})
   paginator: MatPaginator;
   boolSpinner;
-  displayedColumns: string[] = ['checked', 'date', 'order_id',  'item', 'image', 'assigned_to', 'status'];
+  displayedColumns: string[] = ['checked', 's.no', 'customer',  'advance'];
 
   color: HeroCircle = new HeroCircle();
 
@@ -37,6 +37,7 @@ export class RepairComponent implements OnInit {
   // temporary models
   contact: Contact = new Contact();
     @ViewChild(MatSort, {static: true}) sort: MatSort;
+  selected: any;
     // selection = new SelectionModel(true, []);
 
   // tslint:disable-next-line: max-line-length
@@ -56,9 +57,10 @@ export class RepairComponent implements OnInit {
     this.dataSource.counter$.subscribe(
      count => {
       console.log('paginator length triggered' + count);
-      this.paginator.length = count; }
+      this.paginator.length = count; 
+    }
     );
-
+    console.log(this.dataSource);
 
     // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
@@ -68,10 +70,25 @@ export class RepairComponent implements OnInit {
           console.log('page clicked' + this.paginator.pageIndex);
 
           this.dataSource.loadData(this.paginator.pageIndex);
+          console.log(this.dataSource);
         }
     );
 
   }
+
+  rowClick(template: TemplateRef<any>, element) {
+    // this.selected = element;
+    // this.api.getselectedOrder(element.order_id).subscribe( data => {
+      this.selected = element;
+      console.log(this.selected);
+      this.orderModal = this.modalService.show(
+        template,
+        Object.assign({})
+      );
+      this.orderModal.setClass('modal-xl');
+    // });
+  }
+
 
   goToRepairEstimation() {
     this.navigationService.navigateToRepaireEstimation();

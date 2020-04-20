@@ -32,26 +32,34 @@ export class RepairOrderDataSource implements DataSource<Repair> {
     console.log(page);
     this.loadingOrder.next(true);
 
-    // this.api.getRepairOrders(page).subscribe(
-    //     data => {
+    this.api.getRepairOrders(page).subscribe(
+        data => {
 
-    //     this.nextUrl = data.next;
-    //     console.log('next url is ' + this.nextUrl);
+        this.nextUrl = data.next;
+        console.log('next url is ' + this.nextUrl);
 
-    //     const orders = data.results;
+        const orders = data.results.map(obj => {
+            console.log(obj);
+            const items = obj.items.map(item => Object.assign(new RepairItem(), item));
 
-    //     console.log('Order data');
-    //     console.log(orders);
-    //     // this.orderData.next(orders);
-    //     this.countSubject.next(data.count);
-    //     this.loadingOrder.next(false);
+            const o = Object.assign(new Repair(), obj);
+            o.items = items;
 
-    //     },
-    //     fail => {
-    //         console.log('failed for some unkonwn reason');
-    //         // should handle this to display error messages
-    //     }
-    // );
+            return o;
+        })
+
+        console.log('Order data');
+        console.log(orders);
+        this.orderData.next(orders);
+        this.countSubject.next(data.count);
+        this.loadingOrder.next(false);
+
+        },
+        fail => {
+            console.log('failed for some unkonwn reason');
+            // should handle this to display error messages
+        }
+    );
 
 
     }

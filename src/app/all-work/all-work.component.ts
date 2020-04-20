@@ -62,7 +62,7 @@ export class AllWorkComponent implements OnInit {
       console.log('paginator length triggered' + count);
       this.paginator.length = count; }
     );
-
+    console.log(this.dataSource);
 
     // Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     // Add 'implements AfterViewInit' to the class.
@@ -82,6 +82,11 @@ export class AllWorkComponent implements OnInit {
     this.api.getselectedOrder(element.order_id).subscribe( data => {
       this.selected = data;
       console.log(this.selected);
+      this.orderModal = this.modalService.show(
+        template,
+        Object.assign({})
+      );
+      this.orderModal.setClass('modal-xl');
     });
   }
 
