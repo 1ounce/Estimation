@@ -71,7 +71,7 @@ export class RepairEstimationComponent implements OnInit {
       console.log(phone);
       if (phone.length >= 5) {
         this.api.getPeople(phone).subscribe(data => {
-          this.selectedUser = data;
+          this.selectedUser = data.results;
           console.log(this.selectedUser);
         });
       }
