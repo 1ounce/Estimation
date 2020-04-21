@@ -89,6 +89,9 @@ export class RepairComponent implements OnInit {
     // });
   }
 
+  selectedRow(element, $event) {
+    console.log(element);
+  }
 
   goToRepairEstimation() {
     this.navigationService.navigateToRepaireEstimation();
