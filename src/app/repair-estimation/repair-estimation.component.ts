@@ -27,7 +27,7 @@ export class RepairEstimationComponent implements OnInit {
   selectedUser: Object;
   userId = null;
   isSaveClicked: boolean = false;
-
+  // user: Object;
 
     constructor(private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService,
                 private snackBar: MatSnackBar) {}
@@ -71,7 +71,7 @@ export class RepairEstimationComponent implements OnInit {
       console.log(phone);
       if (phone.length >= 5) {
         this.api.getPeople(phone).subscribe(data => {
-          this.selectedUser = data.results;
+          this.selectedUser = data['results'];
           console.log(this.selectedUser);
         });
       }
