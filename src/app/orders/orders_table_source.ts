@@ -32,12 +32,12 @@ export class OrderDataSource implements DataSource<Order> {
     }
 
 
-    loadData(page: number) {
+    loadData(page: number, status: number , search: string) {
         page = page + 1;
         console.log(page);
         this.loadingOrder.next(true);
 
-        this.api.getOrders(page).subscribe(
+        this.api.getOrders(page, status , search).subscribe(
             data => {
 
         
@@ -45,7 +45,7 @@ export class OrderDataSource implements DataSource<Order> {
             console.log('next url is ' + this.nextUrl);
 
             const orders = data.results.map(obj => {
-                console.log(obj);
+                // console.log(obj);
                 const items = obj.items.map(item => Object.assign(new OrderItem(), item));
 
                 const o = Object.assign(new Order(), obj);

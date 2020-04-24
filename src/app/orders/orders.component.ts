@@ -30,13 +30,15 @@ class ImageSnippet {
 
 export class OrdersComponent implements OnInit {
   selectedimage: string;
+  search: string = null;
+  status: number = null; 
   // ip = 'http://127.0.0.1:8000';
   @ViewChild(MatPaginator , { static: false})
   paginator: MatPaginator;
   ELEMENT_DATA = [];
   dataSource: OrderDataSource;
   boolSpinner;
-  displayedColumns: string[] = ['order_id', 'date', 'phone_no', 'Status', 'balance'];
+  displayedColumns: string[] = ['checked', 'order_id', 'date', 'phone_no',  'balance', 'totalCost', 'status'];
   selected: Order;
   selectedItem: OrderItem;
   color: HeroCircle = new HeroCircle();
@@ -48,7 +50,8 @@ export class OrdersComponent implements OnInit {
   contacts: Array<Contact> = null; // list of contacts
   // temporary models
   contact: Contact = new Contact();
-
+  isChecked = false;
+  groupItemData = new groupOrderItem();
     @ViewChild(MatSort, {static: true}) sort: MatSort;
   currentImage: string;
   image: any;
@@ -59,8 +62,10 @@ export class OrdersComponent implements OnInit {
    }
 
   ngOnInit() {
+
+
     this.dataSource = new OrderDataSource(this.api);
-    this.dataSource.loadData(0);
+    this.dataSource.loadData(0, this.status , this.search);
     console.log('loading contacts');
     // this.sort.sortChange.subscribe(
     //   sort => {
@@ -97,7 +102,7 @@ export class OrdersComponent implements OnInit {
       () => {
           console.log('page clicked' + this.paginator.pageIndex);
 
-          this.dataSource.loadData(this.paginator.pageIndex); 
+          this.dataSource.loadData(this.paginator.pageIndex, this.status , this.search); 
         }
     );
 
@@ -117,6 +122,33 @@ export class OrdersComponent implements OnInit {
   // applyFilter(filterValue: string) {
   //   this.dataSource.filter = filterValue.trim().toLowerCase();
   // }
+   selectedRow(element, event) {
+    const checked = event.target.checked; // stored checked value true or false
+    if (checked) {
+      this.isChecked = true;
+      console.log(element);
+      this.groupItemData.orders.push(element.id);
+      // this.items.push(element.id);
+      this.groupItemData.orders.forEach(ele => {
+        console.log(ele);
+
+    });
+      console.log(this.groupItemData.orders);
+
+  } else {
+    const index = this.groupItemData.orders.findIndex(list => list === element.id);
+    this.groupItemData.orders.splice(index , 1);
+    this.groupItemData.orders.forEach(ele => {
+      console.log(ele);
+      // console.log(this.items.length);
+  });
+    if (this.groupItemData.orders.length < 1) {
+      console.log(this.groupItemData.orders.length);
+      this.isChecked = false;
+    }
+  }
+  }
+
 
   getselectedIamge(item) {
     // console.log(item);
@@ -127,7 +159,23 @@ export class OrdersComponent implements OnInit {
   //   this.currentImage = this.ip + this.selectedimage;
   // }
 
+// ststus for the filteration purpose used
+  onStatusSelected(val: any) {
+    this.search = null;
+    this.status = val;
+    console.log(this.status);
+    this.dataSource.loadData(0 , this.status , this.search);
 
+  }
+
+//searcching value 
+applyFilter(value) {
+    // this.status = null;
+    this.search = value;
+    console.log(this.search);
+    console.log(this.status);
+    this.dataSource.loadData(0, this.status , this.search);
+}
   goToOrderEstimation() {
   this.navigationService.navigateToOrderEstimation();
   }
@@ -183,9 +231,20 @@ export class OrdersComponent implements OnInit {
     );
 
   }
+  refreshPage() {
+    window.location.reload();
+   }
 
-
-
+  onSelectedStatus(val: any) {
+    console.log(val);
+    this.groupItemData.update_type = Number(val);
+    console.log(this.groupItemData.update_type);
+    this.api.grouporderupdate(this.groupItemData).subscribe( data => {
+      console.log(data);
+      this.isChecked = false;
+      this.refreshPage();
+    });
+  }
 
   uploadItemImage(item) {
     console.log('upload Item started');
@@ -210,4 +269,8 @@ export class OrdersComponent implements OnInit {
     );
   }
 
+}
+export class groupOrderItem {
+  orders: number[] = [];
+  update_type = -1;
 }

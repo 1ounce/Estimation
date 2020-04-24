@@ -154,17 +154,30 @@
   
       </div>
       <div class="col-md-2 text-right">
-          <mat-form-field>
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-            </mat-form-field>
+        <mat-form-field class="mt-2">
+          <mat-label>Status</mat-label>
+          <select matNativeControl required [(ngModel)]="status" (ngModelChange)="onStatusSelected($event)">
+            <option value=0>Pending</option>
+            <option value=1>Assigned</option>
+            <option value=2>Ready</option>
+            <option value=3>completed</option>
+          </select>
+        </mat-form-field>
         </div>
     </div>
 
 
   
+<div class="col-md-4" *ngIf="isChecked">
 
-
-
+  <mat-form-field class="mt-2">
+    <mat-label>status</mat-label>
+    <select matNativeControl required [(ngModel)]="groupItemData.action" (ngModelChange)="onSelectedStatus($event)">
+      <option value="2">Ready</option>
+      <option value="3">Completed</option>
+    </select>
+  </mat-form-field>
+</div>
 
     <div class="row">
       <div class="col-md-12 text-center">

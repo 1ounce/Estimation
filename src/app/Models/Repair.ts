@@ -2,7 +2,9 @@ import { UploadComponent } from '../services/UploadComponent';
 export class Repair {
     
     rate;
+    image: string = null;
 
+    imageUploader: UploadComponent = null;
     // customer related 
     customer: Customer = null;
     customerItem = new Customer();

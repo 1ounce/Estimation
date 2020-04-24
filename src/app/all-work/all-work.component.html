@@ -183,11 +183,12 @@
     </div>
   <div class="modal-body">
     <table  class="table-responsive">
-        <tr><td>type:</td>
-        <!-- <td>Date</td><th>{{selected.getDate()}}</th> -->
+        <tr>
+        <td>Name:</td><th>{{selected.customer}}</th>
+        <td>Email:</td><th>{{selected.email}}</th>
         </tr>
         <tr>
-        <!-- <td>Totoal Old GOld:</td><th>{{selected.}}</th> -->
+        <td>Phone:</td><th>{{selected.phone}}</th>
         <!-- <td>Date:</td><th>{{selected.getDueDate()}}</th> -->
         </tr>
     </table>
@@ -252,23 +253,27 @@
 
 
 
-
 <div class="container-fluid" style="margin-top: 20px;">
   
     <div class="row">
       <div class="col-md-10">
-         
+       
       
   
       </div>
-     <!--
-      
+
      <div class="col-md-2 text-right">
-          <mat-form-field>
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-            </mat-form-field>
+      <mat-form-field class="mt-2">
+        <mat-label>Filter</mat-label>
+        <select matNativeControl required [(ngModel)]="status" (ngModelChange)="onSelectedStatus($event)">
+        <!-- <select matNativeControl  (ngModelChange)="onSelectedStatus($event)"> -->
+          <option value=0>UnAssigned</option>
+          <option value=1>Assigned</option>
+          <option value=2>completed</option>
+        </select>
+      </mat-form-field>
         </div>
-         -->
+        
     </div>
 
 
@@ -303,16 +308,14 @@
                 <td mat-cell *matCellDef="let element" (change)="changeStatus(element)" >
                   <!--List of statuses to be shown
                      0 pending - info
-                     1 processing - pending
-                     2 assigned - how_to_reg
-                     3 ready - thumb_up
-                     4 completed - check_circle_outline
+                     1 assigned - how_to_reg
+                     2 completed - check_circle_outline
                   -->
                   <p *ngIf="element.status==0"><mat-icon style="color:red">info</mat-icon>Pending</p>
-                  <p *ngIf="element.status==1"><mat-icon style="color:#1B81EB">history</mat-icon>Processing</p>
-                  <p *ngIf="element.status==2"><mat-icon style="color:blue">how_to_reg</mat-icon>Assigned</p>
-                  <p *ngIf="element.status==3"><mat-icon>thumb_up</mat-icon>Ready</p>
-                  <p *ngIf="element.status==4"><mat-icon style="color:green">check_circle_outline</mat-icon>Completed</p>
+                  <!-- <p *ngIf="element.status==1"><mat-icon style="color:#1B81EB">history</mat-icon>Processing</p> -->
+                  <p *ngIf="element.status==1"><mat-icon style="color:blue">how_to_reg</mat-icon>Assigned</p>
+                  <!-- <p *ngIf="element.status==3"><mat-icon>thumb_up</mat-icon>Ready</p> -->
+                  <p *ngIf="element.status==2"><mat-icon style="color:green">check_circle_outline</mat-icon>Completed</p>
                 </td>
               </ng-container>
 
@@ -347,7 +350,7 @@
 
               <td mat-cell *matCellDef="let element">
                 <ng-container *ngIf="element.image==null">
-                  <input #file type="file" accept='image/*' (change)="element.imageUploader.preview(file.files);uploadItemImage(element);" />
+                  <input #file type="file" accept='image/*' (change)="uploadItemImage($event,element);" />
                   <img [src]="selectedimage" alt="">
                 </ng-container>
 

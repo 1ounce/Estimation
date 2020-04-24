@@ -37,15 +37,17 @@ export class RepairComponent implements OnInit {
   // temporary models
   contact: Contact = new Contact();
     @ViewChild(MatSort, {static: true}) sort: MatSort;
-  selected: any;
-    // selection = new SelectionModel(true, []);
+  selected: any;  // selection = new SelectionModel(true, []);
 
+  isChecked = false;
+  groupItemData = new groupRepairItem();
+  status: number = null;
   // tslint:disable-next-line: max-line-length
   constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService, ) { }
 
   ngOnInit() {
     this.dataSource = new RepairOrderDataSource(this.api);
-    this.dataSource.loadData(0);
+    this.dataSource.loadData(0 , this.status);
     console.log('loading contacts');
     // tslint:disable-next-line: whitespace
     // tslint:disable-next-line: max-line-length
@@ -57,7 +59,7 @@ export class RepairComponent implements OnInit {
     this.dataSource.counter$.subscribe(
      count => {
       console.log('paginator length triggered' + count);
-      this.paginator.length = count; 
+      this.paginator.length = count;
     }
     );
     console.log(this.dataSource);
@@ -69,7 +71,7 @@ export class RepairComponent implements OnInit {
       () => {
           console.log('page clicked' + this.paginator.pageIndex);
 
-          this.dataSource.loadData(this.paginator.pageIndex);
+          this.dataSource.loadData(this.paginator.pageIndex , this.status);
           console.log(this.dataSource);
         }
     );
@@ -89,15 +91,56 @@ export class RepairComponent implements OnInit {
     // });
   }
 
-  selectedRow(element, $event) {
-    console.log(element);
+  selectedRow(element, event) {
+    const checked = event.target.checked; // stored checked value true or false
+    if (checked) {
+      this.isChecked = true;
+      console.log(element);
+      this.groupItemData.items.push(element.id);
+      // this.items.push(element.id);
+      this.groupItemData.items.forEach(ele => {
+        console.log(ele);
+
+    });
+      console.log(this.groupItemData.items);
+
+  } else {
+    const index = this.groupItemData.items.findIndex(list => list === element.id);
+    this.groupItemData.items.splice(index , 1);
+    this.groupItemData.items.forEach(ele => {
+      console.log(ele);
+      // console.log(this.items.length);
+  });
+    if (this.groupItemData.items.length < 1) {
+      console.log(this.groupItemData.items.length);
+      this.isChecked = false;
+    }
+  }
   }
 
+  onSelectedStatus(val: any) {
+    this.groupItemData.action = val;
+    console.log(this.groupItemData.action);
+    this.api.groupRepairItempdate(this.groupItemData).subscribe( data => {
+      console.log(data);
+      this.isChecked = false;
+    })
+  }
   goToRepairEstimation() {
     this.navigationService.navigateToRepaireEstimation();
   }
 
-  applyFilter(filterValue: string) {
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+//  filteration using a status
+onStatusSelected(val: any) {
+  this.status = val;
+  console.log(this.status);
+  this.dataSource.loadData(0 , this.status);
+
+}
+
+}
+// tslint:disable-next-line: class-name
+export class groupRepairItem {
+  items: number[] = [];
+  action = 0;
 }

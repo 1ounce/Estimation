@@ -13,6 +13,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import {ItemDataSource} from './Items_table_source';
 import { HeroCircle } from '../Models/HeroCircle';
 import {Item} from './Model';
+import { Repair } from '../Models/Repair';
 
 @Component({
   selector: 'app-all-work',
@@ -29,11 +30,12 @@ export class AllWorkComponent implements OnInit {
   selected;
   selectedItem: Item;
   color: HeroCircle = new HeroCircle();
-  
+  repair: Repair = new Repair();
   groupItemData = new groupItem();
   orderModal: BsModalRef = null;
   makingChargeModal: BsModalRef = null;
   contactsModal: BsModalRef = null;
+  status: number = null;
 
   contacts: Array<Contact> = null; // list of contacts
   // temporary models
@@ -46,7 +48,7 @@ export class AllWorkComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource = new ItemDataSource(this.api);
-    this.dataSource.loadData(0);
+    this.dataSource.loadData(0 , this.status);
     console.log('loading contacts');
     // tslint:disable-next-line: whitespace
     // tslint:disable-next-line: max-line-length
@@ -71,7 +73,7 @@ export class AllWorkComponent implements OnInit {
       () => {
           console.log('page clicked' + this.paginator.pageIndex);
 
-          this.dataSource.loadData(this.paginator.pageIndex);
+          this.dataSource.loadData(this.paginator.pageIndex, this.status);
         }
     );
 
@@ -136,6 +138,13 @@ export class AllWorkComponent implements OnInit {
     );
   }
 
+// status filteration
+onSelectedStatus(val: any) {
+  console.log(val);
+  this.status = val ;
+  this.dataSource.loadData(0, this.status);
+}
+
   selectedRow(element , event) {
     const checked = event.target.checked; // stored checked value true or false
     if (checked) {
@@ -187,9 +196,10 @@ export class AllWorkComponent implements OnInit {
 
   }
 
-  uploadItemImage(item) {
+  uploadItemImage(item, event) {
     console.log('upload Item started');
-    console.log(item.imageUploader.file);
+    console.log(item);
+    console.log(event);
     // console.log(id);
     this.api.uploadItemImage(item).subscribe(
         result => {
@@ -209,11 +219,14 @@ export class AllWorkComponent implements OnInit {
 
     );
   }
-
+  refreshPage() {
+    window.location.reload();
+   }
   isCompleted() {
     const value = 0;
     this.api.itemIsCompleted(this.groupItemData).subscribe(data => {
       console.log(data);
+      this.refreshPage();
     });
   }
 

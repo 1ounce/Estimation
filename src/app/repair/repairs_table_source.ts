@@ -27,14 +27,14 @@ export class RepairOrderDataSource implements DataSource<Repair> {
       this.loadingOrder.complete();
   }
 
-  loadData(page: number) {
+  loadData(page: number , status: number) {
     page = page + 1;
     console.log(page);
     this.loadingOrder.next(true);
 
-    this.api.getRepairOrders(page).subscribe(
+    this.api.getRepairOrders(page , status).subscribe(
         data => {
-
+        console.log(data);
         this.nextUrl = data.next;
         console.log('next url is ' + this.nextUrl);
 

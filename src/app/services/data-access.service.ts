@@ -24,20 +24,38 @@ export class DataAccessService {
   constructor(private client: HttpClient) { }
 
   // FETCH ORDERS FROM SERVER WITH PAGINATION
-  getOrders(page: number= 1) {
+  getOrders(page: number= 1 , status: number= null , search: string= null) {
     const params: URLSearchParams = new URLSearchParams();
     params.set('page', page.toString());
-    return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString()}});
+    console.log(status);
+    console.log(search);
+    if (status != null) {
+      params.set('status', status.toString());
+      return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString(), status: status.toString()}});
+    }
+    if (search != null) {
+      console.log(search);
+      params.set('search', search.toString());
+      return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString(), search: search.toString() }});
+
+    }
+    if (status != null && search != null) {
+     
+      // tslint:disable-next-line: max-line-length
+      return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString(), status: status.toString(), search: search.toString()}}); 
+    }
+    return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString() }});
 
   }
 
-
+// getting a available people from the database
   getPeople(phoneNo: string) {
     const params: URLSearchParams = new URLSearchParams();
     params.set('phone' , phoneNo.toString());
     return this.client.get(ip + 'people/', {params: {phone: phoneNo.toString()}});
   }
 
+  // save the new customer to the database
   savePeople(customer: Customer) {
     const form = new FormData();
     form.append('name' , customer.name);
@@ -83,6 +101,7 @@ export class DataAccessService {
     return this.client.get<Rest<Contact>>(ip + 'contact/');
   }
 
+// Assignig a items to the particular contacts
   saveAsignee(item, contact) {
     console.log(item);
     console.log(contact);
@@ -92,35 +111,60 @@ export class DataAccessService {
     return this.client.post(ip + 'saveAssignee/', form);
   }
 
-  getItems(page: number= 1) {
+  // Fetch a all items from the database
+  getItems(page: number= 1 , status: number= null ) {
     const params: URLSearchParams = new URLSearchParams();
-    params.set('page', page.toString());
+    params.set('page', page.toString()); // if user selected the filteration based on the status
+   
+    if (status != null) {
+      console.log(status);
+      params.set('status', status.toString());
+      return this.client.get<Rest<Item>>(ip + 'item/', {params: {page: page.toString(), status: status.toString()}});
+    }
+    
     return this.client.get<Rest<Item>>(ip + 'item/', {params: {page: page.toString()}});
    }
 
+// Fetching a single order based on the orderid
    getselectedOrder(order_id) {
      return this.client.get(ip + `order/${order_id}`);
    }
 
+// groupItemUpdating api
    itemIsCompleted(items) {
      const form = new FormData();
      console.log(items);
-    //  form.append('items', items);
-    //  form.append('update_type', value);
-    //  console.log(form.get('update_type'));
-    //  console.log(form.get('items'));
      return this.client.post(ip + 'groupItemUpdate/', items);
    }
+
+// saving a new Repair Order to the database
    saveRepairOrderTODB(repair: Repair) {
      console.log(repair);
      const headers = { 'Content-Type': 'application/json' };
      return this.client.post(ip + 'repairOrder/', repair , {headers});
    }
 
-   getRepairOrders(page: number= 1) {
+ // Fteching a repair Items from database 
+   getRepairOrders(page: number= 1 , status: number= null) {
     const params: URLSearchParams = new URLSearchParams();
     params.set('page', page.toString());
-    return this.client.get<Rest<Order>>(ip + 'repairOrder/', {params: {page: page.toString()}});
+    if (status != null) {
+      console.log(status);
+      params.set('status', status.toString());
+      return this.client.get<Rest<Repair>>(ip + 'repairOrder/', {params: {page: page.toString(), status: status.toString()}});
+    }
+    return this.client.get<Rest<Repair>>(ip + 'repairOrder/', {params: {page: page.toString()}});
 
+  }
+// GroupRepairUpdating
+  groupRepairItempdate(items) {
+    console.log(items);
+    return this.client.post(ip + 'groupRepairUpdate/' , items);
+  }
+
+  // groupOrderUpdate
+  grouporderupdate(items) {
+    console.log(items);
+    return this.client.post(ip + 'groupOrderUpdate/' , items);
   }
 }

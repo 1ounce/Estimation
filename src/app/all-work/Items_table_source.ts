@@ -27,15 +27,12 @@ export class ItemDataSource implements DataSource<Item> {
         this.loadingOrder.complete();
     }
 
-
-
-    
-    loadData(page: number) {
+    loadData(page: number, status: number) {
         page = page + 1;
         console.log(page);
         this.loadingOrder.next(true);
 
-        this.api.getItems(page).subscribe(
+        this.api.getItems(page , status).subscribe(
             data => {
         
             this.nextUrl = data.next;
