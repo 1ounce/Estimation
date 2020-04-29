@@ -41,6 +41,7 @@ export class OrderEstimationComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   modalRef: BsModalRef = null;
   advancemodal: BsModalRef = null;
+  popupmodal: BsModalRef = null;
   makingChargeModalItem: OrderItem = null;
   isMakingChargeModal: Boolean = true;
   isSaveClicked: Boolean = false;
@@ -73,9 +74,13 @@ export class OrderEstimationComponent implements OnInit {
       }
     }
     onSelectedOrderType(val: any) {
-      this.order.orderType = val;
-      console.log(this.order.orderType);
-      if (this.order.orderType === 'silver') {
+      if ( val === 'gold') {
+        this.order.type = '0';
+      } else {
+        this.order.type = '1';
+      }
+      console.log(this.order.type);
+      if (this.order.type === '1') {
         this.order.rate = this.rates['silver'];
       }
     }
@@ -190,6 +195,20 @@ export class OrderEstimationComponent implements OnInit {
     this.advancemodal.setClass('modal-lg');
   }
 
+  openPopupmodal(template) {
+    this.popupmodal = this.modalService.show(
+      template,
+      Object.assign({})
+    );
+  }
+
+  ok() {
+    this.saveData();
+    this.popupmodal.hide();
+  }
+  Cancel() {
+    this.popupmodal.hide();
+  }
 
    saveData() {
       if (this.userId === null) {
@@ -218,8 +237,6 @@ export class OrderEstimationComponent implements OnInit {
 
     });
 
-
-    // this.api.saveOrderToDB(this.order).subscribe(success=>{console.log(success);},error=>{console.log(error);});
     }
   }
 

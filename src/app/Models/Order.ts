@@ -8,28 +8,28 @@ export class Order {
     rate = 0;
     // email: String = '';
     date: String = '';
-    orderType: String = 'gold';
+    type: String = '0';
     ncr: Boolean = false;
 
     // customer related 
     customer: Customer = null;
     customerItem = new Customer();
 
-    total = 0; // sub total of the entire order
-    itemSubTotal = 0;
+    total: string = '0';; // sub total of the entire order
+    itemSubTotal: string = '0';;
     items: OrderItem[] = []; // list of all the order items
      // temproary item: the item which is currently being used for pushing in data is referred from here
     currentItem = new OrderItem();
     selectedItem: OrderItem = null;
 
     // old gold related items
-    oldGoldTotal = 0;
+    oldGoldTotal: string = '0';
     oldGold: Array<OldGold> = [];
     oldGoldItem = new OldGold();
     selectedOldGoldItem: OldGold = null;
 
     // Advance related items
-    advance = 0;
+    advance: string = '0';
     advances: Array<Advance> = [];
     advanceItem = new Advance();
     slectedAdvanceItem: Advance = null;
@@ -151,7 +151,7 @@ export class Order {
                 sum = sum + element.total;
 
         });
-        this.itemSubTotal = sum + this.currentItem.total;
+        this.itemSubTotal = String(sum + this.currentItem.total);
         this.generateOrderTotal();
     }
 
@@ -159,9 +159,9 @@ export class Order {
         // the subtotal for old gold items
         let sum = 0;
         this.oldGold.forEach(element => {
-            sum = sum + element.total;
+            sum = sum + Number(element.total);
         });
-        this.oldGoldTotal = sum + this.oldGoldItem.total;
+        this.oldGoldTotal = String(sum + this.oldGoldItem.total);
         this.generateOrderTotal();
     }
 
@@ -177,7 +177,7 @@ export class Order {
 
         });
         console.log(sum);
-        this.advance = sum + this.advanceItem.amount;
+        this.advance = String(sum + this.advanceItem.amount);
         console.log(this.advance);
         this.generateOrderTotal();
     }
@@ -185,9 +185,18 @@ export class Order {
     generateOrderTotal() {
         console.log(this.advance);
         // the sub total for the entire order, including items, oldgold and advance
-        this.total = this.itemSubTotal - this.oldGoldTotal - this.advance;
+        this.total = String(Number(this.itemSubTotal) + this.currentItem.gst - Number(this.oldGoldTotal) - Number(this.advance));
         // console.log("generating complete order total"+this.total);
-
+        if (Number (this.total) > 0) {
+        this.total = this.getTotal();
+        const totalamount = Number(this.total);
+        this.total = totalamount.toFixed(2);
+        console.log(this.total);
+        console.log(totalamount.toFixed(2));
+        }
+    }
+    getTotal() {
+        return this.total.slice(0, 9);
     }
 
     addItem() {
@@ -200,7 +209,7 @@ export class Order {
     }
 
     addOldGold() {
-        if (this.oldGoldItem.total > 0) {
+        if (Number(this.oldGoldItem.total) > 0) {
             this.oldGold.push(this.oldGoldItem);
             this.oldGoldItem = new OldGold();
             this.oldGoldItem.rate = this.oldGoldItem.rate;
@@ -218,13 +227,13 @@ export class OldGold {
     weight = 0;
     purity: number = null;
     rate = 0;
-    total = 0;
+    total:string = '0';
 
     generateTotal() {
         let purity = 100;
         if (this.purity != null) {purity = this.purity; }
-        this.total = (this.weight * purity / 100) - this.dust;
-        this.total = this.total * this.rate;
+        this.total = String((this.weight - this.dust) * (purity / 100));
+        this.total = String(Number(this.total) * this.rate);
     }
 
 }
@@ -243,9 +252,9 @@ export class OrderItem {
     assignedTo: Contact = null;
     due = '';
     image: string = null;
-
+    gst = 0;
     imageUploader: UploadComponent = null;
-
+    totalWithGst = 0;
 
     // making charge related data
     makingChargeItems: MakingCharge[] = [];
@@ -397,6 +406,11 @@ export class OrderItem {
    generateItemSubtotal() {
     const baseCost = this.weight * this.rate;
     this.total = baseCost + ((this.wastage / 100) * baseCost) + this.makingCharge + this.stoneCharge;
+    this.generateGstOfItems();
+    }
+  generateGstOfItems() {
+    this.gst = (this.total * 3) / 100;
+    this.totalWithGst = this.total + this.gst;
   }
 
 }

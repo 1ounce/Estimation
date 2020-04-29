@@ -1,3 +1,22 @@
+<ng-template #popup>
+  <div class="side-modal">
+    <div class="modal-header ">
+     <h3 class="modal-title ">Order confirmation</h3>
+    <button type="button" display="inline" class="close pull-right" aria-label="Close" (click)="advancemodal.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+  <div class="modal-body">
+    <p>Confirmation order?</p>
+    <div align="end">
+      <button class="btn btn-light mr-5" (click)="Cancel()">Cancel</button>
+      <button class="btn btn-primary" (click)="ok()">Ok</button>
+    </div>
+  </div>
+  </div>
+</ng-template>
+
 <!---START OF Advance modal--->
 <ng-template #advanceTemplate>
   <div class="side-modal">
@@ -10,16 +29,16 @@
       
     </div>
     <div class="modal-body">
-      <table border="2" class="table-responsive" width="100%">
+      <table border="2" class="table-responsive" width="60%">
         <tr>
-        <th width=10px>S.no</th>
+        <th width=6px>S.no</th>
         <th>Payment Method</th>
         <th>Reference Id</th>
         <th>Amount</th>
         
         </tr>
     <!--displaying the advance options list   -->
-        <tr style="padding:10px"  *ngFor="let item of order.advances;let i =index" >
+        <tr style="padding:6px"  *ngFor="let item of order.advances;let i =index" >
              
 
           <td >
@@ -45,19 +64,21 @@
                 <select matNativeControl  [(ngModel)]="order.advanceItem.type">
                   <option value=0>Cash</option>
                   <option value=1>Card</option>
-                  <!-- <option value="imps">Imps</option> -->
+                  <!-- <option value="im>Imps</option> -->
                   <option value=2>Cheque</option>
+                  <option value=3>Phone Pay</option>
+                  <option value=2>Google pay</option>
                 </select>
               </mat-form-field>
              </td>
-             <td width=150px>
-                     <mat-form-field style="width:100px;">
+             <td width=160px>
+                     <mat-form-field style="width:60px;">
                              <input matInput [(ngModel)]="order.advanceItem.ref_id"  >
 
                          </mat-form-field>                    
                      </td>
-             <td width=150px>
-                     <mat-form-field  style="width:100px;">
+             <td width=160px>
+                     <mat-form-field  style="width:60px;">
                              <input matInput [(ngModel)]="order.advanceItem.amount"  >
 
                          </mat-form-field>  
@@ -65,7 +86,7 @@
              </td>
                   
          </tr>
-         <div align=right><button mat-raised-button (click)="addAdvance();order.triggerAdvanceChanged()" color="primary"><mat-icon>add</mat-icon>Add Item</button>    </div>
+         <div align="center"><button mat-raised-button (click)="addAdvance();order.triggerAdvanceChanged()" color="primary"><mat-icon>add</mat-icon>Add Item</button>    </div>
       </table>
       {{order.advance}}
       <br>
@@ -95,7 +116,7 @@
     
   </div>
   <div class="modal-body">
-    <table border="2" class="table-responsive" width="100%">
+    <table border="2" class="table-responsive" width="60%">
     <tr>
     <th width=20px>S.no</th>
     <th>Name</th>
@@ -106,7 +127,7 @@
 
     <!----- Making charge display section starts here -->
     <ng-container *ngIf="isMakingChargeModal">
-    <tr  style="width:10px;" *ngFor="let i of makingChargeModalItem.makingChargeItems;let sno=index;">
+    <tr  style="width:6px;" *ngFor="let i of makingChargeModalItem.makingChargeItems;let sno=index;">
 
     <td>{{sno+1}}</td>
     <td>{{i.name}}</td>
@@ -120,7 +141,7 @@
 
     <!-----Stone making charge display section starts -->
     <ng-container *ngIf="!isMakingChargeModal">
-     <tr style="width:10px;" *ngFor="let i of makingChargeModalItem.stones;let sno=index;">
+     <tr style="width:6px;" *ngFor="let i of makingChargeModalItem.stones;let sno=index;">
 
     <td>{{sno+1}}</td>
     <td>{{i.name}}</td>
@@ -213,14 +234,14 @@
 <!-------------END OF MAKING CHARGE MODAL------------>
 
 <!-----------START OF INITIAL VIEW ---->
-<div class="container-fluid" style="padding: 10px;">
+<div class="container-fluid" style="padding: 6px;">
  
     <mat-card>
         <h6 class="text-center">Order Estimation</h6>
         <div class="row">
             <div class="col-md-6">
 
-              <mat-form-field hintLabel="Max 10 characters">
+              <mat-form-field hintLabel="Max 10 characte">
                 <input type="tel" matInput #input maxlengtd="10" [(ngModel)]="order.customerItem.phone" (input)="people(order.customerItem.phone)" placeholder="Phone" pattern="[6-9]\\d{9}" maxlength="10">
                 <mat-hint align="end">{{input.value?.lengtd || 0}}/10</mat-hint>
               </mat-form-field>
@@ -290,7 +311,7 @@
 <br><br>
 <mat-card>
  <div class="row table-responsive">
-   <h5 align=center>Items</h5>
+   <h6 align=center>Items</h6>
             <table class="table">
              <tr >
              
@@ -304,7 +325,7 @@
 
              
              </tr>
-               <tr style="padding:10px"  *ngFor="let item of order.items;let i =index" >
+               <tr style="padding:6px"  *ngFor="let item of order.items;let i =index" >
              
 
              <td >
@@ -332,26 +353,26 @@
                                     <input matInput [(ngModel)]="order.currentItem.name" (change)="order.triggerItemDataChanged()" >
                                 </mat-form-field>
                     </td>
-                    <td width=150px>
-                            <mat-form-field style="width:100px;">
+                    <td width=160px>
+                            <mat-form-field style="width:60px;">
                                     <input matInput [(ngModel)]="order.currentItem.weight" (input)="order.triggerItemDataChanged()" >
                                     <span matSuffix>gms</span>
 
                                 </mat-form-field>                    
                             </td>
-                    <td width=150px>
-                            <mat-form-field  style="width:100px;">
+                    <td width=160px>
+                            <mat-form-field  style="width:60px;">
                                     <input matInput [(ngModel)]="order.currentItem.wastage" (input)="order.triggerItemDataChanged()" >
 
                                 </mat-form-field>  
 
                     </td>
-                                <td>₹{{order.currentItem.makingCharge}}<button style="width:10px;height:10px;" (click)="openMakingChargeModal(template)" mat-button color="primary"><mat-icon>add</mat-icon></button></td>
+                                <td>₹{{order.currentItem.makingCharge}}<button style="width:6px;height:6px;" (click)="openMakingChargeModal(template)" mat-button color="primary"><mat-icon>add</mat-icon></button></td>
 
                       
                     
                     
-                     <td>₹{{order.currentItem.stoneCharge}}<button style="width:10px;height:10px;" (click)="openMakingChargeModal(template,false)" mat-button color="primary"><mat-icon>add</mat-icon></button></td>
+                     <td>₹{{order.currentItem.stoneCharge}}<button style="width:6px;height:6px;" (click)="openMakingChargeModal(template,false)" mat-button color="primary"><mat-icon>add</mat-icon></button></td>
 
                       
                     
@@ -366,8 +387,17 @@
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td>Sub Total</td>
+                  <td>Sub Total : </td>
                   <td>{{order.itemSubTotal}}</td>
+                </tr>
+                <tr *ngIf="order.itemSubTotal>0">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>{{order.currentItem.totalWithGst}}</td>
+                  <td>Gst : </td>
+                  <td>{{order.currentItem.gst}}</td>
                 </tr>
             </table>
 
@@ -377,95 +407,108 @@
 </mat-card>
 
 <br>
-<!---START OF OLD GOLD ENTRY SECTION -->
-<mat-card>
-  <div class="row table-responsive">
-    <h5 align=center>Old Gold</h5>
-    <table class="table">
-      <!--TABLE HEAD SECTION-->
-      <tr>
-        <th>S.No</th>
-        <th>Description</th>
-        <th>Rate</th>
-        <th>Weight</th>
-        <th>Dust/Stone</th>
-        <th>Purity %</th>
-        <th>Total</th>
-      </tr>
- 
-      <!--TABLE DISPLAY SECTION-->
-      <tr *ngFor="let item of order.oldGold;let i=index; ">
-        <td >
-          <div class="icon-text">
-          <mat-icon style="color:red;cursor:pointer;" (click)="order.removeOldGold(i)">remove_circle_outline</mat-icon>
-        <span> <b> {{i+1}}</b></span>
-        </div>     
-     </td>     
-        <td>{{item.description}}</td>
-        <td>{{item.rate}}</td>
-        <td>{{item.weight}}</td>
-        <td>{{item.dust}}</td>
-        <td>{{item.purity}}%</td>
-        <td>{{money(item.total)}}</td>
-      </tr>
-      
-      <!-- TABLE BODY INPUT SECTION-->
-      <tr>
-        <td></td>
-        <td>
-          <!--description section-->
-          <mat-form-field>
-            <input matInput [(ngModel)]=order.oldGoldItem.description (input)="order.triggerOldGoldChanged()" >
-        </mat-form-field>
-        </td>
+<div class="row">
 
-        <td>
-          <!-- Rate input-->
-          <mat-form-field>
-            <input matInput [(ngModel)]=order.oldGoldItem.rate (input)="order.triggerOldGoldChanged()" >
-        </mat-form-field>
-        </td>
-        
-        <td>
-          <!-- weight input-->
-          <mat-form-field>
-            <input matInput [(ngModel)]=order.oldGoldItem.weight (input)="order.triggerOldGoldChanged()" >
-        </mat-form-field>
-        </td>
-        <td>
-          <!--dust stone input-->
-          <mat-form-field>
-            <input matInput [(ngModel)]=order.oldGoldItem.dust (input)="order.triggerOldGoldChanged()" >
-        </mat-form-field>
-        </td>
-        <td>
-          <!-- purity input-->
-          <mat-form-field>
-            <input matInput [(ngModel)]=order.oldGoldItem.purity (input)="order.triggerOldGoldChanged()" >
-        </mat-form-field>
-        </td>
-       
-        <td>
-          <!--Total display for old gold item-->
-          {{order.oldGoldItem.total}}
-        </td>
-      </tr>
-      <tr *ngIf="order.oldGoldTotal>0">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>Sub Total</td>
-        <td>{{money(order.oldGoldTotal)}}</td>
-      </tr>
-      
+  <div class="col-md-8">
+    <!---START OF OLD GOLD ENTRY SECTION -->
+    <mat-card  >
+      <div class="row table-responsive">
+        <h6 align=center>Old Gold</h6>
+        <table class="table" >
+          <!--TABLE HEAD SECTION-->
+          <tr style="max-width:100px;">
+            <th>S.No</th>
+            <th>Description</th>
+            <th>Weight</th>
+            <th>Dust/Stone</th>
+            <th>Purity %</th>
+            <th>Rate</th>
+            <th>Total</th>
+          </tr>
+     
+          <!--TABLE DISPLAY SECTION-->
+          <tr *ngFor="let item of order.oldGold;let i=index; ">
+            <td>
+              <div class="icon-text">
+              <mat-icon style="color:red;cursor:pointer;" (click)="order.removeOldGold(i)">remove_circle_outline</mat-icon>
+            <span> <b> {{i+1}}</b></span>
+            </div>     
+         </td>     
+            <td >{{item.description}}</td>
+            <td>{{item.weight}}</td>
+            <td>{{item.dust}}</td>
+            <td>{{item.purity}}%</td>
+            <td >{{item.rate}}</td>
+            <td>{{money(item.total)}}</td>
+          </tr>
+          
+          <!-- TABLE BODY INPUT SECTION-->
+          <tr>
+            <td></td>
+            <td>
+              <!--description section-->
+              <mat-form-field>
+                <input matInput [(ngModel)]=order.oldGoldItem.description (input)="order.triggerOldGoldChanged()" >
+            </mat-form-field>
+            </td>
+    
+            
+            <td>
+              <!-- weight input-->
+              <mat-form-field>
+                <input matInput [(ngModel)]=order.oldGoldItem.weight (input)="order.triggerOldGoldChanged()" >
+            </mat-form-field>
+            </td>
+            <td style="max-width:8px" >
+              <!--dust stone input-->
+              <mat-form-field>
+                <input matInput [(ngModel)]=order.oldGoldItem.dust (input)="order.triggerOldGoldChanged()" >
+            </mat-form-field>
+            </td>
+            <td>
+              <!-- purity input-->
+              <mat-form-field>
+                <input matInput [(ngModel)]=order.oldGoldItem.purity (input)="order.triggerOldGoldChanged()" >
+            </mat-form-field>
+            </td>
 
-    </table>
+            <td>
+              <!-- Rate input-->
+              <mat-form-field>
+                <input matInput [(ngModel)]=order.oldGoldItem.rate (input)="order.triggerOldGoldChanged()" >
+            </mat-form-field>
+            </td>
+           
+            <td>
+              <!--Total display for old gold item-->
+              {{order.oldGoldItem.total}}
+            </td>
+          </tr>
+          <tr *ngIf="order.oldGoldTotal>0">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Sub Total</td>
+            <td>{{money(order.oldGoldTotal)}}</td>
+          </tr>
+          
+    
+        </table>
+      </div>
+      <div align=center><button mat-raised-button (click)="addOldGold()" color="primary">Add Item</button>    </div>
+    
+    </mat-card>
+    <!---END OF OLD GOLD ENTRY SECTION-->
+    
   </div>
-  <div align=center><button mat-raised-button (click)="addOldGold()" color="primary">Add Item</button>    </div>
 
-</mat-card>
-<!---END OF OLD GOLD ENTRY SECTION-->
+  <div class="col-md-4">
+    <p style="margin-top: 60%;">Old Gold : {{money(order.oldGoldTotal)}} </p>
+  </div>
+
+</div>
+
 
 
 <br><br>
@@ -473,7 +516,7 @@
 <!-- Advance popup button -->
 <div align=center><button mat-raised-button (click)="openAdvanceModal(advanceTemplate)" color="primary">Advance</button>    </div>
 <br><br>
-<button mat-raised-button color="primary" style="float:right;" (click)="saveData()" >SubTotal: {{money(order.total)}}<br>Save</button>
+<button mat-raised-button color="primary" style="float:right;" (click)="openPopupmodal(popup)" >SubTotal: {{money(order.total)}}<br>Save</button>
 
 
 </div>
