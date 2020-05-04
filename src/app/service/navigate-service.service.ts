@@ -24,4 +24,11 @@ export class NavigateServiceService {
   navigateToAllWorks() {
     this.route.navigate(['/allWork']);
   }
+
+  navigateTOReport() {
+    this.route.navigate(['/report']);
+  }
+  navigateTOOrderDeatil() {
+    this.route.navigate(['/order-details']);
+  }
 }

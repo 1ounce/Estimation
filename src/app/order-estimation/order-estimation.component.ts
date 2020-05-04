@@ -54,6 +54,7 @@ export class OrderEstimationComponent implements OnInit {
   addItem() {
       this.order.saveOrder();
       this.order.refereshcurrentItem();
+      this.order.generateOldGoldSubTotal();
     }
 
     addOldGold() {

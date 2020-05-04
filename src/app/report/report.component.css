@@ -1,0 +1,25 @@
+  
+.btn-spacing{
+    margin-right: 10px;
+  }
+
+  .highlight {
+    background-color:  #1B81EB;
+    color:white;
+    font-weight: bold;
+}
+
+td{
+    cursor: pointer;
+    margin-left: 20px;
+}
+.rightAlign{
+    margin-left: 10px;
+}
+
+.current_holding{
+    color: green;
+}
+.marginClass{
+    margin-top:50px;
+}

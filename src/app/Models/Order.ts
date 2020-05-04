@@ -10,7 +10,7 @@ export class Order {
     date: String = '';
     type: String = '0';
     ncr: Boolean = false;
-
+    gst : string = '0';
     // customer related 
     customer: Customer = null;
     customerItem = new Customer();
@@ -152,16 +152,26 @@ export class Order {
 
         });
         this.itemSubTotal = String(sum + this.currentItem.total);
+        this.generateGstOfItems();
         this.generateOrderTotal();
+
     }
+
+    generateGstOfItems() {
+        this.gst = '0'  ;
+        this.gst = String(Number(this.gst) + ((Number(this.itemSubTotal) * 3) / 100));
+        
+      }
 
     generateOldGoldSubTotal() {
         // the subtotal for old gold items
         let sum = 0;
         this.oldGold.forEach(element => {
             sum = sum + Number(element.total);
+            console.log(sum);
         });
-        this.oldGoldTotal = String(sum + this.oldGoldItem.total);
+        console.log(sum);
+        this.oldGoldTotal = String(sum + Number(this.oldGoldItem.total));
         this.generateOrderTotal();
     }
 
@@ -183,9 +193,9 @@ export class Order {
     }
 
     generateOrderTotal() {
-        console.log(this.advance);
+        // console.log(this.advance);
         // the sub total for the entire order, including items, oldgold and advance
-        this.total = String(Number(this.itemSubTotal) + this.currentItem.gst - Number(this.oldGoldTotal) - Number(this.advance));
+        this.total = String(Number(this.itemSubTotal) + Number(this.gst) - Number(this.oldGoldTotal) - Number(this.advance));
         // console.log("generating complete order total"+this.total);
         if (Number (this.total) > 0) {
         this.total = this.getTotal();
@@ -234,6 +244,7 @@ export class OldGold {
         if (this.purity != null) {purity = this.purity; }
         this.total = String((this.weight - this.dust) * (purity / 100));
         this.total = String(Number(this.total) * this.rate);
+        console.log(this.total);
     }
 
 }
@@ -406,12 +417,9 @@ export class OrderItem {
    generateItemSubtotal() {
     const baseCost = this.weight * this.rate;
     this.total = baseCost + ((this.wastage / 100) * baseCost) + this.makingCharge + this.stoneCharge;
-    this.generateGstOfItems();
+    
     }
-  generateGstOfItems() {
-    this.gst = (this.total * 3) / 100;
-    this.totalWithGst = this.total + this.gst;
-  }
+ 
 
 }
 

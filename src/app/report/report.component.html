@@ -1,0 +1,125 @@
+
+<div class="container-fluid" style="margin-top: 20px;">
+    <div class="row">
+       <div class="col-md-6">
+        <button type="button" class="btn btn-primary btn-lg mr-5 " (click)="weekDate()">Weekly</button>
+        <button type="button" class="btn btn-primary btn-lg mr-5" >Monthly</button>
+        <button type="button" class="btn btn-primary btn-lg mr-5" (click)="dailyDate()">Daily</button>
+       </div>
+
+       <div class="col-md-6">
+        <mat-form-field class="example-full-width">
+            <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker"  (dateChange)="dateChoosed($event)" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+       </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-md-4 text-center marginClass">
+            <h6>Chart</h6>
+            <mat-card class="h-100">
+                <div style="display: block;">
+                    <canvas baseChart 
+                      [data]="pieChartData" 
+                      [labels]="pieChartLabels" 
+                      [chartType]="pieChartType"
+                      [options]="pieChartOptions"
+                      [plugins]="pieChartPlugins"
+                      [legend]="pieChartLegend">
+                    </canvas>
+                  </div>
+                 
+           
+    </mat-card>
+        
+    
+        </div>
+    <!-- end of the pie chart -->
+        <div class="col-md-4 text-center marginClass">
+                <h6>Total Payment</h6>
+    
+            <mat-card class="h-100">
+                    <h6  class="text-center">Total</h6>
+    
+                    <table class="text-center">
+                            <tr>
+                                <td>
+                                    Cash
+                                </td>
+                                <td>
+                                    :
+                                </td>
+                                <td>
+                                        <span class="current_holding">{{cash}}</span> 
+                                </td>
+                            </tr>
+        
+                            <tr>
+                                    <td>
+                                            card
+                                    </td>
+                                    <td>
+                                        :
+                                    </td>
+                                    <td>
+                                            <span class="current_holding">{{card}}</span> 
+                                    </td>
+                                </tr>
+        
+                                <tr>
+                                        <td>
+                                                cheque
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                                <span class="current_holding">{{cheque}}</span>
+                                        </td>
+                                    </tr>
+                        </table>
+            </mat-card>
+        </div>
+        <!-- end of total payment -->
+        <div class="col-md-4 text-center marginClass">
+            <h6>Old-Gold</h6>
+
+            <mat-card class="h-100">
+                <h6  class="text-center">Total</h6>
+                <table  class="text-center" *ngFor="let item of oldGold;">
+                    <tr >
+                        <td > Weight </td>
+                        <td >:</td>
+                        <td  id="999_b">{{item.weight}} gms</td>
+                    </tr>
+                    <tr >
+                        <td > Count </td>
+                        <td >:</td>
+                        <td  id="999_s">{{item.count}} </td>
+                    </tr>
+                    <tr >
+                        <td > Cost </td>
+                        <td >:</td>
+                        <td  id="999_e">{{item.cost}}</td>
+                    </tr>
+                   
+                </table>
+            </mat-card>
+
+
+
+        </div>
+    
+    </div>
+    
+    
+    
+    
+    
+    
+       
+    
+    </div>
+    

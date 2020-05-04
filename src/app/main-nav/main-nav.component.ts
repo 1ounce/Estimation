@@ -30,4 +30,8 @@ b24;b22;bs;s24;s22;ss;name;phone;navigateToRate;logout;
     this.navigatorSerice.navigateToAllWorks();
   }
 
+  report() {
+    this.navigatorSerice.navigateTOReport();
+  }
+
 }

@@ -31,7 +31,7 @@ class ImageSnippet {
 export class OrdersComponent implements OnInit {
   selectedimage: string;
   search: string = null;
-  status: number = null; 
+  status: number = null;
   // ip = 'http://127.0.0.1:8000';
   @ViewChild(MatPaginator , { static: false})
   paginator: MatPaginator;
@@ -102,21 +102,16 @@ export class OrdersComponent implements OnInit {
       () => {
           console.log('page clicked' + this.paginator.pageIndex);
 
-          this.dataSource.loadData(this.paginator.pageIndex, this.status , this.search); 
+          this.dataSource.loadData(this.paginator.pageIndex, this.status , this.search);
         }
     );
 
   }
 
-  rowClick(template: TemplateRef<any>, element) {
+  rowClick(element) {
     this.selected = element;
     console.log(this.selected);
-    this.orderModal = this.modalService.show(
-      template,
-      Object.assign({})
-    );
-    this.orderModal.setClass('modal-xl');
-
+    this.navigationService.navigateTOOrderDeatil();
   }
 
   // applyFilter(filterValue: string) {
@@ -168,7 +163,7 @@ export class OrdersComponent implements OnInit {
 
   }
 
-//searcching value 
+// searcching value
 applyFilter(value) {
     // this.status = null;
     this.search = value;

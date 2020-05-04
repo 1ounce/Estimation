@@ -167,4 +167,14 @@ export class DataAccessService {
     console.log(items);
     return this.client.post(ip + 'groupOrderUpdate/' , items);
   }
+
+  getReport(startDate: Date , endDate: Date) {
+    console.log(startDate);
+    const params: URLSearchParams = new URLSearchParams();
+    if (startDate != null) {
+      params.set('start_date' , String(startDate));
+      return this.client.get(ip + 'report/', {params: {start_date: startDate.toString()}});
+    }
+    return this.client.get(ip + 'report/');
+  } 
 }

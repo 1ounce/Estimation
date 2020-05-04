@@ -34,6 +34,10 @@ import { AlertModule, ModalModule } from 'ngx-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { AllWorkComponent } from './all-work/all-work.component';
+import { ChartsModule } from 'ng2-charts';
+import { ReportComponent } from './report/report.component';
+import { DatePipe } from '@angular/common';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 
 
@@ -43,8 +47,8 @@ const appRoutes: Routes = [
   { path: 'repair_estimation', component: RepairEstimationComponent},
   { path: 'order_estimation', component: OrderEstimationComponent} ,
   { path: 'allWork', component: AllWorkComponent},
-
-
+  { path: 'report', component: ReportComponent },
+  { path: 'order-details', component: OrderDetailComponent },
 
 
 ];
@@ -58,7 +62,9 @@ const appRoutes: Routes = [
     RepairEstimationComponent,
     OrderEstimationComponent,
     ModalComponent,
-    AllWorkComponent
+    AllWorkComponent,
+    ReportComponent,
+    OrderDetailComponent
   ],
   imports: [
     AlertModule.forRoot(),
@@ -69,6 +75,7 @@ const appRoutes: Routes = [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ChartsModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
@@ -91,7 +98,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
 
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
