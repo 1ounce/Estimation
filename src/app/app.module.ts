@@ -38,7 +38,7 @@ import { ChartsModule } from 'ng2-charts';
 import { ReportComponent } from './report/report.component';
 import { DatePipe } from '@angular/common';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
-
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 
 const appRoutes: Routes = [
@@ -48,7 +48,7 @@ const appRoutes: Routes = [
   { path: 'order_estimation', component: OrderEstimationComponent} ,
   { path: 'allWork', component: AllWorkComponent},
   { path: 'report', component: ReportComponent },
-  { path: 'order-details', component: OrderDetailComponent },
+  { path: 'order-details/:id', component: OrderDetailComponent },
 
 
 ];
@@ -96,6 +96,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxDaterangepickerMd.forRoot()
 
   ],
   providers: [DatePipe],

@@ -28,7 +28,7 @@ export class NavigateServiceService {
   navigateTOReport() {
     this.route.navigate(['/report']);
   }
-  navigateTOOrderDeatil() {
-    this.route.navigate(['/order-details']);
+  navigateTOOrderDeatil(id) {
+    this.route.navigate(['/order-details' , id]);
   }
 }

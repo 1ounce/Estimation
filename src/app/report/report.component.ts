@@ -15,6 +15,7 @@ import { moment } from 'ngx-bootstrap/chronos/test/chain';
 })
 export class ReportComponent implements OnInit {
 
+  selectedDate = null;
   payment = [];
   startDate = null ;
   endDate = null ;
@@ -54,11 +55,21 @@ export class ReportComponent implements OnInit {
   }
   // Date picked for the filteration
   dateChoosed( event: MatDatepickerInputEvent<Date>) {
-    console.log(event.value);
-    this.startDate = this.datePipe.transform(event.value, 'dd/M/yy');
-    console.log(this.startDate);
+    console.log(event);
+    if (event['startDate'] != null) {
+    this.startDate = this.datePipe.transform(event['startDate']._d, 'dd/M/yy');
+    this.endDate = this.datePipe.transform(event['endDate']._d, 'dd/M/yy');
+    if (this.startDate === this.endDate) {
+      this.endDate = null;
+      console.log(this.endDate);
+      this.getReportData(this.startDate , this.endDate);
+    } else {
     this.getReportData(this.startDate , this.endDate);
+    }
+
   }
+  }
+  
 
   // getting a report data from the backend
   getReportData(startDate , endDate) {

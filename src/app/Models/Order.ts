@@ -3,8 +3,8 @@ export class Order {
 
     // general order related data
     // customer: String = '';
-    // address: String = '';
-    // phone: String = '';
+    address: String = '';
+    phone: String = '';
     rate = 0;
     // email: String = '';
     date: String = '';

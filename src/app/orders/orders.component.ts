@@ -108,15 +108,24 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  rowClick(element) {
+  // rowClick(element) {
+  //   this.selected = element.id;
+  //   console.log(this.selected);
+  //   this.navigationService.navigateTOOrderDeatil(this.selected);
+  // }
+
+  rowClick(template: TemplateRef<any>, element) {
     this.selected = element;
     console.log(this.selected);
-    this.navigationService.navigateTOOrderDeatil();
+    this.orderModal = this.modalService.show(
+      template,
+      Object.assign({})
+    );
+    this.orderModal.setClass('modal-xl');
+
   }
 
-  // applyFilter(filterValue: string) {
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-  // }
+  
    selectedRow(element, event) {
     const checked = event.target.checked; // stored checked value true or false
     if (checked) {
@@ -263,6 +272,7 @@ applyFilter(value) {
 
     );
   }
+    
 
 }
 export class groupOrderItem {

@@ -171,10 +171,17 @@ export class DataAccessService {
   getReport(startDate: Date , endDate: Date) {
     console.log(startDate);
     const params: URLSearchParams = new URLSearchParams();
+    if (startDate != null && endDate != null) {
+      console.log(endDate);
+      params.set('start_date' , String(startDate));
+      params.set('end_date' , String(endDate));
+      return this.client.get(ip + 'report/', {params: {start_date: startDate.toString(), end_date: endDate.toString()}});
+    }
+
     if (startDate != null) {
       params.set('start_date' , String(startDate));
       return this.client.get(ip + 'report/', {params: {start_date: startDate.toString()}});
-    }
+    } 
     return this.client.get(ip + 'report/');
   } 
 }
