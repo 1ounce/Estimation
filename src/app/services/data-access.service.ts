@@ -40,9 +40,9 @@ export class DataAccessService {
 
     }
     if (status != null && search != null) {
-     
+
       // tslint:disable-next-line: max-line-length
-      return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString(), status: status.toString(), search: search.toString()}}); 
+      return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString(), status: status.toString(), search: search.toString()}});
     }
     return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString() }});
 
@@ -115,17 +115,18 @@ export class DataAccessService {
   getItems(page: number= 1 , status: number= null ) {
     const params: URLSearchParams = new URLSearchParams();
     params.set('page', page.toString()); // if user selected the filteration based on the status
-   
+
     if (status != null) {
       console.log(status);
       params.set('status', status.toString());
       return this.client.get<Rest<Item>>(ip + 'item/', {params: {page: page.toString(), status: status.toString()}});
     }
-    
+
     return this.client.get<Rest<Item>>(ip + 'item/', {params: {page: page.toString()}});
    }
 
 // Fetching a single order based on the orderid
+   // tslint:disable-next-line: variable-name
    getselectedOrder(order_id) {
      return this.client.get(ip + `order/${order_id}`);
    }
@@ -144,7 +145,7 @@ export class DataAccessService {
      return this.client.post(ip + 'repairOrder/', repair , {headers});
    }
 
- // Fteching a repair Items from database 
+ // Fteching a repair Items from database
    getRepairOrders(page: number= 1 , status: number= null) {
     const params: URLSearchParams = new URLSearchParams();
     params.set('page', page.toString());
@@ -181,7 +182,7 @@ export class DataAccessService {
     if (startDate != null) {
       params.set('start_date' , String(startDate));
       return this.client.get(ip + 'report/', {params: {start_date: startDate.toString()}});
-    } 
+    }
     return this.client.get(ip + 'report/');
-  } 
+  }
 }

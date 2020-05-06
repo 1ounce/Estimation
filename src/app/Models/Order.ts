@@ -15,8 +15,8 @@ export class Order {
     customer: Customer = null;
     customerItem = new Customer();
 
-    total: string = '0';; // sub total of the entire order
-    itemSubTotal: string = '0';;
+    total: string = '0'; // sub total of the entire order
+    itemSubTotal: string = '0';
     items: OrderItem[] = []; // list of all the order items
      // temproary item: the item which is currently being used for pushing in data is referred from here
     currentItem = new OrderItem();
