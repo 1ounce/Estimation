@@ -213,6 +213,7 @@ export class OrderEstimationComponent implements OnInit {
 
    saveData() {
       if (this.userId === null) {
+        console.log(this.order.customerItem);
         this.api.savePeople(this.order.customerItem).subscribe(data => {
           console.log(data);
           this.order.customer = data['id'];

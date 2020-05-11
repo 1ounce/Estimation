@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'reportPanel';
+
+
+  get_login_info(){
+    if(localStorage.getItem("token")==null || localStorage.getItem("token")==undefined){
+
+      return false;
+    }
+    return true;
+  }
 }

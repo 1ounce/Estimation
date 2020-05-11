@@ -108,22 +108,23 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  // rowClick(element) {
-  //   this.selected = element.id;
-  //   console.log(this.selected);
-  //   this.navigationService.navigateTOOrderDeatil(this.selected);
-  // }
-
-  rowClick(template: TemplateRef<any>, element) {
-    this.selected = element;
+  rowClick(element) {
+    this.selected = element.id;
     console.log(this.selected);
-    this.orderModal = this.modalService.show(
-      template,
-      Object.assign({})
-    );
-    this.orderModal.setClass('modal-xl');
-
+    this.navigationService.navigateTOOrderDeatil(this.selected);
   }
+
+  // rowClick(template: TemplateRef<any>, element) {
+  //   console.log(element);
+  //   this.selected = element;
+   
+  //   this.orderModal = this.modalService.show(
+  //     template,
+  //     Object.assign({})
+  //   );
+  //   this.orderModal.setClass('modal-xl');
+
+  // }
 
   
    selectedRow(element, event) {
@@ -212,8 +213,9 @@ applyFilter(value) {
         this.contacts.push(data);
         this.contact = new Contact();
       },
-      fail => {
-
+      err => {
+        console.log("failed")
+        console.log(err);
       }
     );
   }

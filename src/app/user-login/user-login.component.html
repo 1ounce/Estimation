@@ -1,0 +1,50 @@
+<html>
+
+<body>
+
+
+    <div class="container"  >
+        <div class="row">
+            <div class="col-md-6" style="margin-top:100px">
+                <div class="centering text-center">
+                    <h3 style="color: white">Admin Panel</h3><img alt="Responsive image" class="img-responsive"
+                        src="assets/images/logo2.png"
+                        style="background:white;border-radius: 20px;width: 200px;padding:10px;height:200px;object-fit: contain">
+                </div>
+            </div>
+
+            <div  class="col-md-6" style="margin-top:100px">
+                <div  class="centering text-center">
+                    <div  class="card" style="padding: 10px;">
+                        <div  class="card-header" style="background: white">
+                            <h3 >Login</h3>
+                        </div>
+                        <div  class="card-body">
+                            <form >
+                                <div  class="row"><label >Phone number</label>
+                                </div>
+                                <div  class="input-group mb-3">
+                                    <input  class="form-control" id="phone" placeholder="Phone number" type="text">
+                                    <div  class="input-group-append"><span 
+                                            class="input-group-text" id="basic-addon2">
+                                            <i aria-hidden="true" class="fa fa-user"></i>
+                                        </span></div>
+                                </div>
+                                <div  class="row "><label >Password</label>
+                                </div>
+                                <div  class="input-group mb-3">
+                                    <input class="form-control" id="pwd" placeholder="Password" type="password">
+                                    <div  class="input-group-append"><span class="input-group-text" id="basic-addon2">
+                                            <i aria-hidden="true" class="fa fa-lock"></i>
+                                        </span></div>
+                                </div>
+                            </form><button  class="btn btn-primary" type="submit" (click)="login()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

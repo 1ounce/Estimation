@@ -10,7 +10,7 @@ export class Order {
     date: String = '';
     type: String = '0';
     ncr: Boolean = false;
-    gst : string = '0';
+    gst: string = '0';
     // customer related 
     customer: Customer = null;
     customerItem = new Customer();
@@ -108,6 +108,7 @@ export class Order {
 
     triggerItemDataChanged() {
         console.log('item triggered');
+        this.rateChanged();
         this.currentItem.triggerItemDataChanged();
         this.generateOrderSubTotal();
     }
@@ -159,7 +160,7 @@ export class Order {
 
     generateGstOfItems() {
         this.gst = '0'  ;
-        this.gst = String(Number(this.gst) + ((Number(this.itemSubTotal) * 3) / 100));
+        this.gst = String((Number(this.gst) + ((Number(this.itemSubTotal) * 3) / 100)).toFixed(2));
         
       }
 
@@ -171,7 +172,7 @@ export class Order {
             console.log(sum);
         });
         console.log(sum);
-        this.oldGoldTotal = String(sum + Number(this.oldGoldItem.total));
+        this.oldGoldTotal = String((sum + Number(this.oldGoldItem.total).toFixed(2)));
         this.generateOrderTotal();
     }
 

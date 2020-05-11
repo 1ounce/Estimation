@@ -31,4 +31,7 @@ export class NavigateServiceService {
   navigateTOOrderDeatil(id) {
     this.route.navigate(['/order-details' , id]);
   }
+  navigateToHome() {
+    this.route.navigate(['/home']);
+  }
 }

@@ -39,16 +39,20 @@ import { ReportComponent } from './report/report.component';
 import { DatePipe } from '@angular/common';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { UserLoginComponent } from './user-login/user-login.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 
 const appRoutes: Routes = [
-  { path: 'repair', component: RepairComponent },
-  { path: 'orders', component: OrdersComponent },
-  { path: 'repair_estimation', component: RepairEstimationComponent},
-  { path: 'order_estimation', component: OrderEstimationComponent} ,
-  { path: 'allWork', component: AllWorkComponent},
-  { path: 'report', component: ReportComponent },
-  { path: 'order-details/:id', component: OrderDetailComponent },
+  { path: 'login', component: UserLoginComponent },
+  { path: 'home', component: MainNavComponent , canActivate: [AuthGuardService]},
+  { path: 'repair', component: RepairComponent , canActivate: [AuthGuardService]},
+  { path: 'orders', component: OrdersComponent , canActivate: [AuthGuardService] },
+  { path: 'repair_estimation', component: RepairEstimationComponent , canActivate: [AuthGuardService]},
+  { path: 'order_estimation', component: OrderEstimationComponent , canActivate: [AuthGuardService]} ,
+  { path: 'allWork', component: AllWorkComponent , canActivate: [AuthGuardService]},
+  { path: 'report', component: ReportComponent , canActivate: [AuthGuardService]},
+  { path: 'order-details/:id', component: OrderDetailComponent , canActivate: [AuthGuardService]},
 
 
 ];
@@ -64,7 +68,8 @@ const appRoutes: Routes = [
     ModalComponent,
     AllWorkComponent,
     ReportComponent,
-    OrderDetailComponent
+    OrderDetailComponent,
+    UserLoginComponent
   ],
   imports: [
     AlertModule.forRoot(),

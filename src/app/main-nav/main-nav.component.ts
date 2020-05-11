@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { NavigateServiceService } from '../service/navigate-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-nav',
@@ -17,8 +18,8 @@ export class MainNavComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver,private navigatorSerice:NavigateServiceService) {}
-b24;b22;bs;s24;s22;ss;name;phone;navigateToRate;logout;
+  constructor(private breakpointObserver: BreakpointObserver,private navigatorSerice: NavigateServiceService , private route: Router) {}
+b24;b22;bs;s24;s22;ss;name;phone;navigateToRate;
   reportPage() {
     this.navigatorSerice.navigateToReport();
   }
@@ -33,5 +34,11 @@ b24;b22;bs;s24;s22;ss;name;phone;navigateToRate;logout;
   report() {
     this.navigatorSerice.navigateTOReport();
   }
-
+  
+  logout() {
+    console.log("logged out");
+    localStorage.clear();
+    window.location.reload();
+    this.route.navigate(['/login']);
+  }
 }

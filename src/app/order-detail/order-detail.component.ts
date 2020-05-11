@@ -16,8 +16,9 @@ import {Observable} from 'rxjs';
 export class OrderDetailComponent implements OnInit {
 
   id;
-  selected: Object = null;
   selectedimage: any;
+  selected: Order;
+  orderData = [];
   selectedItem: OrderItem;
   color: HeroCircle = new HeroCircle();
 
@@ -28,10 +29,10 @@ export class OrderDetailComponent implements OnInit {
   contacts: Array<Contact> = null; // list of contacts
   // temporary models
   contact: Contact = new Contact();
-  
+  isChecked = false;
   constructor( private route: ActivatedRoute, private router: Router ,
                private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService, ) { 
-                this.getOrderDetails();
+                this.getContacts();
                }
 
   ngOnInit() {
@@ -40,13 +41,37 @@ export class OrderDetailComponent implements OnInit {
     this.getOrderDetails();
    }
 
+   // available contact list
+  getContacts() {
+    this.api.getContacts().subscribe( data =>  {
+      console.log(data);
+      this.contacts = data.results;
+    });
+  }
   getOrderDetails() {
     this.api.getselectedOrder(this.id).subscribe( data => {
-      this.selected = data; 
+      console.log(data);
+      this.orderData.pop();
+      this.orderData.push(data) ;
+      const orders = this.orderData.map(obj => {
+        // console.log(obj);
+        const items = obj.items.map(item => Object.assign(new OrderItem(), item));
+
+        const o = Object.assign(new Order(), obj);
+        o.items = items;
+
+        return o;
+    });
+      orders.forEach(ele => {
+        this.selected = ele;
+      });
       console.log(this.selected);
     });
   }
 
+  getselectedIamge(item) {
+     return  item.image;
+  }
   money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
 
   openSelectedMakingChargeModal(item: OrderItem, template, isMakingCharge: Boolean) {
@@ -72,6 +97,7 @@ export class OrderDetailComponent implements OnInit {
   saveContact() {
     this.api.saveContact(this.contact).subscribe(
       data => {
+        console.log(data);
         this.contacts.push(data);
         this.contact = new Contact();
       },
