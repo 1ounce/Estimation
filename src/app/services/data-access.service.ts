@@ -145,7 +145,7 @@ export class DataAccessService {
     headers = headers.set('Authorization' , 'Token ' + localStorage.getItem('token'));
     const params: URLSearchParams = new URLSearchParams();
     params.set('page', page.toString()); // if user selected the filteration based on the status
-
+    console.log(status);
     if (status != null) {
       console.log(status);
       params.set('status', status.toString());

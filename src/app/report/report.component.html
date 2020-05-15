@@ -53,7 +53,7 @@
                                     :
                                 </td>
                                 <td>
-                                        <span class="current_holding">{{cash}}</span> 
+                                        <span class="current_holding">{{money(cash)}}</span> 
                                 </td>
                             </tr>
         
@@ -65,7 +65,7 @@
                                         :
                                     </td>
                                     <td>
-                                            <span class="current_holding">{{card}}</span> 
+                                            <span class="current_holding">{{money(card)}}</span> 
                                     </td>
                                 </tr>
         
@@ -77,7 +77,7 @@
                                             :
                                         </td>
                                         <td>
-                                                <span class="current_holding">{{cheque}}</span>
+                                                <span class="current_holding">{{money(cheque)}}</span>
                                         </td>
                                     </tr>
                         </table>
@@ -103,7 +103,7 @@
                     <tr >
                         <td > Cost </td>
                         <td >:</td>
-                        <td  id="999_e">{{item.cost}}</td>
+                        <td  id="999_e">{{money(item.cost)}}</td>
                     </tr>
                    
                 </table>

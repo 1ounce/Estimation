@@ -28,7 +28,7 @@ export class UserLoginComponent implements OnInit {
       console.log(this.api.Token);
       localStorage.setItem('token', data['token']);
       localStorage.setItem('isAdmin', 'true');
-      this.router.navigate(['/home']);
+      this.router.navigate(['/orders']);
     }, err => {
       console.log(err);
     } );

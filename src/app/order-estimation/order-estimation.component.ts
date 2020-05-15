@@ -54,12 +54,13 @@ export class OrderEstimationComponent implements OnInit {
   addItem() {
       this.order.saveOrder();
       this.order.refereshcurrentItem();
-      this.order.generateOldGoldSubTotal();
+      
     }
 
     addOldGold() {
       this.order.saveoldGold();
       this.order.referesholdGoldItem();
+      this.order.generateOldGoldSubTotal();
     }
     addAdvance() {
       this.order.saveAdvance();
@@ -83,7 +84,12 @@ export class OrderEstimationComponent implements OnInit {
       console.log(this.order.type);
       if (this.order.type === '1') {
         this.order.rate = this.rates['silver'];
+        this.order.rateChanged();
+      } else {
+        this.order.rate = this.rates['gold'];
+        this.order.rateChanged();
       }
+      
     }
     checkSelected() {
       if (this.isdisabled === true) {

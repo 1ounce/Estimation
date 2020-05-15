@@ -1,7 +1,16 @@
+img{
+  height: 120px;
+  width: 200px;
+  padding: 5px;
+  overflow: hidden;
+  object-fit: contain;
+}
+
 .fixedbutton {
     position: fixed;
     bottom: 10px;
     right: 10px; 
+    object-fit: contain;
 }
 .mat-cell, .mat-header-cell{
     padding-left: 50px;
@@ -11,6 +20,9 @@
 
 td,th{
     padding:10px;
+    /* columns: height 150px;  */
+    object-fit: cover;
+    
 }
 
 

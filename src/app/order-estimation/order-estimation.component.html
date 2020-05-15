@@ -390,7 +390,7 @@
                   <td></td>
                   <td></td>
                   <td>Sub Total : </td>
-                  <td>{{order.itemSubTotal}}</td>
+                  <td>{{money(order.itemSubTotal)}}</td>
                 </tr>
                 <tr >
                   <td></td>
@@ -400,6 +400,15 @@
                   <td></td>
                   <td>Gst : </td>
                   <td>{{order.gst}}</td>
+                </tr>
+                <tr >
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>TotalWithGst : </td>
+                  <td>{{money(order.totalWithGst)}}</td>
                 </tr>
             </table>
 
@@ -411,51 +420,51 @@
 <br>
 <div class="row">
 
-  <div class="col-md-8">
+  <div class="col-md-8 oldgold" >
     <!---START OF OLD GOLD ENTRY SECTION -->
     <mat-card  >
-      <div class="row table-responsive">
+      <div class="row table-responsive" style="contain: inherit;">
         <h6 align=center>Old Gold</h6>
         <table class="table w-100" >
           <!--TABLE HEAD SECTION-->
           <tr >
-            <th style="max-width:15px;">S.No</th>
-            <th style="max-width:15px;">Description</th>
-            <th style="max-width:15px;">Weight</th>
-            <th style="max-width:15px;">Dust/Stone</th>
-            <th style="max-width:15px;">Purity %</th>
-            <th style="max-width:15px;">Rate</th>
-            <th style="max-width:15px;">Total</th>
+            <th>S.No</th>
+            <th>Description</th>
+            <th>Weight</th>
+            <th>Dust/Stone</th>
+            <th>Purity %</th>
+            <th>Rate</th>
+            <th>Total</th>
           </tr>
      
           <!--TABLE DISPLAY SECTION-->
           <tr *ngFor="let item of order.oldGold;let i=index; ">
-            <td style="max-width:15px;">
+            <td>
               <div class="icon-text">
               <mat-icon style="color:red;cursor:pointer;" (click)="order.removeOldGold(i)">remove_circle_outline</mat-icon>
             <span> <b> {{i+1}}</b></span>
             </div>     
          </td>     
-            <td style="max-width:15px;" >{{item.description}}</td>
-            <td style="max-width:15px;">{{item.weight}}</td>
-            <td style="max-width:15px;">{{item.dust}}</td>
-            <td style="max-width:15px;">{{item.purity}}%</td>
-            <td style="max-width:15px;">{{item.rate}}</td>
-            <td style="max-width:15px;">{{money(item.total)}}</td>
+            <td >{{item.description}}</td>
+            <td>{{item.weight}}</td>
+            <td>{{item.dust}}</td>
+            <td>{{item.purity}}%</td>
+            <td>{{item.rate}}</td>
+            <td>{{money(item.total)}}</td>
           </tr>
           
           <!-- TABLE BODY INPUT SECTION-->
           <tr>
-            <td style="max-width:15px;"></td>
-            <td style="max-width:15px;">
+            <td></td>
+            <td>
               <!--description section-->
               <mat-form-field>
-                <input matInput [(ngModel)]="order.oldGoldItem.description" (input)="order.triggerOldGoldChanged()" >
+                <input matInput [(ngModel)]="order.oldGoldItem.description" >
             </mat-form-field>
             </td>
     
             
-            <td style="max-width:15px;">
+            <td>
               <!-- weight input-->
               <mat-form-field>
                 <input matInput [(ngModel)]="order.oldGoldItem.weight" (input)="order.triggerOldGoldChanged()" >
@@ -467,21 +476,21 @@
                 <input matInput [(ngModel)]="order.oldGoldItem.dust" (input)="order.triggerOldGoldChanged()" >
             </mat-form-field>
             </td>
-            <td style="max-width:15px;">
+            <td>
               <!-- purity input-->
               <mat-form-field>
                 <input matInput [(ngModel)]="order.oldGoldItem.purity" (input)="order.triggerOldGoldChanged()" >
             </mat-form-field>
             </td>
 
-            <td style="max-width:15px;">
+            <td>
               <!-- Rate input-->
               <mat-form-field>
                 <input matInput [(ngModel)]="order.oldGoldItem.rate" (input)="order.triggerOldGoldChanged()" >
             </mat-form-field>
             </td>
            
-            <td style="max-width:15px;">
+            <td>
               <!--Total display for old gold item-->
               {{order.oldGoldItem.total}}
             </td>
@@ -491,14 +500,14 @@
             <td></td>
             <td></td>
             <td></td>
-            <td style="max-width:15px;">Sub Total</td>
-            <td style="max-width:15px;">{{money(order.oldGoldTotal)}}</td>
+            <td>Sub Total</td>
+            <td>{{money(order.oldGoldTotal)}}</td>
           </tr>
           
     
         </table>
       </div>
-      <div align=center><button mat-raised-button (click)="addOldGold()" color="primary">Add Item</button>    </div>
+      <div align=center><button mat-raised-button (click)="order.addOldGold()" color="primary">Add Item</button>    </div>
     
     </mat-card>
     <!---END OF OLD GOLD ENTRY SECTION-->

@@ -69,7 +69,10 @@ export class ReportComponent implements OnInit {
 
   }
   }
-  
+  money(data) {
+    if(data!=null) {
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
+    }
 
   // getting a report data from the backend
   getReportData(startDate , endDate) {

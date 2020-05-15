@@ -38,7 +38,6 @@ b24;b22;bs;s24;s22;ss;name;phone;navigateToRate;
   logout() {
     console.log("logged out");
     localStorage.clear();
-    window.location.reload();
     this.route.navigate(['/login']);
   }
 }

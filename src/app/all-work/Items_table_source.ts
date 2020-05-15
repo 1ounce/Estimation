@@ -33,20 +33,30 @@ export class ItemDataSource implements DataSource<Item> {
         this.loadingOrder.next(true);
 
         this.api.getItems(page , status).subscribe(
-            data => {
-        
-            this.nextUrl = data.next;
-            console.log('next url is ' + this.nextUrl);
-
-            const orders = data.results;
-
-            console.log('Order data');
-            console.log(orders);
-            this.orderData.next(orders);
-            this.countSubject.next(data.count);
-            this.loadingOrder.next(false);
-
-            },
+                data => {
+    
+            
+                this.nextUrl = data.next;
+                console.log('next url is ' + this.nextUrl);
+    
+                const orders = data.results.map(obj => {
+                    // console.log(obj);
+                    const o = Object.assign(new Item() , obj);
+                    // const items = obj.map(item => Object.assign(new Item()));
+    
+                    // const o = Object.assign(new Item(), obj);
+                    // o = items;
+    
+                    return o;
+                });
+    
+                console.log('Order data');
+                console.log(orders);
+                this.orderData.next(orders);
+                this.countSubject.next(data.count);
+                this.loadingOrder.next(false);
+    
+                },
             fail => {
                 console.log('failed for some unkonwn reason');
                 // should handle this to display error messages

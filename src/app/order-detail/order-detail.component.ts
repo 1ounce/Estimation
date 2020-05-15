@@ -127,6 +127,7 @@ export class OrderDetailComponent implements OnInit {
 
 
   uploadItemImage(item) {
+    this.selectedItem = item;
     console.log('upload Item started');
     console.log(item.imageUploader.file);
     // console.log(id);
@@ -135,6 +136,7 @@ export class OrderDetailComponent implements OnInit {
         console.log(result);
         if (result['result'] === 'success') {
           console.log(result['data'].image);
+          this.selectedItem.image = result['data'].image;
           this.selectedimage = result['data'].image;
           // this.getImage();
           console.log('image uploded sucessfully');

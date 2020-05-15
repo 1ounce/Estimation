@@ -1,7 +1,9 @@
 mat-form-field {
     width: 80%;
     }
-
+    .oldgold td {
+      column-width: 10ex;
+    }
     .mat-icon {
         vertical-align: middle;
      }

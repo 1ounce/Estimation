@@ -13,6 +13,7 @@ export class UploadComponent {
       const mimeType = files[0].type;
       if (mimeType.match(/image\/*/) == null) {
         this.message = 'Only images are supported.';
+        console.log(this.message);
         return;
       }
 

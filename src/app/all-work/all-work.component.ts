@@ -92,9 +92,7 @@ export class AllWorkComponent implements OnInit {
     });
   }
 
-  changeStatus(element) {
-    console.log(element);
-  }
+ 
   getImage(element) {
     // console.log(element);
     return element.image;
@@ -141,8 +139,14 @@ export class AllWorkComponent implements OnInit {
 // status filteration
 onSelectedStatus(val: any) {
   console.log(val);
+  if (val === '3') {
+    console.log(this.status);
+    this.status = null;
+    this.dataSource.loadData(0 , this.status);
+  } else {
   this.status = val ;
   this.dataSource.loadData(0, this.status);
+  }
 }
 
   selectedRow(element , event) {
@@ -196,20 +200,21 @@ onSelectedStatus(val: any) {
 
   }
 
-  uploadItemImage(item, event) {
+  uploadItemImage(item) {
     console.log('upload Item started');
-    console.log(item);
-    console.log(event);
+    this.selectedItem = item;
+    console.log(this.selectedItem);
     // console.log(id);
     this.api.uploadItemImage(item).subscribe(
         result => {
         console.log(result);
         if (result['result'] === 'success') {
           console.log(result['data'].image);
+          this.selectedItem.image = result['data'].image;
           this.selectedimage = result['data'].image;
           // this.getImage();
           console.log('image uploded sucessfully');
-          this.orderModal.hide();
+          // this.orderModal.hide();
         }
       },
       fail => {
