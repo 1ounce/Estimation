@@ -160,17 +160,19 @@ export class OrdersComponent implements OnInit {
      // tslint:disable-next-line: no-unused-expression
      return  item.image;
   }
-  // getImage() {
-  //   this.currentImage = this.ip + this.selectedimage;
-  // }
+ 
 
 // ststus for the filteration purpose used
   onStatusSelected(val: any) {
     this.search = null;
+    if (val === '4') {
+      this.status = null;
+      this.dataSource.loadData(0 , this.status , this.search);
+    } else {
     this.status = val;
     console.log(this.status);
     this.dataSource.loadData(0 , this.status , this.search);
-
+    }
   }
 
 // searcching value
@@ -248,7 +250,7 @@ applyFilter(value) {
     this.api.grouporderupdate(this.groupItemData).subscribe( data => {
       console.log(data);
       this.isChecked = false;
-      this.refreshPage();
+      this.dataSource.loadData(this.paginator.pageIndex , this.status , this.search);
     });
   }
 

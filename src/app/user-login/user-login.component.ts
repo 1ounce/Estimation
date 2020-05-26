@@ -9,10 +9,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-login.component.css']
 })
 export class UserLoginComponent implements OnInit {
+  message: String = null;
 
   constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private router: Router ) { }
 
   ngOnInit() {
+  }
+
+  checked(event) {
+    // console.log(event);
+    this.message = null;
   }
   login() {
     const phone = ( (document.getElementById('phone')) as HTMLInputElement).value;
@@ -30,7 +36,8 @@ export class UserLoginComponent implements OnInit {
       localStorage.setItem('isAdmin', 'true');
       this.router.navigate(['/orders']);
     }, err => {
-      console.log(err);
+      console.log(err.error.detail);
+      this.message = err.error.detail;
     } );
   }
 }

@@ -14,6 +14,7 @@ import {DataAccessService } from '../services/data-access.service';
 import {HttpClient} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { delay } from 'rxjs/operators';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-repair-estimation',
@@ -30,9 +31,15 @@ export class RepairEstimationComponent implements OnInit {
   // user: Object;
 
     constructor(private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService,
-                private snackBar: MatSnackBar) {}
+                private snackBar: MatSnackBar , private datepipe: DatePipe) {}
 
   ngOnInit() {
+    this.repair.date = this.datepipe.transform(new Date(), 'dd/MM/yyyy');
+    this.api.getRate().subscribe( data => {
+      console.log(data);
+      this.repair.rate = data['gold'] ;
+      
+    });
   }
 
 
@@ -111,12 +118,27 @@ export class RepairEstimationComponent implements OnInit {
     }
 }
 
+money(data) {
+  if (data != null) {
+  return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
+  }
+
+  refresh(){
+    window.location.reload();
+}
+
+addDate(event) {
+console.log(event['value']);
+this.repair.date = this.datepipe.transform(event['value'], 'dd/MM/yyyy');
+console.log(this.repair.date);
+}
+
   saveRepairOrder() {
     this.repair.saveOrder();
     console.log(this.repair);
     if (!this.isSaveClicked) {
       this.isSaveClicked = true;
-      this.api.saveRepairOrderTODB(this.repair).toPromise().then(data => {console.log(data);
+      this.api.saveRepairOrderTODB(this.repair).toPromise().then(data => {console.log(data); 
                                                                    this.navigatorSerice.navigateToReport();
     }).catch( error => {
       this.snackBar.open('Failed to save data');

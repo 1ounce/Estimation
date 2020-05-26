@@ -130,8 +130,12 @@
     <!----- Making charge display section starts here -->
     <ng-container *ngIf="isMakingChargeModal">
     <tr  style="max-width:6ppx;" *ngFor="let i of makingChargeModalItem.makingChargeItems;let sno=index;">
-
-    <td>{{sno+1}}</td>
+      <td>
+      <div class="icon-text">
+        <mat-icon style="color:red;cursor:pointer;" (click)="order.currentItem.removeMakingChargeItem(sno)">remove_circle_outline</mat-icon>
+<span> <b> {{sno+1}}</b></span>
+</div>
+    </td>
     <td>{{i.name}}</td>
     <td>{{i.weight}}</td>
     <td>{{money(i.cost)}}</td>
@@ -166,7 +170,7 @@
 
    
         <td> <mat-form-field>
-                                    <input matInput [(ngModel)]=makingChargeModalItem.currentMakingCharge.weight (input)="order.triggerMakingChargeChanged(makingChargeModalItem,!isMakingChargeModal)" >
+                                    <input matInput [(ngModel)]=makingChargeModalItem.currentMakingCharge.weight (input)="order.triggerMakingChargeChanged(makingChargeModalItem,!isMakingChargeModal)">
                                 </mat-form-field></td>
   
         <td> <mat-form-field>
@@ -289,6 +293,9 @@
 
             <div class="col-md-6">
               <mat-form-field class="mt-2">
+                <input matInput type="date" placeholder="Date" [(ngModel)]="order.date" >
+              </mat-form-field>
+              <mat-form-field class="mt-2">
                 <mat-label>Order Type</mat-label>
                 <select matNativeControl required [(ngModel)]="selectedOrderType" (ngModelChange)="onSelectedOrderType($event)">
                   <option value="gold">Gold</option>
@@ -379,7 +386,7 @@
                       
                     
                     <td>
-                        ₹{{order.currentItem.total}}
+                        {{money(order.currentItem.total)}}
                            
                     </td>
                 </tr>
@@ -492,7 +499,7 @@
            
             <td>
               <!--Total display for old gold item-->
-              {{order.oldGoldItem.total}}
+              {{money(order.oldGoldItem.total)}}
             </td>
           </tr>
           <tr>
@@ -532,9 +539,12 @@
 <br><br>
 
 <!-- Advance popup button -->
-<div align=center><button mat-raised-button (click)="openAdvanceModal(advanceTemplate)" color="primary">Advance</button>    </div>
+<div class="row">
+  <div class="col-md-6" align="center"> <button mat-raised-button (click)="openAdvanceModal(advanceTemplate)" color="primary">Advance</button>  </div>
+  <div class="col-md-6" align="center">Advance : {{order.advance}}</div>
+ </div>
 <br><br>
-<button mat-raised-button color="primary" style="float:right;" (click)="openPopupmodal(popup)" >SubTotal: {{money(order.total)}}<br>Save</button>
+<button mat-raised-button color="primary" style="float:right;" (click)="openPopupmodal(popup)" >SubTotal: {{money(order.balance)}}<br>Save</button>
 
 
 </div>

@@ -139,6 +139,17 @@ export class DataAccessService {
     form.append('contactId', contact.id);
     return this.client.post(ip + 'saveAssignee/', form , { headers });
   }
+// changing a due date
+  saveDueDate(item) {
+    // headers = headers.set('Content-Type', 'application/json' );
+    headers = headers.set('Authorization' , 'Token ' + localStorage.getItem('token'));
+    // console.log(JSON.stringify(item));
+    const form = new FormData();
+    form.append('itemId', item.id);
+    form.append('due_date' , item.due);
+    
+    return this.client.patch(ip + 'item/', form , { headers });
+  }
 
   // Fetch a all items from the database
   getItems(page: number= 1 , status: number= null ) {
@@ -223,4 +234,13 @@ export class DataAccessService {
     }
     return this.client.get(ip + 'report/' , { headers });
   }
+
+  getReportOrder(page: number = 1) {
+    console.log(page);
+    headers = headers.set('Authorization' , 'Token ' + localStorage.getItem('token'));
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('page', page.toString());
+    return this.client.get<Rest<any>>(ip + 'reportOrder/', {params: {page: page.toString()},  headers });
+  }
+
 }

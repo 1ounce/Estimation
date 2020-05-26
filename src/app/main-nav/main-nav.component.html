@@ -11,19 +11,19 @@
     </mat-toolbar>
     <mat-nav-list style="margin-top: 50px;">
    <div class="sidemenu_option" matToolTip="Repair">
-     <p (click)="reportPage()"><mat-icon >build</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">Repair Page</i></p>
+     <p  (click)="reportPage()" [routerLink]="['repair']" routerLinkActive="active"><mat-icon >build</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">Repair Page</i></p>
    </div>
     
    <div class="sidemenu_option" matToolTip="Orders">
-    <p (click)="orderPage()"><mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Orders</i></p>
+    <p (click)="orderPage()" [routerLink]="['orders']" routerLinkActive="active"><mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Orders</i></p>
   </div>
 
-   <div class="sidemenu_option" matToolTip="Orders">
-    <p (click)="allWorks()"><mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Work</i></p>
+   <div class="sidemenu_option" matToolTip="receipt">
+    <p (click)="allWorks()" [routerLink]="['allWork']" routerLinkActive="active"><mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Work</i></p>
   </div>
 
   <div class="sidemenu_option" matToolTip="Orders">
-    <p (click)="report()"><mat-icon>account_balance</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">Report</i></p>
+    <p (click)="report()" [routerLink]="['report']" routerLinkActive="active"><mat-icon>account_balance</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">Report</i></p>
   </div>
     </mat-nav-list>
   </mat-sidenav>
@@ -40,19 +40,19 @@
 
         <h6>
             <mat-menu  #menu1="matMenu">
-                <span mat-menu-item>Gold 999 <span class="buyrate">{{b24}}</span>|<span class="sellrate">{{s24}}</span></span>
-                <span mat-menu-item>Gold 916 <span class="buyrate">{{b22}}</span>|<span class="sellrate">{{s22}}</span></span>
-                <span mat-menu-item>Silver <span class="buyrate">{{bs}}</span>|<span class="sellrate">{{ss}}</span></span>
+                
+                <span mat-menu-item>Gold 916 <span class="buyrate">{{ gold916}}</span></span>
+                <span mat-menu-item>Silver <span class="buyrate">{{silver}}</span></span>
     
     
             </mat-menu>
-            <span [matMenuTriggerFor]="menu1" >Rate</span>
+            <span [matMenuTriggerFor]="menu1"  >Rate</span>
 
-          <span class="gold99">Gold 999 <span class="buyrate">{{b24}}</span>|<span class="sellrate">{{s24}}</span></span>
+          <span class="gold916">Gold 916 |<span class="buyrate">{{ gold916}}</span></span>
 
-          <span class="gold916">Gold 916 <span class="buyrate">{{b22}}</span>|<span class="sellrate">{{s22}}</span></span>
-
-          <span class="silver">Silver <span class="buyrate">{{bs}}</span>|<span class="sellrate">{{ss}}</span></span> 
+          <span class="silver">Silver |<span class="buyrate">{{silver}}</span></span> 
+          <span class="neworder" (click)="goToOrderEstimation()">+NewOrder</span>
+          <span class="newRepair" (click)="goToRepairEstimation()">+NewRepair</span>
           <span (click)="navigateToRate()" style="cursor: pointer;"><img src="assets/images/logo2.png" class="img-rounded" style="height: 50px;width: 50px;object-fit: contain;"></span>
           <span [matMenuTriggerFor]="menu">Company name<i class="fa fa-chevron-down" aria-hidden="true"></i></span> </h6>
         <mat-menu #menu="matMenu">

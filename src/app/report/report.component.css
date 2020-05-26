@@ -9,9 +9,13 @@
     font-weight: bold;
 }
 
+table {
+    text-align: center;
+}
 td{
+    margin-left: 100px;
     cursor: pointer;
-    margin-left: 20px;
+    align-items: center;
 }
 .rightAlign{
     margin-left: 10px;

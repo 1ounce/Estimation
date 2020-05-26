@@ -276,7 +276,9 @@
       
         <mat-form-field class="mt-2">
           <mat-label>Status</mat-label>
-          <select matNativeControl required [(ngModel)]="status" (ngModelChange)="onStatusSelected($event)">
+          <select matNativeControl 
+             [(ngModel)]="status" (ngModelChange)="onStatusSelected($event)">
+            <option value=4>All</option>
             <option value=0>Pending</option>
             <option value=1>Assigned</option>
             <option value=2>Ready</option>
@@ -343,7 +345,7 @@
             <!-- Name Column -->
             <ng-container matColumnDef="date">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
-              <td mat-cell *matCellDef="let element" (click)="rowClick(element)" > {{element.getDate()}}
+              <td mat-cell *matCellDef="let element" (click)="rowClick(element)" > {{element.date |date: 'dd/MM/y'}}
             </ng-container>
 
             <!-- Phone number -->
@@ -396,7 +398,14 @@
 
         <ng-container matColumnDef="balance">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
-          <td mat-cell *matCellDef="let element">{{money(element.total-element.advance)}}</td>
+          <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.total>=0">
+              {{money(element.balance)}}
+            </ng-container>
+            <ng-container *ngIf="element.total<=0">
+              {{money(0)}}
+            </ng-container>
+            </td>
         </ng-container>
           
                

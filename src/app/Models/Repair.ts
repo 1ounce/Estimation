@@ -2,22 +2,21 @@ import { UploadComponent } from '../services/UploadComponent';
 export class Repair {
     
     rate;
-    image: string = null;
-
-    imageUploader: UploadComponent = null;
+    date = null;
     // customer related 
     customer: Customer = null;
     customerItem = new Customer();
 
-    itemSubToatal = 0;
-    total = 0; // sub total of the entire Repair
+    itemSubToatal: string = '0';
+    total :string = "0";
+    balance: string = '0'; // sub total of the entire Repair
     items: RepairItem[] = []; // list of all the repair items
      // temproary item: the item which is currently being used for pushing in data is referred from here
     currentItem = new RepairItem();
     selectedItem: RepairItem = null;
 
       // Advance related items
-      advance = 0;
+      advance: string = '0';
       advances: Array<Advance> = [];
       advanceItem = new Advance();
       slectedAdvanceItem: Advance = null;
@@ -67,7 +66,10 @@ export class Repair {
 
     saveOrder() {
         if (this.currentItem.total > 0) {
-        this.items.push(this.currentItem); }
+        this.items.push(this.currentItem);
+        this.generateItemSubTotal();
+    
+    }
      }
 
     generateAdvanceSubTotal() {
@@ -82,29 +84,30 @@ export class Repair {
 
         });
         console.log(sum);
-        this.advance = sum + this.advanceItem.amount;
+        this.advance = String((sum + this.advanceItem.amount).toFixed(2));
         console.log(this.advance);
         this.generateRepairTotal();
     }
 
         generateItemSubTotal() {
             let sum = 0;
-            this.itemSubToatal = this.currentItem.total;
+            this.itemSubToatal = String(this.currentItem.total);
             this.items.forEach(ele => {
                 const numberAmount = Number(ele.total);
                 console.log(ele.total);
                 sum = sum + numberAmount;
             });
             if (sum > 0) {
-                this.itemSubToatal = sum ;
+                this.itemSubToatal = String((sum).toFixed(2)) ;
+                this.total = this.itemSubToatal;
             }
             
-            console.log(this.itemSubToatal);
+            console.log(this.total);
             this.generateRepairTotal();
         }
         generateRepairTotal() {
             console.log(this.advance);
-            this.total = this.itemSubToatal - this.advance;
+            this.balance = String((Number(this.itemSubToatal) - Number(this.advance)).toFixed(2));
         }
 }
 
@@ -112,6 +115,26 @@ export class RepairItem {
     name = '';
     weight = 0;
     total = 0;
+    assignedTo: Contact = null;
+    due = '';
+    image: string = null;
+    gst = 0;
+    imageUploader: UploadComponent = null;
+
+    isImageSet() {
+        if (this.image == null) {
+            this.imageUploader = new UploadComponent();
+            return false;
+        }
+        return true;
+    }
+}
+
+export class Contact {
+    id: number;
+    name = '';
+    phone = '';
+    email = '';
 }
 
 export class Advance {

@@ -41,7 +41,7 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { AuthGuardService } from './services/auth-guard.service';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 
 const appRoutes: Routes = [
   { path: 'login', component: UserLoginComponent },
@@ -101,6 +101,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxPaginationModule,
     NgxDaterangepickerMd.forRoot()
 
   ],

@@ -21,10 +21,11 @@
                         </div>
                         <div  class="card-body">
                             <form >
+                                <p style="color: red;" *ngIf = 'message'>{{message}}</p>
                                 <div  class="row"><label >Phone number</label>
                                 </div>
                                 <div  class="input-group mb-3">
-                                    <input  class="form-control" id="phone" placeholder="Phone number" type="tel" pattern="[6-9]\\d{9}" maxlength="10">
+                                    <input  class="form-control" id="phone" placeholder="Phone number" type="tel" pattern="[6-9]\\d{9}" maxlength="10" (input)="checked($event)" required>
                                     <div  class="input-group-append"><span 
                                             class="input-group-text" id="basic-addon2">
                                             <i aria-hidden="true" class="fa fa-user"></i>
@@ -33,7 +34,7 @@
                                 <div  class="row "><label >Password</label>
                                 </div>
                                 <div  class="input-group mb-3">
-                                    <input class="form-control" id="pwd" placeholder="Password" type="password">
+                                    <input class="form-control" id="pwd" placeholder="Password" type="password" (input)="checked($event)" required>
                                     <div  class="input-group-append"><span class="input-group-text" id="basic-addon2">
                                             <i aria-hidden="true" class="fa fa-lock"></i>
                                         </span></div>

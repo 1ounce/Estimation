@@ -4,6 +4,7 @@ img{
   padding: 5px;
   overflow: hidden;
   object-fit: contain;
+  cursor: pointer;
 }
 
 .fixedbutton {

@@ -25,7 +25,7 @@ export class RepairComponent implements OnInit {
   @ViewChild(MatPaginator , { static: false})
   paginator: MatPaginator;
   boolSpinner;
-  displayedColumns: string[] = ['checked', 's.no', 'customer',  'advance'];
+  displayedColumns: string[] = ['checked', 's.no', 'date', 'phoneno' , 'total' , 'balance' ,'status'];
 
   color: HeroCircle = new HeroCircle();
 
@@ -42,8 +42,12 @@ export class RepairComponent implements OnInit {
   isChecked = false;
   groupItemData = new groupRepairItem();
   status: number = null;
+  selectedItem: RepairItem;
+  page: number;
   // tslint:disable-next-line: max-line-length
-  constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService, ) { }
+  constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService, ) {
+    
+   }
 
   ngOnInit() {
     this.dataSource = new RepairOrderDataSource(this.api);
@@ -69,6 +73,7 @@ export class RepairComponent implements OnInit {
 
     this.paginator.page.subscribe(
       () => {
+          this.page = this.paginator.pageIndex;
           console.log('page clicked' + this.paginator.pageIndex);
 
           this.dataSource.loadData(this.paginator.pageIndex , this.status);
@@ -117,14 +122,17 @@ export class RepairComponent implements OnInit {
     }
   }
   }
-
+  refresh() {
+    window.location.reload();
+}
   onSelectedStatus(val: any) {
     this.groupItemData.action = val;
     console.log(this.groupItemData.action);
     this.api.groupRepairItempdate(this.groupItemData).subscribe( data => {
       console.log(data);
       this.isChecked = false;
-    })
+      this.dataSource.loadData(this.page , this.status);
+    });
   }
   goToRepairEstimation() {
     this.navigationService.navigateToRepaireEstimation();
@@ -132,10 +140,85 @@ export class RepairComponent implements OnInit {
 
 //  filteration using a status
 onStatusSelected(val: any) {
+  if (val === '4') {
+    this.status = null;
+    this.dataSource.loadData(0 , this.status);
+  } else {
   this.status = val;
   console.log(this.status);
   this.dataSource.loadData(0 , this.status);
+  }
+}
 
+openSelectOrAddContacts(item: RepairItem, template) {
+  this.selectedItem = item;
+  this.contactsModal = this.modalService.show(
+    template,
+    Object.assign({})
+  );
+  this.contactsModal.setClass('modal-lg');
+}
+
+
+saveContact() {
+  this.api.saveContact(this.contact).subscribe(
+    data => {
+      this.contacts.push(data);
+      this.contact = new Contact();
+    },
+    err => {
+      console.log("failed")
+      console.log(err);
+    }
+  );
+}
+
+onContactClicked(contact) {
+  this.api.saveAsignee(this.selectedItem, contact).subscribe(
+    success => {
+      // tslint:disable-next-line: triple-equals
+      console.log(success);
+      console.log('successfully saved assignee information');
+      this.selectedItem.assignedTo = contact;
+      this.selectedItem.due = success['due'];
+      this.contactsModal.hide();
+
+    
+    },
+    fail => {
+      console.log(fail);
+    }
+  );
+
+}
+
+refreshPage() {
+  window.location.reload();
+ }
+
+uploadItemImage(item) {
+  console.log('upload Item started');
+  console.log(item.imageUploader.file);
+  this.selectedItem = item;
+  console.log(this.selectedItem);
+  this.api.uploadItemImage(item).subscribe(
+      result => {
+      console.log(result);
+      if (result['result'] === 'success') {
+        console.log(result['data'].image);
+        console.log(this.selectedItem.assignedTo);
+        this.selectedItem.image = result['data'].image;
+        console.log(this.selectedItem.image);
+        console.log('image uploded sucessfully');
+        // this.orderModal.hide();
+      }
+    },
+    fail => {
+    console.log('Failed');
+    console.log(fail);
+    }
+
+  );
 }
 
 }

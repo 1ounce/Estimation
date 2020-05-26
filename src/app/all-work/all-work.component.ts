@@ -14,6 +14,7 @@ import {ItemDataSource} from './Items_table_source';
 import { HeroCircle } from '../Models/HeroCircle';
 import {Item} from './Model';
 import { Repair } from '../Models/Repair';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-all-work',
@@ -36,7 +37,7 @@ export class AllWorkComponent implements OnInit {
   makingChargeModal: BsModalRef = null;
   contactsModal: BsModalRef = null;
   status: number = null;
-
+  isdisplay = true;
   contacts: Array<Contact> = null; // list of contacts
   // temporary models
   contact: Contact = new Contact();
@@ -44,7 +45,10 @@ export class AllWorkComponent implements OnInit {
     selection = new SelectionModel(true, []);
   selectedimage: any;
   isChecked = false;
-  constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService, ) { }
+  dueDate: any;
+  constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService, private datePipe: DatePipe ) {
+    
+   }
 
   ngOnInit() {
     this.dataSource = new ItemDataSource(this.api);
@@ -91,7 +95,10 @@ export class AllWorkComponent implements OnInit {
       this.orderModal.setClass('modal-xl');
     });
   }
-
+  // displaying a datepicker for changing a due date
+  toggleDisplay() {
+     this.isdisplay = !this.isdisplay;
+  }
  
   getImage(element) {
     // console.log(element);
@@ -182,20 +189,38 @@ onSelectedStatus(val: any) {
     window.open(element.image, '_blank');
   }
 
+  addEvent(event , element) {
+    this.selectedItem = element;
+    console.log(event)
+    this.dueDate = this.datePipe.transform(event['value'], 'dd/M/yy');
+    console.log(this.dueDate);
+    this.selectedItem.due = this.dueDate;
+    console.log(this.selectedItem);
+    this.api.saveDueDate(this.selectedItem).subscribe(data => {
+      console.log(data);
+      if (data['detail'] === 'success') {
+      this.isdisplay = !this.isdisplay; }
+    })
+  }
+  refresh() {
+    window.location.reload();
+}
   // triggered from the contact modal, for selecting
   onContactClicked(contact) {
     this.api.saveAsignee(this.selectedItem, contact).subscribe(
       success => {
-        if (success['result'] === 'success') {
+        console.log(success);
+       
             console.log('successfully saved assignee information');
             this.selectedItem.assignedTo = contact;
             this.selectedItem.status = 1;
+            this.selectedItem.due = success['due'];
             this.contactsModal.hide();
-        } else {
-          // some failure occured during loading of data
-        }
+        
       },
-      fail => { }
+      fail => {
+        console.log(fail);
+       }
     );
 
   }
@@ -231,7 +256,8 @@ onSelectedStatus(val: any) {
     const value = 0;
     this.api.itemIsCompleted(this.groupItemData).subscribe(data => {
       console.log(data);
-      this.refreshPage();
+      this.dataSource.loadData(this.paginator.pageIndex , this.status);
+      this.isChecked = false; 
     });
   }
 

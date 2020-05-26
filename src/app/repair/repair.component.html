@@ -1,6 +1,6 @@
 
 <!---START OF CONTACTS--->
-<!-- <ng-template #contactsTemplate>
+<ng-template #contactsTemplate>
   <div class="side-modal">
     <div class="modal-header ">
      <h3 class="modal-title ">Contacts</h3>
@@ -68,7 +68,7 @@
 
   </div>
 
-</ng-template> -->
+</ng-template>
 
 <!---END OF CONTACTS--->
 
@@ -102,8 +102,9 @@
        <tr >
              
              <th>S no.</th>
-             <!-- <th>Due date</th> -->
-             <!-- <th>Assigned To</th> -->
+             <th>Due date</th>
+             <th>Assigned To</th>
+             <th>Image</th>
              <th>Description</th>
              <th>Weight</th>
              <th>Total</th>
@@ -117,6 +118,15 @@
              <td >
                 <b> {{i+1}}</b>
              </td>
+             <td>{{item.due}}</td>
+             <td *ngIf="item.assignedTo!=null" (click)="openSelectOrAddContacts(item,contactsTemplate)" style="cursor:pointer;">{{item.assignedTo.name}}</td>
+             <td *ngIf="item.assignedTo==null" (click)="openSelectOrAddContacts(item,contactsTemplate)"><button mat-button-raised>+</button></td>
+             <!--Related to image set-->
+             <td *ngIf="item.isImageSet()"><img [src]="item.image" height="150px" width="250px" style="object-fit: contain;padding: 5px;"></td>  
+                  <td *ngIf="!item.isImageSet()">     
+                     <input #file type="file" accept='image/*' (change)="item.imageUploader.preview(file.files);uploadItemImage(item);" />
+                     {{item.imageUploader.imgURL}}
+             <!--End of item related image-->
              <td>{{item.name}}</td>
              <td>{{item.weight}}</td>
              <td>{{item.total}}</td>
@@ -156,7 +166,8 @@
       <div class="col-md-2 text-right">
         <mat-form-field class="mt-2">
           <mat-label>Status</mat-label>
-          <select matNativeControl required [(ngModel)]="status" (ngModelChange)="onStatusSelected($event)">
+          <select matNativeControl  [(ngModel)]="status" (ngModelChange)="onStatusSelected($event)">
+            <option value=4>All</option>
             <option value=0>Pending</option>
             <option value=1>Assigned</option>
             <option value=2>Ready</option>
@@ -201,15 +212,15 @@
 
             <!-- Position Column -->
             <ng-container matColumnDef="s.no">
-              <th mat-header-cell *matHeaderCellDef  mat-sort-header> S.no </th>
+              <th mat-header-cell *matHeaderCellDef  mat-sort-header> RepairId </th>
               <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.id}} </td>
             </ng-container>
         
-            <!-- Name Column
+            
             <ng-container matColumnDef="date">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
-              <td mat-cell *matCellDef="let element"> {{element.ordertype}} </td>
-            </ng-container> -->
+              <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+            </ng-container>
 
 
 
@@ -218,21 +229,37 @@
               <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.customer}} </td>
             </ng-container>
         
+            <ng-container matColumnDef="phoneno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.phone}} </td>
+            </ng-container>
           
-            <ng-container matColumnDef="rate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> rate </th>
-              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)"> {{element.rate}} </td>
+           <!-- status -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let element"  >
+                <!--List of statuses to be shown
+                   0 pending - info
+                   1 assigned - how_to_reg
+                   2 completed - check_circle_outline
+                -->
+                <p *ngIf="element.status==0"><mat-icon style="color:red">info</mat-icon>Pending</p>
+                <p *ngIf="element.status==1"><mat-icon style="color:blue">how_to_reg</mat-icon>Assigned</p>
+                <p *ngIf="element.status==3"><mat-icon style="color:green">check_circle_outline</mat-icon>Completed</p>
+                <p *ngIf="element.status==2"><mat-icon>thumb_up</mat-icon>Ready</p>
+              </td>
             </ng-container>
         
+
             <!-- Symbol Column -->
             <ng-container matColumnDef="total">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
               <td mat-cell *matCellDef="let element">{{element.total}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="advance">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Advance </th>
-                    <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)">{{element.advance}} </td>
+            <ng-container matColumnDef="balance">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Balance </th>
+                    <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)">{{element.total-element.advance}} </td>
                   </ng-container>
 
                

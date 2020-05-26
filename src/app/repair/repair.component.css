@@ -1,3 +1,12 @@
+img{
+  height: 120px;
+  width: 200px;
+  padding: 5px;
+  overflow: hidden;
+  object-fit: contain;
+  cursor: pointer;
+}
+
 .fixedbutton {
     position: fixed;
     bottom: 10px;
@@ -8,3 +17,82 @@
     text-align: left;
 
 }
+table{
+  width:100%;
+}
+
+
+td,th{
+    padding:10px;
+}
+
+
+.circle {
+    height: 50px;
+    width: 50px;
+    background-color:red;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right:20px;
+    color:white;
+  }
+  
+  .circleAlphabet{
+    text-align: center;
+    margin-top:10px;
+
+    font-size:24px;
+    
+  }
+
+  .contactList:hover{
+    cursor: pointer;
+    background-color:gainsboro;
+  }
+
+
+  .yellowCircle {
+    height: 50px;
+    width: 50px;
+    background-color:yellow;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right:20px;
+    color:black;
+  }
+  .violetCircle {
+    height: 50px;
+    width: 50px;
+    background-color:violet;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right:20px;
+    color:white;
+  }
+  .blueCircle {
+    height: 50px;
+    width: 50px;
+    background-color:blue;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right:20px;
+    color:white;
+  }
+  .redCircle {
+    height: 50px;
+    width: 50px;
+    background-color:red;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right:20px;
+    color:white;
+  }
+  .greenCircle {
+    height: 50px;
+    width: 50px;
+    background-color:green;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right:20px;
+    color:white;
+  }

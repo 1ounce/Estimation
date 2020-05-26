@@ -45,8 +45,11 @@
                 <select matNativeControl  [(ngModel)]="repair.advanceItem.type">
                   <option value=0>Cash</option>
                   <option value=1>Card</option>
-                  <!-- <option value="imps">Imps</option> -->
                   <option value=2>Cheque</option>
+                  <option value=3>Phone Pay</option>
+                  <option value=4>Paytm</option>
+                  <option value=5>Google pay</option>
+                  <option value=6>Other</option>
                 </select>
               </mat-form-field>
              </td>
@@ -149,6 +152,13 @@
                   <mat-form-field class="mt-2">
                     <textarea matInput placeholder="Rate" [(ngModel)]="repair.rate"></textarea>
                   </mat-form-field>
+                  <mat-form-field >
+                    <mat-label>change date</mat-label>
+                    <input matInput [matDatepicker]="picker" 
+                            (dateChange)="addDate($event)">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
             </div>
 
         </div>
@@ -182,7 +192,7 @@
              </td>
              <td>{{item.name}}</td>
              <td>{{item.weight}}</td>
-             <td>{{item.total}}</td>
+             <td>{{money(item.total)}}</td>
            
 
              
@@ -218,7 +228,7 @@
                   <td></td>
                   <td></td>
                   <td>Sub Total</td>
-                  <td>{{repair.itemSubToatal}}</td>
+                  <td>{{money(repair.itemSubToatal)}}</td>
                 </tr>
             </table>
 
@@ -230,6 +240,6 @@
 <br><br>
     <div align=center><button mat-raised-button (click)="openAdvanceModal(advanceTemplate)" color="primary">Advance</button>    </div>
     <br><br>
-    <button mat-raised-button color="primary" style="float:right;" (click)="saveData()" >SubTotal: {{repair.total}}<br>Save</button>
+    <button mat-raised-button color="primary" style="float:right;" (click)="saveData()" >SubTotal: {{money(repair.balance)}}<br>Save</button>
 <!-- end of container -->
 </div>

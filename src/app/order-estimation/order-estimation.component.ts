@@ -48,13 +48,14 @@ export class OrderEstimationComponent implements OnInit {
   selectedUser: Object;
   userId = null ;
   rates: Object;
+  gold916;silver;
   constructor(private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService,
               private snackBar: MatSnackBar) {}
 
   addItem() {
       this.order.saveOrder();
       this.order.refereshcurrentItem();
-      
+
     }
 
     addOldGold() {
@@ -78,26 +79,36 @@ export class OrderEstimationComponent implements OnInit {
     onSelectedOrderType(val: any) {
       if ( val === 'gold') {
         this.order.type = '0';
+        this.rateAssign(this.order.type);
       } else {
         this.order.type = '1';
+        this.rateAssign(this.order.type);
       }
-      console.log(this.order.type);
-      if (this.order.type === '1') {
+    }
+
+      rateAssign(ordertype) {
+      console.log(ordertype);
+      if (ordertype === '1') {
         this.order.rate = this.rates['silver'];
-        this.order.rateChanged();
+        if (this.order.ncr === false) {
+        this.order.rateChanged(); }
       } else {
         this.order.rate = this.rates['gold'];
-        this.order.rateChanged();
+        if (this.order.ncr === false) {
+        this.order.rateChanged(); }
       }
-      
     }
+    
     checkSelected() {
       if (this.isdisabled === true) {
         this.isdisabled = false;
+        this.rateAssign(this.order.type);
       } else {
         this.isdisabled = true;
+        this.order.rate = 0;
+        
       }
-      this.order.rate = 0;
+
       this.order.ncr = this.isdisabled;
       this.order.rateChanged();
       console.log(this.order.ncr);
@@ -114,7 +125,7 @@ export class OrderEstimationComponent implements OnInit {
 
     }
 
-    people(phone) {
+  people(phone) {
       if (phone.length < 1) {
       this.selectedUser = null;
       }
@@ -129,7 +140,7 @@ export class OrderEstimationComponent implements OnInit {
         });
       }
     }
-    onuserClicked(user) {
+  onuserClicked(user) {
       console.log(user);
       this.userId = user.id;
       this.order.customerItem.name = user.name;
@@ -143,10 +154,12 @@ export class OrderEstimationComponent implements OnInit {
 
     }
 
-  ngOnInit() {
+ngOnInit() {
     this.api.getRate().subscribe( data => {
       this.rates = data ;
       console.log(this.rates);
+      this.gold916 = this.rates['gold'];
+      this.silver = this.rates['silver'];
       this.order.rate = this.rates['gold'];
     });
 
@@ -155,7 +168,7 @@ export class OrderEstimationComponent implements OnInit {
   }
 
 
-  openMakingChargeModal(template: TemplateRef<any>, isMakingChargeModal: Boolean= true) {
+openMakingChargeModal(template: TemplateRef < any > , isMakingChargeModal: Boolean = true) {
 
     console.log('Making charge modal' + isMakingChargeModal);
 
@@ -174,16 +187,16 @@ export class OrderEstimationComponent implements OnInit {
   }
 
 
-  getErrorMessage() {
+getErrorMessage() {
     return this.email.hasError('required') ? 'You must enter a value' :
         this.email.hasError('email') ? 'Not a valid email' :
             '';
   }
 
-  money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
+money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
 
 
-  openSelectedMakingChargeModal(itemPosition: number, template, isMakingChargeModal= true) {
+openSelectedMakingChargeModal(itemPosition: number, template, isMakingChargeModal = true) {
      this.isMakingChargeModal = isMakingChargeModal;
      this.makingChargeModalItem = this.order.items[itemPosition];
      this.modalRef = this.modalService.show(
@@ -194,7 +207,7 @@ export class OrderEstimationComponent implements OnInit {
 
   }
 
-  openAdvanceModal(template) {
+openAdvanceModal(template) {
     this.advancemodal = this.modalService.show(
       template,
       Object.assign({})
@@ -202,22 +215,22 @@ export class OrderEstimationComponent implements OnInit {
     this.advancemodal.setClass('modal-lg');
   }
 
-  openPopupmodal(template) {
+openPopupmodal(template) {
     this.popupmodal = this.modalService.show(
       template,
       Object.assign({})
     );
   }
 
-  ok() {
+ok() {
     this.saveData();
     this.popupmodal.hide();
   }
-  Cancel() {
+Cancel() {
     this.popupmodal.hide();
   }
 
-   saveData() {
+saveData() {
       if (this.userId === null) {
         console.log(this.order.customerItem);
         this.api.savePeople(this.order.customerItem).subscribe(data => {
@@ -230,8 +243,9 @@ export class OrderEstimationComponent implements OnInit {
       }
   }
 
-  saveOrder() {
+saveOrder() {
     this.order.saveOrder();
+    this.order. saveoldGold();
     console.log(this.order);
     if (!this.isSaveClicked) {
       this.isSaveClicked = true;

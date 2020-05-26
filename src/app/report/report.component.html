@@ -41,12 +41,12 @@
         <div class="col-md-4 text-center marginClass">
                 <h6>Total Payment</h6>
     
-            <mat-card class="h-100">
+            <mat-card class="h-100" style="text-align: center;" >
                     <h6  class="text-center">Total</h6>
     
-                    <table class="text-center">
+                    <table>
                             <tr>
-                                <td>
+                                <td style="margin-left: 20px;">
                                     Cash
                                 </td>
                                 <td>
@@ -78,6 +78,41 @@
                                         </td>
                                         <td>
                                                 <span class="current_holding">{{money(cheque)}}</span>
+                                        </td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td>
+                                                PhonePay
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                                <span class="current_holding">{{money(phonepay)}}</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                                GooglePay
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                                <span class="current_holding">{{money(googlepay)}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                                Paytam
+                                        </td>
+                                        <td>
+                                            :
+                                        </td>
+                                        <td>
+                                                <span class="current_holding">{{money(paytm)}}</span>
                                         </td>
                                     </tr>
                         </table>
@@ -114,13 +149,87 @@
         </div>
     
     </div>
-    
-    
-    
+    <br>
+    <hr>
+    <mat-card>
+        <div class="container table-responsive">
+            <table border="2" class="table table-bordered" style="border: 1px solid black;width: 100%;">
+                  <thead>
+                      <tr>
+                          <th rowspan="2">Id</th> 
+                         <th rowspan="2" >Old Gold</th>
+                         <th rowspan="2">Date</th>
+                          <th colspan="3">Advance</th>
+                           <!-- <td colspan="3">Old Gold</td> -->
+                      </tr>
+                      <tr>
+                          <!-- <td></td> -->
+                        <th>mode</th>
+                        <th>Payment</th>
+                        <!-- <td>Description</td>
+                       <td>Weight</td>
+                       <td>Purity</td> -->
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                <ng-container *ngFor="let order of reportOrder | paginate: { id: 'listing_pagination',
+                itemsPerPage: 10,
+                currentPage: page }">
+                      <tr >
+                        <td [attr.rowspan]="order.advances.length+1" >{{order.order_id}}</td>
+                        <td [attr.rowspan]="order.advances.length+1">{{order.old_gold_total}}</td>
+                        <td [attr.rowspan]="order.advances.length+1">{{order.date}}</td>
+                    </tr>
+                   
+                       <!-- <tr *ngIf="order.advances.length==0">
+                           <td>null</td>
+                           <td>null</td>
+                       </tr> -->
+                       <ng-container *ngIf="order.advances.length>0">
+                    <tr *ngFor="let ad of order.advances" >
+                       <td>
+                           <p *ngIf="ad.type==0">Cash</p>
+                           <p *ngIf="ad.type==1">Card</p>
+                           <p *ngIf="ad.type==2">Cheque</p>
+                           <p *ngIf="ad.type==3">Phone pay</p>
+                           <p *ngIf="ad.type==4">Paytam</p>
+                           <p *ngIf="ad.type==5">Google Pay</p>
+                           <p *ngIf="ad.type==6">Other</p>
+                       </td>
+                     
+                        <td>{{ad.amount}}</td>
+                        
+                    </tr>
+                </ng-container>
+               
+                    <!-- <tr *ngIf="order.oldGold.length===0">
+                        <td>null</td>
+                        <td>null</td>
+                        <td>null</td>
+                    </tr>
+                    <ng-container *ngIf="order.oldGold.length>0">
+                    <tr *ngFor="let og of order.oldGold">
+                        <td>{{og.description}}</td>
+                        <td>{{og.weight}}</td>
+                        <td>{{og.purity}}</td>
+                    </tr>
+                    </ng-container> -->
+                    
+                   
+                    
+                </ng-container>
+                  </tbody>
+              </table>
+              <div>
+                  <pagination-controls  id="listing_pagination" maxSize="10" directionLinks="true" (pageChange)="getReportOderData1($event)"></pagination-controls>
+              </div>
+          </div>
+    </mat-card>
     
     
     
        
-    
+<!-- end of container fluid -->
     </div>
     

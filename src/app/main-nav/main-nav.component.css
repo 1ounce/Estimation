@@ -82,5 +82,10 @@ span{
 .sellrate{
   color:red;
 }
-
+.sidenav p.active {
+  background: #1B81EB;
+  color: white;
+  cursor: pointer;
+  border-radius: 50px;
+}
 

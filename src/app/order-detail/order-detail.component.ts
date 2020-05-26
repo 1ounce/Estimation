@@ -112,13 +112,13 @@ export class OrderDetailComponent implements OnInit {
       success => {
         // tslint:disable-next-line: triple-equals
         console.log(success);
-        if (success['result'] === 'success') {
+        
         console.log('successfully saved assignee information');
         this.selectedItem.assignedTo = contact;
+        this.selectedItem.due = success['due'];
+        this.selectedItem.status = 1;
         this.contactsModal.hide();
-        } else {
-          // some failure occured during loading of data
-        }
+        
       },
       fail => {}
     );

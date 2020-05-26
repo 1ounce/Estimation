@@ -265,7 +265,7 @@
      <div class="col-md-2 text-right">
       <mat-form-field class="mt-2">
         <mat-label>Filter</mat-label>
-        <select matNativeControl required [(ngModel)]="status" (ngModelChange)="onSelectedStatus($event)">
+        <select matNativeControl  [(ngModel)]="status" (ngModelChange)="onSelectedStatus($event)">
         <!-- <select matNativeControl  (ngModelChange)="onSelectedStatus($event)"> -->
           <option value=3>All</option>
           <option value=0>UnAssigned</option>
@@ -321,11 +321,7 @@
                 </td>
               </ng-container>
 
-              <!-- <ng-container matColumnDef="checkbox">
-                <td mat-cell > <input type="checkbox" (change)="checkSelected()"></td>
-              </ng-container> -->
-             
-              >
+        
             <!-- Position Column -->
             <ng-container matColumnDef="order_id">
               <th mat-header-cell *matHeaderCellDef  mat-sort-header> Order ID</th>
@@ -335,9 +331,18 @@
             <!-- Date Column -->
             <ng-container matColumnDef="date">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
-              <td mat-cell *matCellDef="let element" (click)="rowClick(template,element)" > {{element.getDueDate() }}</td>
+              <td mat-cell *matCellDef="let element" > {{element.due }}
+              <button mat-stroked-button color="primary" (click)="toggleDisplay()">+</button>
+              <!-- <input matInput type="date" placeholder=" choose Date"  > -->
+              <mat-form-field  [hidden]="isdisplay">
+                <mat-label>change Due date</mat-label>
+                <input matInput [matDatepicker]="picker"
+                        (dateChange)="addEvent($event , element)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </td>
             </ng-container>
-
           <!-- Name Column -->
             <ng-container matColumnDef="item">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Item</th>
