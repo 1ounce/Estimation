@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigateServiceService } from '../service/navigate-service.service';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, Validators, FormGroup} from '@angular/forms';
 
 import { isNgTemplate } from '@angular/compiler';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
@@ -29,7 +29,8 @@ export class RepairEstimationComponent implements OnInit {
   userId = null;
   isSaveClicked: boolean = false;
   // user: Object;
-
+  date = new Date((new Date())); 
+  testForm : FormGroup;
     constructor(private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService,
                 private snackBar: MatSnackBar , private datepipe: DatePipe) {}
 
@@ -40,6 +41,9 @@ export class RepairEstimationComponent implements OnInit {
       this.repair.rate = data['gold'] ;
       
     });
+    this.testForm = new FormGroup({
+      date:new FormControl(this.date),
+    })
   }
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, Validators, FormGroup} from '@angular/forms';
 import { isNgTemplate } from '@angular/compiler';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {AlertModule} from 'ngx-bootstrap';
@@ -14,7 +14,8 @@ import {HttpClient} from '@angular/common/http';
 import { NavigateServiceService } from '../service/navigate-service.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { delay } from 'rxjs/operators';
-
+import {
+  DatePipe} from '@angular/common';
 
 
 
@@ -49,8 +50,26 @@ export class OrderEstimationComponent implements OnInit {
   userId = null ;
   rates: Object;
   gold916;silver;
+  date = new Date((new Date())); 
+  testForm : FormGroup;
   constructor(private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService,
-              private snackBar: MatSnackBar) {}
+              private snackBar: MatSnackBar, private datepipe: DatePipe ) {
+
+              }
+
+    keyup(event , val) {
+      console.log(event.target.value);
+      console.log(val);
+      if (event.target.value[0] === '.' && val === 1) {
+        this.order.currentItem.weight = '0' + event.target.value;
+      }
+      if (event.target.value[0] === '.' && val === 2) {
+        this.order.oldGoldItem.weight =  '0' + event.target.value;
+      }
+      if (event.target.value[0] === '.' && val === 3) {
+        this.order.oldGoldItem.dust =  '0' + event.target.value;
+      }
+    }
 
   addItem() {
       this.order.saveOrder();
@@ -154,15 +173,27 @@ export class OrderEstimationComponent implements OnInit {
 
     }
 
+    addDate(event) {
+      console.log(event['value']);
+      this.order.date = this.datepipe.transform(event['value'], 'dd/MM/yy');
+      console.log(this.order.date);
+      }
+
 ngOnInit() {
-    this.api.getRate().subscribe( data => {
+      this.order.date = this.datepipe.transform(new Date(), 'dd/MM/yy');
+      console.log(this.order.date);
+      this.api.getRate().subscribe( data => {
       this.rates = data ;
       console.log(this.rates);
+      this.order.oldGoldItem.rate = this.rates['gold'];
       this.gold916 = this.rates['gold'];
       this.silver = this.rates['silver'];
       this.order.rate = this.rates['gold'];
     });
-
+    
+     this.testForm = new FormGroup({
+      date:new FormControl(this.date),
+    })
     // orderItemList.push(new OrderItem("gold24 Ring I1234",2,3,4));
 
   }

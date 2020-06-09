@@ -152,13 +152,17 @@
                   <mat-form-field class="mt-2">
                     <textarea matInput placeholder="Rate" [(ngModel)]="repair.rate"></textarea>
                   </mat-form-field>
-                  <mat-form-field >
-                    <mat-label>change date</mat-label>
-                    <input matInput [matDatepicker]="picker" 
-                            (dateChange)="addDate($event)">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
+                  
+
+                    <form  [formGroup]="testForm" >
+                      <mat-form-field class="mr-sm-24" fxFlex >
+                         <input matInput [matDatepicker]="picker" placeholder="Date"
+                                        autocomplete="off"
+                                        name="date" formControlName="date" (dateChange)="addDate($event)">
+                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                         <mat-datepicker  [startAt]="date" #picker></mat-datepicker>
+                      </mat-form-field>
+                      </form>
             </div>
 
         </div>

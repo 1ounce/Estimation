@@ -4,7 +4,7 @@
  <ng-template #template2  id="side-modal" style="padding:10px;margin-top:20px">
     <div class="side-modal">
       <div class="modal-header ">
-      <h3 class="modal-title ">Addon Charges</h3>
+      <h4 class="modal-title ">Addon Charges</h4>
       <button type="button" display="inline" class="close pull-right" aria-label="Close" (click)="makingChargeModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -98,7 +98,7 @@
     <ng-template #contactsTemplate>
       <div class="side-modal">
         <div class="modal-header ">
-         <h3 class="modal-title ">Contacts</h3>
+         <h4 class="modal-title ">Contacts</h4>
         <button type="button" display="inline" class="close pull-right" aria-label="Close" (click)="contactsModal.hide()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -189,8 +189,8 @@
         </div>
     </div>
 <hr>
-    <div class="row" *ngIf= 'selected != null'>
-        <table style="width:100%" border="1" class="table-responsive">
+    <div class="row table-responsive" *ngIf= 'selected != null'>
+        <table style="width:100%" border="1" class="">
             <tr >
                   
                   <th>S no.</th>
@@ -249,15 +249,267 @@
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td>SubTotal</td>
-                  <td>{{money(selected.total)}}</td>
+                  <td>{{money(selected.item_subtotal)}}</td>
                   </tr>    
          </table>
-         <div align="right" style="margin-top:20px; ">
-             <button mat-raised-button color="primary" align="right">Pay</button>
-     
-         </div>
+         
     </div>
 
+    <div class="row" style="margin-top: 20px;">
+      <!-- Old Gold details -->
+      <div class="col-md-6 table-responsive" *ngIf= 'selected != null'>
+        <h4>Old Gold</h4>
+        <table style="width:100%" border="1" >
+          <tr >
+                
+                <th>S no.</th>
+                <th>Description</th>
+                <th>Dust</th>
+                <th>Weight</th>
+                <th>Purity</th>
+                <th>Rate</th>
+                <th>Total</th>
+                
+   
+                
+                </tr>
+                <tr style="padding:10px;margin-top:40px;"  *ngFor="let item of selected.oldGold;let i =index" >
+                  
+     
+                  <td >
+                     <b> {{i+1}}</b>
+                  </td>
+                  <td>{{item.description}}</td>
+                  <td>{{item.dust}}</td>
+                  <td>{{item.weight}}</td>
+                  <td>{{item.purity}}</td>
+                  <td>{{item.rate}}</td>
+                  <td>{{item.total}}</td>
+                  </tr>
+            </table>
+      </div> 
+      <!-- old gold detail ends -->
+      <div class="col-md-6 table-responsive" *ngIf= 'selected != null'>
+        <!-- Advance details -->
+        <h4>Advances</h4>
+        <table style="width:100%" border="1" >
+          <tr >
+                
+                <th>S no.</th>
+                <th>RefrenceId</th>
+                <th>Mode</th>
+                <th>Amount</th>
+              
+            </tr>
+            <tr style="padding:10px;margin-top:40px;"  *ngFor="let item of selected.advances;let i =index" >
+                  
+     
+              <td >
+                 <b> {{i+1}}</b>
+              </td>
+              <td>{{item.ref_id}}</td>
+              <td>
+                <p *ngIf="item.type==0">Cash</p>
+                <p *ngIf="item.type==1">Card</p>
+                <p *ngIf="item.type==2">Cheque</p>
+                <p *ngIf="item.type==3">Phone Pay</p>
+                <p *ngIf="item.type==4">Paytam</p>
+                <p *ngIf="item.type==5">Google Pay</p>
+                <p *ngIf="item.type==6">Other</p>
+
+              </td>
+              <td>{{item.amount}}</td>
+              
+              </tr>
+              <tr style="margin-top:30px;">
+                <td></td>
+                <td></td>
+                <td>Total</td>
+                <td>{{money(selected.advance_subtotal)}}</td>
+                </tr> 
+        </table>
+      </div>
+    </div>
+<div class="row">
+  <div class="col-md-6" style="margin-top: 20px;">
+    <button mat-raised-button color="primary" align="left" (click)="backClicked()">Back</button>
+  </div>
+  <div class="col-md-6" style="margin-top: 20px;"> 
+    
+      <button mat-raised-button class="backBtn" color="primary" (click)="print()" align=right>print</button>
+
+  </div>
+</div>
     <!-- end of container class -->
+
+
+<div id="print-section">
+  <div class="print" *ngIf="selected != null">
+          <table>
+            <tr>
+             
+              <td align="left" style="line-height: 0px;">
+                <h3>Company Name</h3> 
+                <p style="color: rgb(204, 104, 104);">GstNo:12457847576</p>
+                <p>4th Block Koramangla Banglore</p>
+                <p>560074</p>
+                <p>PhoneNo:9874665744</p>
+                
+              </td>
+               <td align="right" ><p style="margin-left: 200px;"><img class="img-responsive" src="assets/images/logo2.png" style="width: 150px;height:100px;object-fit: contain;padding-left: 60px;"></p></td>
+            </tr>
+          </table>
+          <!-- for the customer info section -->
+        
+         <table bgcolor="#d6d5d4" width="100%" align="center" cellpadding="0" cellspacing="0">
+           <tr>
+             <td align="left" style="padding-left: 10px;">
+               <table style="margin-left: 10px;">
+                 <tr>
+                   <td>{{selected.customer}}</td>
+                 </tr>
+                 <tr>
+                  <td>{{selected.address}}</td>
+                </tr>
+                <tr>
+                  <td>{{selected.phone}}</td>
+                </tr>
+               </table>
+
+             </td>
+             <td align="right" style="padding-right: 80px;" *ngIf="selected!=null">
+              <table>
+                <tr>
+                  <td><p><b>INVOICE</b></p></td>
+                </tr>
+                <tr>
+                 <td>OrderId: {{id}}</td>
+               </tr>
+               <tr>
+                 <td>Order Date: {{selected.date}}</td>
+               </tr>
+              </table>
+             </td>
+           </tr>
+         </table>
+          <!-- end of customer info -->
+<!-- items related code -->
+<table  width="90%" align="center" cellpadding="0" border="1"  cellspacing="0" style="margin:20px;">
+           <tr>
+            <th>Sno</th>
+             <th>Descrption</th>
+             <th>Quantity</th>
+             <th>Rate</th>
+             <th>Amount</th>
+           </tr>
+           <tr *ngFor="let item of selected.items;let i =index"  align="center">
+            <td> <b> {{i+1}}</b></td>
+            <td>{{item.name}}</td>
+            <td>{{item.weight}}</td>
+            <td>{{selected.rate}}</td>
+            <td>{{item.total}}</td>
+           </tr>
+        
+           <tr style="margin-top: 10px;" align="center" style="line-height: 20px;">
+            
+             
+             <td colspan="4" align="right" >Gst <span>:</span></td>
+             <td style="line-height: 10px;">{{selected.gst}}</td>
+           </tr>
+           <tr align="center">
+            
+            
+            <td colspan="4" align="right">Total <span>:</span></td>
+            <td><p style="color: cornflowerblue;">{{selected.total}}</p></td>
+          </tr>
+         </table>
+<!-- items related code ends here -->
+         <h5><u>OLD GOLD</u></h5>
+         <table  width="90%" align="center" cellpadding="0" border="1" cellspacing="0" style="margin:20px;" class="table-responsive">
+          <tr>
+           <th>Sno</th>
+            <th>Descrption</th>
+            <th>Quantity</th>
+            <th>Rate</th>
+            <th style="min-width: 15px;">Amount</th>
+          </tr>
+          <tr *ngFor="let item of selected.oldGold;let i =index" align="center">
+           <td> <b> {{i+1}}</b></td>
+           <td>{{item.description}}</td>
+           <td>{{item.weight}}</td>
+           <td>{{item.rate}}</td>
+           <td style="min-width: 15px;">{{item.total}}</td>
+          </tr>
+      
+          
+        </table>
+        <table>
+          <tr>
+            <td align="right" style="min-width: 400px;">
+              
+            </td>
+            <td align="right" style="min-width: 280px;">
+              <table align="right" width="80%" border="1" style="border-collapse: collapse;">
+                <tr align="left">
+           
+                  <td colspan="4" align="left">Total </td>
+                  <td ><p style="color: cornflowerblue;">{{selected.total}}</p></td>
+                </tr>
+                <tr align="left">
+                 
+                  <td colspan="4" align="left">OldGold </td>
+                  <td><p style="color: cornflowerblue;">{{selected.old_gold_subtotal}}</p></td>
+                </tr>
+                <tr align="left">
+                 
+                 <td colspan="4" align="left">Advance </td>
+                 <td><p style="color: cornflowerblue;">{{selected.advance_subtotal}}</p></td>
+               </tr>
+               <tr align="left">
+                
+                 <td colspan="4" align="left">Balance </td>
+                 <td ><p style="color: cornflowerblue;">{{(selected.balance)}}</p></td>
+               </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        
+
+    <p>**Subjected to gst Regulations**</p>
+
+   <div style="margin-top: 100px;">
+    <table width="90%" >
+      <tr>
+        <td align="left">
+          <p>Customer Sign</p>
+        </td>
+        <td align="right">
+          <p>For CompanyName</p>
+        </td>
+      </tr>
+    </table>
+   </div>
+    <p><u><strong>KIND INFORMATION</strong></u></p>
+    <p style="font-size: 11px;"> There will be variation of upto 20% on customer
+      <br>specific(design&weight) order with sample <br>of gold & limitation Jwellery to be Made in Gold
+    </p>
+    <div style="margin-left: 5px;">
+      <p style="font-size: 10px;">Note :-</p>
+      <p style="font-size: 8;">1. price inclusive of hallmarking charges(HallMark charge Rs.35/pc) <br>
+      2.The consumer can get the purity of the hallmarked Jwellery verified from any of the BIS recongnized A& h Center
+    <br>3.The list of BIS recongnized A& H center along address and contact detalis is available on the website www.bis.gov.in</p>
+    <p align="right" style="padding-right: 150px;font-size: 10px;"> E & OE</p>
+    </div>
+        
+
+  </div>
+</div>
+<!-- End of print-Section -->
+
+
 </div>

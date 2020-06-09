@@ -8,13 +8,16 @@ import { catchError } from 'rxjs/operators';
 export class ItemDataSource implements DataSource<Item> {
 
     private nextUrl: string;
+    // data list
     private orderData = new BehaviorSubject<Item[]>([]);
+
+    // paging purpose
+    private countSubject = new BehaviorSubject<number>(0);
+    public counter$ = this.countSubject.asObservable();
+
+    // loading bar , each time i click
     private loadingOrder = new BehaviorSubject<Boolean>(false);
     public loading$ = this.loadingOrder.asObservable();
-  paginator: any;
-  //pagination
-  private countSubject = new BehaviorSubject<number>(0);
-  public counter$ = this.countSubject.asObservable();
 
     constructor(private api: DataAccessService) {}
 
@@ -68,39 +71,5 @@ export class ItemDataSource implements DataSource<Item> {
 
 
 
-    // loadData(page: number) {
-    //     this.loadingOrder.next(true);
-
-    //     if (page == 1) {
-
-    //         this.api.getItems().subscribe(
-    //             data => {
-    //             console.log(data);
-    //             this.nextUrl = data.next;
-    //             let orders = data.results.map(obj => Object.assign(new Item(), obj));
-    //             console.log('Order data');
-    //             console.log(orders);
-    //             this.orderData.next(orders);
-    //             this.loadingOrder.next(false);
-
-    //             },
-    //             fail => {
-    //                 console.log('failed for some unkonwn reason');
-    //                 // should handle this to display error messages
-    //             }
-    //         );
-    //     } else {
-    //         if (this.nextUrl != null) {
-    //             this.api.getData<Rest<Item>>(this.nextUrl).subscribe(
-    //                 data => {
-    //                     this.orderData.next(data.results.map(obj => Object.assign(new Item(), obj)));
-    //                     this.loadingOrder.next(false);
-    //                 },
-    //                 fail => {console.log('failure during donwload'); }
-    //             );
-    //         }
-    //     }
-
-    // }
 
 }

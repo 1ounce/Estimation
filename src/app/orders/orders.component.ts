@@ -66,6 +66,7 @@ export class OrdersComponent implements OnInit {
 
     this.dataSource = new OrderDataSource(this.api);
     this.dataSource.loadData(0, this.status , this.search);
+    console.log(this.boolSpinner);
     console.log('loading contacts');
     // this.sort.sortChange.subscribe(
     //   sort => {

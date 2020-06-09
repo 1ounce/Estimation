@@ -292,9 +292,18 @@
             </div>
 
             <div class="col-md-6">
-              <mat-form-field class="mt-2">
-                <input matInput type="date" placeholder="Date" [(ngModel)]="order.date" >
-              </mat-form-field>
+              
+
+              <form  [formGroup]="testForm" >
+                <mat-form-field class="mr-sm-24" fxFlex >
+                   <input matInput [matDatepicker]="picker" placeholder="Date"
+                                  autocomplete="off"
+                                  name="date" formControlName="date" (dateChange)="addDate($event)">
+                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                   <mat-datepicker  [startAt]="date" #picker></mat-datepicker>
+                </mat-form-field>
+                </form>
+
               <mat-form-field class="mt-2">
                 <mat-label>Order Type</mat-label>
                 <select matNativeControl required [(ngModel)]="selectedOrderType" (ngModelChange)="onSelectedOrderType($event)">
@@ -364,7 +373,7 @@
                     </td>
                     <td max-width=16pxpx>
                             <mat-form-field style="max-width:60pxx;">
-                                    <input matInput [(ngModel)]="order.currentItem.weight" (input)="order.triggerItemDataChanged()" >
+                                    <input matInput [(ngModel)]="order.currentItem.weight" (input)="order.triggerItemDataChanged()" (keyup)="keyup($event, 1)">
                                     <span matSuffix>gms</span>
 
                                 </mat-form-field>                    
@@ -474,13 +483,13 @@
             <td>
               <!-- weight input-->
               <mat-form-field>
-                <input matInput [(ngModel)]="order.oldGoldItem.weight" (input)="order.triggerOldGoldChanged()" >
+                <input matInput [(ngModel)]="order.oldGoldItem.weight" (input)="order.triggerOldGoldChanged()" (keyup)="keyup($event, 2)" >
             </mat-form-field>
             </td>
             <td style="max-width:15px ">
               <!--dust stone input-->
               <mat-form-field>
-                <input matInput [(ngModel)]="order.oldGoldItem.dust" (input)="order.triggerOldGoldChanged()" >
+                <input matInput [(ngModel)]="order.oldGoldItem.dust" (input)="order.triggerOldGoldChanged()" (keyup)="keyup($event, 3)" >
             </mat-form-field>
             </td>
             <td>

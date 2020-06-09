@@ -313,13 +313,7 @@
 
 
 
-    <div class="row">
-      <div class="col-md-12 text-center">
-          <mat-spinner *ngIf="boolSpinner"  
-          mode="indeterminate"  [diameter]="20"></mat-spinner>
-  
-      </div>
-  </div>
+   
 
       <div class="row">
       <div class="mat-elevation-z8 table-responsive" > 
@@ -345,7 +339,7 @@
             <!-- Name Column -->
             <ng-container matColumnDef="date">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
-              <td mat-cell *matCellDef="let element" (click)="rowClick(element)" > {{element.date |date: 'dd/MM/y'}}
+              <td mat-cell *matCellDef="let element" (click)="rowClick(element)" > {{element.date }}
             </ng-container>
 
             <!-- Phone number -->

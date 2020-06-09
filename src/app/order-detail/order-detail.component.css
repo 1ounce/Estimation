@@ -67,3 +67,27 @@
     margin-right:20px;
     color:white;
   }
+  h4 {
+
+    text-align: center;
+  }
+
+  td , th{
+    text-align: center ;
+  }
+
+
+  @media print {
+    @page { margin: 0; }
+    html, body {
+      height:100%; 
+      margin: 0 !important; 
+      padding: 0 !important;
+      overflow: hidden;
+    }
+  }
+
+  #print-section {
+    display: none;
+  }
+  

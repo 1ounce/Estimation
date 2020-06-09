@@ -1,30 +1,35 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
     <mat-toolbar>
       <div class="logo">
-        <img class="img-responsive" src="assets/images/logo2.png"
-          style="width: 150px;height:200px;object-fit: contain" >
+        <img class="img-responsive" src="assets/images/logo2.png" style="width: 150px;height:200px;object-fit: contain">
       </div>
     </mat-toolbar>
     <mat-nav-list style="margin-top: 50px;">
-   <div class="sidemenu_option" matToolTip="Repair">
-     <p  (click)="reportPage()" [routerLink]="['repair']" routerLinkActive="active"><mat-icon >build</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">Repair Page</i></p>
-   </div>
-    
-   <div class="sidemenu_option" matToolTip="Orders">
-    <p (click)="orderPage()" [routerLink]="['orders']" routerLinkActive="active"><mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Orders</i></p>
-  </div>
+      <div class="sidemenu_option" matToolTip="Repair">
+        <p (click)="reportPage()" [routerLink]="['repair']" routerLinkActive="active">
+          <mat-icon>build</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">Repair Page</i>
+        </p>
+      </div>
 
-   <div class="sidemenu_option" matToolTip="receipt">
-    <p (click)="allWorks()" [routerLink]="['allWork']" routerLinkActive="active"><mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Work</i></p>
-  </div>
+      <div class="sidemenu_option" matToolTip="Orders">
+        <p (click)="orderPage()" [routerLink]="['orders']" routerLinkActive="active">
+          <mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Orders</i>
+        </p>
+      </div>
 
-  <div class="sidemenu_option" matToolTip="Orders">
-    <p (click)="report()" [routerLink]="['report']" routerLinkActive="active"><mat-icon>account_balance</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">Report</i></p>
-  </div>
+      <div class="sidemenu_option" matToolTip="receipt">
+        <p (click)="allWorks()" [routerLink]="['allWork']" routerLinkActive="active">
+          <mat-icon>receipt</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">All Work</i>
+        </p>
+      </div>
+
+      <div class="sidemenu_option" matToolTip="Orders">
+        <p (click)="report()" [routerLink]="['report']" routerLinkActive="active">
+          <mat-icon>account_balance</mat-icon><i class="fa fa-angle-right" style="margin-top: 20px;">Report</i>
+        </p>
+      </div>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -35,26 +40,28 @@
       </button>
       <div class="ml-auto">
 
-        
-       
+
+
 
         <h6>
-            <mat-menu  #menu1="matMenu">
-                
-                <span mat-menu-item>Gold 916 <span class="buyrate">{{ gold916}}</span></span>
-                <span mat-menu-item>Silver <span class="buyrate">{{silver}}</span></span>
-    
-    
-            </mat-menu>
-            <span [matMenuTriggerFor]="menu1"  >Rate</span>
+          <mat-menu #menu1="matMenu">
+
+            <span mat-menu-item>Gold 916 <span class="buyrate">{{ gold916}}</span></span>
+            <span mat-menu-item>Silver <span class="buyrate">{{silver}}</span></span>
+
+
+          </mat-menu>
+          <span [matMenuTriggerFor]="menu1">Rate</span>
 
           <span class="gold916">Gold 916 |<span class="buyrate">{{ gold916}}</span></span>
 
-          <span class="silver">Silver |<span class="buyrate">{{silver}}</span></span> 
+          <span class="silver">Silver |<span class="buyrate">{{silver}}</span></span>
           <span class="neworder" (click)="goToOrderEstimation()">+NewOrder</span>
           <span class="newRepair" (click)="goToRepairEstimation()">+NewRepair</span>
-          <span (click)="navigateToRate()" style="cursor: pointer;"><img src="assets/images/logo2.png" class="img-rounded" style="height: 50px;width: 50px;object-fit: contain;"></span>
-          <span [matMenuTriggerFor]="menu">Company name<i class="fa fa-chevron-down" aria-hidden="true"></i></span> </h6>
+          <span (click)="navigateToRate()" style="cursor: pointer;"><img src="assets/images/logo2.png"
+              class="img-rounded" style="height: 50px;width: 50px;object-fit: contain;"></span>
+          <span [matMenuTriggerFor]="menu">Company name<i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+        </h6>
         <mat-menu #menu="matMenu">
           <button mat-menu-item><i class="fa fa-user" aria-hidden="true"></i> {{name}}</button>
           <button mat-menu-item><i class="fa fa-mobile" aria-hidden="true"></i> {{phone}}</button>
@@ -63,10 +70,26 @@
         </mat-menu>
       </div>
     </mat-toolbar>
+
     <div style="padding: 20px;margin-top: 50px;">
+      <div class="lds-spinner" *ngIf="showiLoading">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
       <router-outlet></router-outlet>
 
     </div>
     <!-- Add Content Here -->
   </mat-sidenav-content>
+
 </mat-sidenav-container>

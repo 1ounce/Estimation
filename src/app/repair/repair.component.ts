@@ -82,7 +82,7 @@ export class RepairComponent implements OnInit {
     );
 
   }
-
+  money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
   rowClick(template: TemplateRef<any>, element) {
     // this.selected = element;
     // this.api.getselectedOrder(element.order_id).subscribe( data => {

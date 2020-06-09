@@ -1,14 +1,10 @@
 import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import { environment } from '../../environments/environment';
 import {SelectionModel} from '@angular/cdk/collections';
-// import { Routes, RouterModule, Router } from '@angular/router';
 import {MatSort} from '@angular/material/sort';
 import { NavigateServiceService } from '../service/navigate-service.service';
 import {DataAccessService} from '../services/data-access.service';
-import {Order, OrderItem, Contact} from '../Models/Order';
-import {Rest}  from '../Models/Rest';
+import {Contact} from '../Models/Order';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import {ItemDataSource} from './Items_table_source';
 import { HeroCircle } from '../Models/HeroCircle';
@@ -46,6 +42,7 @@ export class AllWorkComponent implements OnInit {
   selectedimage: any;
   isChecked = false;
   dueDate: any;
+  loadingImage: boolean = false;
   constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService, private datePipe: DatePipe ) {
     
    }
@@ -111,7 +108,7 @@ export class AllWorkComponent implements OnInit {
 
   money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
 
-  openSelectedMakingChargeModal(item: Item, template, isMakingCharge: Boolean) {
+  openSelectedMakingChargeModal(item: Item, template) {
     this.selectedItem = item;
     console.log(this.selectedItem);
     this.makingChargeModal = this.modalService.show(
@@ -137,7 +134,7 @@ export class AllWorkComponent implements OnInit {
         this.contacts.push(data);
         this.contact = new Contact();
       },
-      fail => {
+      () => {
 
       }
     );
@@ -209,8 +206,7 @@ onSelectedStatus(val: any) {
   onContactClicked(contact) {
     this.api.saveAsignee(this.selectedItem, contact).subscribe(
       success => {
-        console.log(success);
-       
+            console.log(success);
             console.log('successfully saved assignee information');
             this.selectedItem.assignedTo = contact;
             this.selectedItem.status = 1;
@@ -229,7 +225,7 @@ onSelectedStatus(val: any) {
     console.log('upload Item started');
     this.selectedItem = item;
     console.log(this.selectedItem);
-    // console.log(id);
+    this.loadingImage = true;
     this.api.uploadItemImage(item).subscribe(
         result => {
         console.log(result);
@@ -239,7 +235,7 @@ onSelectedStatus(val: any) {
           this.selectedimage = result['data'].image;
           // this.getImage();
           console.log('image uploded sucessfully');
-          // this.orderModal.hide();
+          this.loadingImage = false;
         }
       },
       fail => {
@@ -253,7 +249,6 @@ onSelectedStatus(val: any) {
     window.location.reload();
    }
   isCompleted() {
-    const value = 0;
     this.api.itemIsCompleted(this.groupItemData).subscribe(data => {
       console.log(data);
       this.dataSource.loadData(this.paginator.pageIndex , this.status);

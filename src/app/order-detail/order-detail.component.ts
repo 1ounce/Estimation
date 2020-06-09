@@ -7,6 +7,7 @@ import {Order, OrderItem, Contact} from '../Models/Order';
 import {Rest} from '../Models/Rest';
 import { HeroCircle } from '../Models/HeroCircle';
 import {Observable} from 'rxjs';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-order-detail',
@@ -21,7 +22,7 @@ export class OrderDetailComponent implements OnInit {
   orderData = [];
   selectedItem: OrderItem;
   color: HeroCircle = new HeroCircle();
-
+  
   orderModal: BsModalRef = null;
   makingChargeModal: BsModalRef = null;
   contactsModal: BsModalRef = null;
@@ -31,7 +32,7 @@ export class OrderDetailComponent implements OnInit {
   contact: Contact = new Contact();
   isChecked = false;
   constructor( private route: ActivatedRoute, private router: Router ,
-               private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService, ) { 
+               private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService, private _location: Location) { 
                 this.getContacts();
                }
 
@@ -49,8 +50,10 @@ export class OrderDetailComponent implements OnInit {
     });
   }
   getOrderDetails() {
+    
     this.api.getselectedOrder(this.id).subscribe( data => {
       console.log(data);
+      
       this.orderData.pop();
       this.orderData.push(data) ;
       const orders = this.orderData.map(obj => {
@@ -124,8 +127,67 @@ export class OrderDetailComponent implements OnInit {
     );
 
   }
-
-
+  printPage() {
+    console.log("printing");
+    window.print();
+}
+backClicked() {
+  console.log("Back going....");
+  this._location.back();
+}
+print(): void {
+  let printContents, popupWin;
+  printContents = document.getElementById('print-section').innerHTML;
+  // popupWin = window.open('', '_blank', 'height=100%,width=auto');
+  popupWin = window.open('', '', 'width=900,height=650');
+  popupWin.document.open();
+  popupWin.document.write(`
+    <html>
+      <head>
+        <title>Print tab</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        
+        <style>
+        html {
+          width: 100%;
+          height: auto;
+        }
+      
+        body {
+          -webkit-text-size-adjust: none;
+          -ms-text-size-adjust: none;
+          margin: 0;
+          padding: 0;
+          font-family: 'Open Sans', Arial, Sans-serif !important;
+        }
+      
+        @media print {
+            body {
+               -webkit-print-color-adjust: exact;
+            }
+        }
+      
+    
+        </style>
+      </head>
+  <body onload="window.print();">${printContents}</body>
+    </html>`
+  );
+  popupWin.document.close();
+}
+ printPageArea(areaID) {
+  var printContent = document.getElementById(areaID);
+  var WinPrint = window.open('', '', 'width=900,height=650');
+  WinPrint.document.write(printContent.innerHTML);
+  WinPrint.document.close();
+  WinPrint.focus();
+  WinPrint.print();
+  WinPrint.close();
+}
   uploadItemImage(item) {
     this.selectedItem = item;
     console.log('upload Item started');

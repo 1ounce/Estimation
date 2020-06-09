@@ -11,31 +11,34 @@ export class Order {
     date: String = null;
     type: String = '0';
     ncr: Boolean = false;
-    gst: string = '0';
-   
-    // customer related 
+    gst = '0';
+
+    // customer related
     customer: Customer = null;
     customerItem = new Customer();
 
     totalWithGst = '0';
-    total: string = '0'; // sub total of the entire order
-    itemSubTotal: string = '0';
+    total = '0'; // sub total of the entire order
+    itemSubTotal = '0';
+    item_subtotal= "0"
     items: OrderItem[] = []; // list of all the order items
      // temproary item: the item which is currently being used for pushing in data is referred from here
     currentItem = new OrderItem();
     selectedItem: OrderItem = null;
-    balance: string = '0';
+    balance = '0';
     // old gold related items
-    oldGoldTotal: string = '0';
+    oldGoldTotal = '0';
     oldGold: Array<OldGold> = [];
     oldGoldItem = new OldGold();
     selectedOldGoldItem: OldGold = null;
+    old_gold_subtotal ='0';
 
     // Advance related items
-    advance: string = '0';
+    advance = '0';
     advances: Array<Advance> = [];
     advanceItem = new Advance();
     slectedAdvanceItem: Advance = null;
+    advance_subtotal = '0';
 
 
     constructor() {}
@@ -134,7 +137,7 @@ export class Order {
 
     saveoldGold() {
         if (Number(this.oldGoldItem.total) > 0) {
-        this.oldGold.push(this.oldGoldItem); } 
+        this.oldGold.push(this.oldGoldItem); }
     }
     referesholdGoldItem() { this.oldGoldItem = new OldGold(); }
 
@@ -142,8 +145,8 @@ export class Order {
 
     saveOrder() {
         if (this.currentItem.total > 0) {
-        this.items.push(this.currentItem); } 
-        else if (this.currentItem.total === 0 && Number(this.currentItem.weight) >0) {
+        this.items.push(this.currentItem); }
+        else if (this.currentItem.total === 0 && Number(this.currentItem.weight) > 0) {
             this.items.push(this.currentItem);
         }
      }
@@ -184,7 +187,7 @@ export class Order {
             sum = sum + Number(element.total);
             console.log(sum);
         });
-        
+
         this.oldGoldTotal = String((sum + Number(this.oldGoldItem.total)).toFixed(2));
         console.log(this.oldGoldTotal);
         this.generateOrderTotal();
@@ -235,9 +238,12 @@ export class Order {
 
     addOldGold() {
         if (Number(this.oldGoldItem.total) > 0) {
+
+            const rate = this.oldGoldItem.rate;
             this.oldGold.push(this.oldGoldItem);
             this.oldGoldItem = new OldGold();
-            this.oldGoldItem.rate = this.oldGoldItem.rate;
+            this.oldGoldItem.rate = rate;
+
         }
     }
 
@@ -248,16 +254,18 @@ export class Order {
 }
 export class OldGold {
     description: string;
-    dust = 0;
-    weight = 0;
-    purity: number = 100;
+    dust = '0';
+    weight = '0';
+    purity = 100;
     rate = 0;
-    total:string = '0';
+    total = '0';
 
     generateTotal() {
+        console.log("weight")
+        console.log(this.weight);
         let purity = 100;
-        if (this.purity != 100) {purity = this.purity; console.log(this.purity)}
-        this.total = String((this.weight - this.dust) * (purity / 100));
+        if (this.purity != 100) {purity = this.purity; console.log(this.purity);}
+        this.total = String((Number(this.weight) - Number(this.dust)) * (purity / 100));
         this.total = String((Number(this.total) * this.rate).toFixed(2));
         console.log(this.total);
     }
@@ -268,11 +276,11 @@ export class OrderItem {
     [x: string]: any;
     id: number;
     name: String = '';
-    weight:string = '0';
-    wastage:string = '0';
+    weight = '0';
+    wastage = '0';
     makingCharge = 0;
     stoneCharge = 0;
-    amount:string = '0';
+    amount = '0';
     total = 0;
     rate = 0;
     assignedTo: Contact = null;
@@ -438,7 +446,7 @@ export class OrderItem {
     this.total = baseCost + ((Number(this.wastage) / 100) * baseCost) + this.makingCharge + this.stoneCharge;
     this.total = Number(this.total.toFixed(2));
     }
- 
+
 
 }
 
