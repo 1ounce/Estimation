@@ -43,8 +43,7 @@ export class DataAccessService {
     headers = headers.set('Authorization' , 'Token ' + localStorage.getItem('token'));
     const params: URLSearchParams = new URLSearchParams();
     params.set('page', page.toString());
-    console.log(status);
-    console.log(search);
+    
     if (status != null) {
       params.set('status', status.toString());
       return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString(), status: status.toString()} ,  headers });
@@ -56,7 +55,8 @@ export class DataAccessService {
 
     }
     if (status != null && search != null) {
-
+      console.log(status);
+    console.log(search);
       // tslint:disable-next-line: max-line-length
       return this.client.get<Rest<Order>>(ip + 'order/', {params: {page: page.toString(), status: status.toString(), search: search.toString()}, headers});
     }

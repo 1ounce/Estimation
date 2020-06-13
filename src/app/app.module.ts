@@ -28,7 +28,6 @@ import { RepairEstimationComponent } from './repair-estimation/repair-estimation
 import { OrderEstimationComponent } from './order-estimation/order-estimation.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatDatepickerModule, MatNativeDateModule } from '@angular/material';
-import { ModalComponent } from './modal/modal.component';
 import { NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import { AlertModule, ModalModule } from 'ngx-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
@@ -65,7 +64,6 @@ const appRoutes: Routes = [
     OrdersComponent,
     RepairEstimationComponent,
     OrderEstimationComponent,
-    ModalComponent,
     AllWorkComponent,
     ReportComponent,
     OrderDetailComponent,

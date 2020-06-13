@@ -1,7 +1,5 @@
 import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
-import {SelectionModel} from '@angular/cdk/collections';
-import {MatSort} from '@angular/material/sort';
 import { NavigateServiceService } from '../service/navigate-service.service';
 import {DataAccessService} from '../services/data-access.service';
 import {Contact} from '../Models/Order';
@@ -22,8 +20,7 @@ export class AllWorkComponent implements OnInit {
   dataSource: ItemDataSource;
   @ViewChild(MatPaginator , { static: false})
   paginator: MatPaginator;
-  boolSpinner;
-  displayedColumns: string[] = ['checked', 'date', 'order_id',  'item', 'image', 'assigned_to', 'status'];
+  displayedColumns: string[] = ['checked', 'order_id', 'image',  'item', 'assigned_to', 'status', 'date'];
   selected;
   selectedItem: Item;
   color: HeroCircle = new HeroCircle();
@@ -37,12 +34,12 @@ export class AllWorkComponent implements OnInit {
   contacts: Array<Contact> = null; // list of contacts
   // temporary models
   contact: Contact = new Contact();
-    @ViewChild(MatSort, {static: true}) sort: MatSort;
-    selection = new SelectionModel(true, []);
   selectedimage: any;
   isChecked = false;
   dueDate: any;
   loadingImage: boolean = false;
+  id: any;
+ 
   constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService, private datePipe: DatePipe ) {
     
    }
@@ -93,8 +90,10 @@ export class AllWorkComponent implements OnInit {
     });
   }
   // displaying a datepicker for changing a due date
-  toggleDisplay() {
+  toggleDisplay(eleId) {
      this.isdisplay = !this.isdisplay;
+     this.id = eleId;
+     console.log(this.id)
   }
  
   getImage(element) {
@@ -108,7 +107,7 @@ export class AllWorkComponent implements OnInit {
 
   money(data) {return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data); }
 
-  openSelectedMakingChargeModal(item: Item, template) {
+  openSelectedMakingChargeModal(item: Item, template , isMakingCharge: Boolean) {
     this.selectedItem = item;
     console.log(this.selectedItem);
     this.makingChargeModal = this.modalService.show(
@@ -199,9 +198,6 @@ onSelectedStatus(val: any) {
       this.isdisplay = !this.isdisplay; }
     })
   }
-  refresh() {
-    window.location.reload();
-}
   // triggered from the contact modal, for selecting
   onContactClicked(contact) {
     this.api.saveAsignee(this.selectedItem, contact).subscribe(

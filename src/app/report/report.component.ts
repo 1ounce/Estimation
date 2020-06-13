@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartType , ChartOptions } from 'chart.js';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
-import { NavigateServiceService } from '../service/navigate-service.service';
 import { DataAccessService } from '../services/data-access.service';
-import { BsModalService } from 'ngx-bootstrap';
 import { DatePipe } from '@angular/common';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import { moment } from 'ngx-bootstrap/chronos/test/chain';
+
 
 @Component({
   selector: 'app-report',
@@ -35,7 +33,7 @@ export class ReportComponent implements OnInit {
   oldGold = null;
   reportOrder;
   page = 1;
-  constructor(private navigationService: NavigateServiceService , private api: DataAccessService, private modalService: BsModalService, private datePipe: DatePipe ) {
+  constructor( private api: DataAccessService,  private datePipe: DatePipe ) {
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
     this.toDate = this.datePipe.transform(this.myDate, 'dd/M/yy');
@@ -52,9 +50,10 @@ export class ReportComponent implements OnInit {
     this.getReportData(this.startDate , this.endDate);
   }
 
-  weekDate() {
-    console.log(this.myDate);
-    console.log("new date")
+  totalReport() {
+    this.startDate = null;
+    this.endDate = null;
+    this.getReportData(this.startDate , this.endDate);
   }
   // Date picked for the filteration
   dateChoosed( event: MatDatepickerInputEvent<Date>) {
