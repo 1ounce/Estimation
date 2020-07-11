@@ -1,39 +1,18 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-
 import {FormControl, Validators, FormGroup} from '@angular/forms';
-import { isNgTemplate } from '@angular/compiler';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import {AlertModule} from 'ngx-bootstrap';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-
-
 import {Order, OrderItem} from '../Models/Order';
 import {DataAccessService } from '../services/data-access.service';
-import {HttpClient} from '@angular/common/http';
 import { NavigateServiceService } from '../service/navigate-service.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { delay } from 'rxjs/operators';
-import {
-  DatePipe} from '@angular/common';
+import { DatePipe} from '@angular/common';
 
-
-
-interface Item {
-  description: String;
-  amount: number;
-}
 
 @Component({
   selector: 'app-order-estimation',
   templateUrl: './order-estimation.component.html',
   styleUrls: ['./order-estimation.component.css']
 })
-
-// var orderItemList:OrderItem[];
-
-
-
 
 export class OrderEstimationComponent implements OnInit {
   order: Order = new Order();

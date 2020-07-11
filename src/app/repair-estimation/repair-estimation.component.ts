@@ -1,19 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigateServiceService } from '../service/navigate-service.service';
-import {FormControl, Validators, FormGroup} from '@angular/forms';
-
-import { isNgTemplate } from '@angular/compiler';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import {AlertModule} from 'ngx-bootstrap';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import {FormControl, FormGroup} from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-
-
 import {Repair, RepairItem} from '../Models/Repair';
 import {DataAccessService } from '../services/data-access.service';
-import {HttpClient} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { delay } from 'rxjs/operators';
 import {DatePipe} from '@angular/common';
 
 @Component({
@@ -22,13 +13,11 @@ import {DatePipe} from '@angular/common';
   styleUrls: ['./repair-estimation.component.css']
 })
 export class RepairEstimationComponent implements OnInit {
-  email = new FormControl('', [Validators.required, Validators.email]);
   repair: Repair = new Repair();
   advancemodal: BsModalRef = null;
   selectedUser: Object;
   userId = null;
   isSaveClicked: boolean = false;
-  // user: Object;
   date = new Date((new Date())); 
   testForm : FormGroup;
     constructor(private modalService: BsModalService, private api: DataAccessService, private navigatorSerice: NavigateServiceService,
@@ -47,11 +36,6 @@ export class RepairEstimationComponent implements OnInit {
   }
 
 
-  getErrorMessage() {
-    return this.email.hasError('required') ? 'You must enter a value' :
-        this.email.hasError('email') ? 'Not a valid email' :
-            '';
-  }
 
     addItem() {
       this.repair.saveOrder();

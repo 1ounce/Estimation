@@ -3,7 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { NavigateServiceService } from '../service/navigate-service.service';
-import { Router ,NavigationStart , NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { DataAccessService } from '../services/data-access.service';
 
 
@@ -13,7 +13,7 @@ import { DataAccessService } from '../services/data-access.service';
   styleUrls: ['./main-nav.component.css']
 })
 export class MainNavComponent {
-    showiLoading = false;
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -31,18 +31,6 @@ export class MainNavComponent {
       this.silver = this.rates['silver'];
     });
 
-    this.route.events.subscribe((routerEvent => {
-
-      if (routerEvent instanceof NavigationStart) {
-        this.showiLoading = true;
-        console.log("loading....")
-      }
-      if (routerEvent instanceof NavigationEnd) {
-        this.showiLoading = false;
-        console.log("loading....ends")
-      }
-
-    }));
   }
 b24;b22;bs;s24;s22;ss;name;phone;navigateToRate;
   reportPage() {

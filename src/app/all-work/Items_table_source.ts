@@ -1,9 +1,8 @@
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {Item} from './Model';
 import { DataAccessService } from '../services/data-access.service';
-import { BehaviorSubject, of } from 'rxjs';
-import { Rest } from '../Models/Rest';
-import { catchError } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+
 
 export class ItemDataSource implements DataSource<Item> {
 

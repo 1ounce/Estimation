@@ -89,12 +89,12 @@
 
 
 <div class="container" style="padding: 10px;">
-
-    <mat-card>
+<br>
+    <mat-card class="mt-5">
         <h6 class="text-center">Repair Estimation</h6>
         <div class="row">
           <div class="col-md-6">
-            <mat-form-field hintLabel="Max 10 characters">
+            <mat-form-field hintLabel="Max 10 characters" >
               <input type="tel" matInput #input maxlengtd="10" [(ngModel)]="repair.customerItem.phone" (input)="people(repair.customerItem.phone)" placeholder="Phone" pattern="[6-9]\\d{9}" maxlength="10">
               <mat-hint align="end">{{input.value?.lengtd || 0}}/10</mat-hint>
             </mat-form-field>
@@ -125,7 +125,7 @@
               </mat-form-field>
               <br>
               <mat-form-field>
-                <input matInput placeholder="Enter your email" [formControl]="email" [(ngModel)]="repair.customerItem.email">
+                <input matInput placeholder="Enter your email"  [(ngModel)]="repair.customerItem.email">
                 <!-- <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error> -->
               </mat-form-field>
               <br>
@@ -139,16 +139,7 @@
         </div>
 
             <div class="col-md-6">
-                <!-- <mat-form-field>
-                    <input matInput [matDatepicker]="picker" placeholder="Date">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
-                  <br>
-                  <mat-form-field>
-                    <input matInput placeholder="Order no">
-                  </mat-form-field>
-                  <br> -->
+                
                   <mat-form-field class="mt-2">
                     <textarea matInput placeholder="Rate" [(ngModel)]="repair.rate"></textarea>
                   </mat-form-field>

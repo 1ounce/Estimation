@@ -1,16 +1,12 @@
 import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import { environment } from '../../environments/environment';
-import { Routes, RouterModule, Router } from '@angular/router';
-import {MatSort} from '@angular/material/sort';
 import { NavigateServiceService } from '../service/navigate-service.service';
 import { HeroCircle } from '../Models/HeroCircle';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { RepairOrderDataSource } from './repairs_table_source';
 import { DataAccessService } from '../services/data-access.service';
 import { Contact } from '../Models/Order';
-import {RepairItem, Repair} from '../Models/Repair';
+import {RepairItem } from '../Models/Repair';
 
 @Component({
   selector: 'app-repair',
@@ -18,9 +14,6 @@ import {RepairItem, Repair} from '../Models/Repair';
   styleUrls: ['./repair.component.css']
 })
 export class RepairComponent implements OnInit {
-
-
-  ELEMENT_DATA = [];
   dataSource: RepairOrderDataSource;
   @ViewChild(MatPaginator , { static: false})
   paginator: MatPaginator;
@@ -36,7 +29,6 @@ export class RepairComponent implements OnInit {
   contacts: Array<Contact> = null; // list of contacts
   // temporary models
   contact: Contact = new Contact();
-    @ViewChild(MatSort, {static: true}) sort: MatSort;
   selected: any;  // selection = new SelectionModel(true, []);
 
   isChecked = false;

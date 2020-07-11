@@ -4,9 +4,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { DataAccessService } from '../services/data-access.service';
 import { NavigateServiceService } from '../service/navigate-service.service';
 import {Order, OrderItem, Contact} from '../Models/Order';
-import {Rest} from '../Models/Rest';
 import { HeroCircle } from '../Models/HeroCircle';
-import {Observable} from 'rxjs';
 import {Location} from '@angular/common';
 
 @Component({
@@ -179,15 +177,7 @@ print(): void {
   );
   popupWin.document.close();
 }
- printPageArea(areaID) {
-  var printContent = document.getElementById(areaID);
-  var WinPrint = window.open('', '', 'width=900,height=650');
-  WinPrint.document.write(printContent.innerHTML);
-  WinPrint.document.close();
-  WinPrint.focus();
-  WinPrint.print();
-  WinPrint.close();
-}
+
   uploadItemImage(item) {
     this.selectedItem = item;
     console.log('upload Item started');
