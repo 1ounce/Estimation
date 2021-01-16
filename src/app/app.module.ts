@@ -36,7 +36,7 @@ import { ChartsModule } from 'ng2-charts';
 import { ReportComponent } from './report/report.component';
 import { DatePipe } from '@angular/common';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+// import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import {NgxPaginationModule} from 'ngx-pagination';
@@ -99,7 +99,7 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     NgxPaginationModule,
-    NgxDaterangepickerMd.forRoot()
+    // NgxDaterangepickerMd.forRoot()
 
   ],
   providers: [DatePipe],
