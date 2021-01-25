@@ -12,7 +12,7 @@ let headers = new HttpHeaders();
 //   })
 // };
 
-const ip = 'https://development.1ounce.in/estimate';
+const ip = 'https://development.1ounce.in/estimate/';
 // const ip = 'http://127.0.0.1:8000/estimate/';
 
 
